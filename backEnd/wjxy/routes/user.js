@@ -1,7 +1,8 @@
 //导入资源
 const express = require('express');
 const pool = require('../pool.js');
-
+const tencentcloud = require("tencentcloud-sdk-nodejs");
+const SmsClient = tencentcloud.sms.v20210111.Client;
 //创建路由
 const r = express.Router();
 
