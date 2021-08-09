@@ -21,64 +21,105 @@ r.use((err, req, res, next) => {
 
 //注册请求
 r.post("/reg", (req, res, next) => {
-	var sql = 'insert into table_user(uname,upwd,email,phone,user_name) values(?,?,?,?,?)';
-	pool.query(sql, [req.body.uname, req.body.upwd, req.body.email, req.body.phone, req.body.user_name], function (err, result) {
+	var sql = 'insert into table_user(id,account,password,phone,user_name) values(?,?,?,?,?)';
+	pool.query(sql, [req.body.account, req.body.password, req.body.phone, req.body.user_name], function (err, result) {
 		if (err) {
 			next(err);
 			return;
 		}
 		if (result.affectedRows > 0) {
 			res.send({
-				code: 1
+				code: 200,
+				message: '注册成功'
 			});
 		} else {
 			res.send({
-				code: 0
+				code: 201,
+				message: '注册失败'
 			});
 		}
 	});
 });
 
 //用户名是否存在请求
-r.get("/exist", (req, res, next) => {
-	var sql = 'select * from table_user where uname = ?';
-	pool.query(sql, [req.query.uname], function (err, result) {
+r.get("/account_exist", (req, res, next) => {
+	var sql = 'select * from table_user where account = ?';
+	pool.query(sql, [req.query.account], function (err, result) {
 		if (err) {
 			next(err);
 			return;
 		}
 		if (result.length > 0) {
 			res.send({
-				code: 0
+				code: 200,
+				message: '账户可以使用'
 			});
 		} else {
 			res.send({
-				code: 1
+				code: 201,
+				message: '账户已存在'
 			});
 		}
 	});
 });
 
-//登录请求
-r.post("/login", (req, res, next) => {
-	var sql = 'select * from table_user where (uname = ? and upwd = ?) and isDel = 0';
-	pool.query(sql, [req.body.uname, req.body.upwd], function (err, result) {
+//手机号是否存在请求
+r.get("/phone_exist", (req, res, next) => {
+	var sql = 'select * from table_user where phone = ?';
+	pool.query(sql, [req.query.phone], function (err, result) {
 		if (err) {
 			next(err);
 			return;
 		}
 		if (result.length > 0) {
-			req.session.uid = result[0].uid;
-			req.session.user_name = result[0].user_name;
-			req.session.avatar = result[0].avatar;
-			req.session.auth = true;
 			res.send({
-				code: 1
+				code: 200,
+				message: '手机号可以使用'
 			});
 		} else {
-			req.session.auth = false;
 			res.send({
-				code: 0
+				code: 201,
+				message: '手机号已被注册'
+			});
+		}
+	});
+});
+
+//账号登录请求
+r.post("/account_login", (req, res, next) => {
+	var sql = 'select * from table_user where (account = ? and password = ?) and isDel = 0';
+	pool.query(sql, [req.body.account, req.body.password], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.length > 0) {
+			res.send({
+				code: 200
+			});
+		} else {
+			res.send({
+				code: 201
+			});
+		}
+	});
+});
+
+//手机登录请求
+r.post("/phone_login", (req, res, next) => {
+	var sql = 'select * from table_user where (phone = ?) and isDel = 0';
+	pool.query(sql, [req.body.phone], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.length > 0) {
+			res.send({
+				code: 200
+			});
+		} else {
+			res.send({
+				code: 201
 			});
 		}
 	});
@@ -87,7 +128,7 @@ r.post("/login", (req, res, next) => {
 //注销请求
 r.get("/logout", (req, res) => {
 	res.send({
-		code: 1,
+		code: 200,
 		msg: "退出成功"
 	})
 });
