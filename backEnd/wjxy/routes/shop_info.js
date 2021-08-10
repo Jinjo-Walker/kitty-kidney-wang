@@ -20,7 +20,13 @@ r.use((err, req, res, next) => {
 
 //查询商户
 r.get("/shop_info", (req, res, next) => {
-	var sql = 'select * from table_user where id = ?';
+	var sql;
+	if(req.query.id){
+		sql = 'select * from table_shop where id = ?';
+	}
+	else{
+		sql = 'select * from table_shop';
+	}
 	pool.query(sql, [req.query.id], function (err, result) {
 		if (err) {
 			next(err);
@@ -29,7 +35,8 @@ r.get("/shop_info", (req, res, next) => {
 		if (result.length > 0) {
 			res.send({
 				code: 200,
-				message: '查询成功'
+				message: '查询成功',
+				result:result
 			});
 		} else {
 			res.send({
