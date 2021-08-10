@@ -23,7 +23,7 @@ function send(num) {
 		let yzm = Math.floor(Math.random() * 10000);
 		const client = new SmsClient(clientConfig);
 		const params = {
-			"PhoneNumberSet": [num],
+			"PhoneNumberSet": [`+86${num}`],
 			"SmsSdkAppId": "1400558463",
 			"SignName": "华梦超作品分享",
 			"TemplateId": "1070489",
@@ -33,7 +33,10 @@ function send(num) {
 		};
 		client.SendSms(params).then(
 			(data) => {
-				reslove({ data: data, yzm: yzm });
+				reslove({
+					data: data,
+					yzm: yzm
+				});
 			},
 			(err) => {
 				console.error("error", err);
@@ -147,19 +150,16 @@ r.post("/account_login", (req, res, next) => {
 
 //短信验证接口
 r.get("/yzm", (req, res, next) => {
-	if (err) {
-		next(err);
-		return;
-	}
 	send(req.query.phone).then(result => {
+		console.log(result.data);
 		if (result.data.SendStatusSet[0].Code == 'Ok') {
 			res.send({
 				code: 200,
 				message: '验证成功',
-				yzm:result.yzm
+				data: result.data,
+				yzm: result.yzm
 			});
-		}
-		else{
+		} else {
 			res.send({
 				code: 201,
 				message: '验证失败'
@@ -210,9 +210,9 @@ r.post("/phone_login", (req, res, next) => {
 });
 
 //账号信息查询请求
-r.post("/account_info", (req, res, next) => {
+r.get("/account_info", (req, res, next) => {
 	var sql = 'select id,account,phone,user_name from table_user where id = ?';
-	pool.query(sql, [req.body.id], function (err, result) {
+	pool.query(sql, [req.query.id], function (err, result) {
 		if (err) {
 			next(err);
 			return;
@@ -232,7 +232,51 @@ r.post("/account_info", (req, res, next) => {
 	});
 });
 
-//账户优惠卷查询
+//更新用户信息
+r.put("/account_change", (req, res, next) => {
+	var sql = 'update table_user set ? where id = ?';
+	pool.query(sql, [req.body, req.body.id], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.length > 0) {
+			res.send({
+				code: 200,
+				message: '更新成功',
+				result: result
+			});
+		} else {
+			res.send({
+				code: 201,
+				message: '更新失败'
+			});
+		}
+	});
+});
+
+//账户优惠券查询
+r.post("/account_coupon", (req, res, next) => {
+	var sql = 'select coupon from table_coupon where userid = ?';
+	pool.query(sql, [req.body.id], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.length > 0) {
+			res.send({
+				code: 200,
+				message: '优惠券查询成功',
+				result: result
+			});
+		} else {
+			res.send({
+				code: 201,
+				message: '优惠券查询失败'
+			});
+		}
+	});
+});
 
 //注销请求
 r.get("/logout", (req, res) => {
