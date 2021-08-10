@@ -89,7 +89,7 @@ r.get("/account_exist", (req, res, next) => {
 			next(err);
 			return;
 		}
-		if (result.length > 0) {
+		if (result.length == 0) {
 			res.send({
 				code: 200,
 				message: '账户可以使用'
@@ -111,7 +111,7 @@ r.get("/phone_exist", (req, res, next) => {
 			next(err);
 			return;
 		}
-		if (result.length > 0) {
+		if (result.length == 0) {
 			res.send({
 				code: 200,
 				message: '手机号可以使用'
@@ -185,7 +185,7 @@ r.post("/phone_login", (req, res, next) => {
 				result: result
 			});
 		} else {
-			var sql2 = 'insert into table_user(id,account,password,phone,user_name) values(null,?,?,?,null)';
+			var sql2 = 'insert into table_user(id,account,password,phone) values(null,?,?,?)';
 			pool.query(sql2, [req.body.phone, '123456', req.body.phone], function (err2, result2) {
 				if (err2) {
 					next(err2);
@@ -193,7 +193,7 @@ r.post("/phone_login", (req, res, next) => {
 				}
 				if (result2.affectedRows > 0) {
 					//短信验证接口判断
-					res2.send({
+					res.send({
 						code: 200,
 						message: '新用户注册登录成功，初始密码为123456，请尽快修改密码。',
 						result: result2
@@ -240,7 +240,7 @@ r.put("/account_change", (req, res, next) => {
 			next(err);
 			return;
 		}
-		if (result.length > 0) {
+		if (result.affectedRows > 0) {
 			res.send({
 				code: 200,
 				message: '更新成功',
