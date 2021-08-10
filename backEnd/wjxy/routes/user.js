@@ -257,7 +257,7 @@ r.put("/account_change", (req, res, next) => {
 
 //账户优惠券查询
 r.post("/account_coupon", (req, res, next) => {
-	var sql = 'select coupon from table_coupon where userid = ?';
+	var sql = 'select c.* from table_user_coupon uc left join table_coupon c on uc.couponid = c.couponid where uc.userid = ?';
 	pool.query(sql, [req.body.id], function (err, result) {
 		if (err) {
 			next(err);
