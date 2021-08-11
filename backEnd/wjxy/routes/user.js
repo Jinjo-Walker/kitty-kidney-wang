@@ -234,8 +234,8 @@ r.get("/account_info", (req, res, next) => {
 
 //更新用户信息
 r.put("/account_change", (req, res, next) => {
-	var sql = 'update table_user set ? where id = ?';
-	pool.query(sql, [req.body, req.body.id], function (err, result) {
+	var sql = 'update table_user set phone = ?,user_name = ? where id = ?';
+	pool.query(sql, [req.body.phone, req.body.user_name, req.body.id], function (err, result) {
 		if (err) {
 			next(err);
 			return;
