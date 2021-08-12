@@ -4,8 +4,9 @@
   :thumb='img'
   title="商品标题"
   desc="描述信息"
-  price="2.00"
+  price="2.0"
   num="0"
+  class="my-btn-one"
 >
   <!-- <template #tags>
     <van-tag plain type="danger">标签</van-tag>

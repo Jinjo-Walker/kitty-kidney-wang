@@ -7,9 +7,12 @@ import views from '../views/user/views.vue'
 import index from '../views/user/index.vue'
 import Order from '../views/user/Order.vue'
 import Login from '../views/user/Login.vue'
+import Register from '../views/user/Register.vue'
 import Coupon from '../views/user/Coupon.vue'
 import Collapse from '../views/user/Collapse.vue'
 import Introduction from '../views/user/Introduction.vue'
+
+import vantab from '../test/vantab.vue'
 
 
 Vue.use(VueRouter)
@@ -35,6 +38,11 @@ const routes = [
     component: Coupon
   },
   {
+    path: '/egister',
+    name: 'Register',
+    component: Register
+  },
+  {
     path: '/collapse',
     name: 'Collapse',
     component: Collapse
@@ -47,6 +55,10 @@ const routes = [
   {
     path: '/login',
     component:Login
+  },
+  {
+    path: '/vantab',
+    component:vantab
   }
 ]
 

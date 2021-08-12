@@ -22,17 +22,25 @@
         :state="nameState"
         @blur="check"
         :error-message="msg"
+        @input="checkphone"
       />
       <div v-if="show">
-        <van-divider :style="{ color: '#808080', borderColor: '#808080', padding: '0 16px' }" />
-        <p style="color: #808080; font-size: 14px">未注册的手机号验证后自动创建望京小腰账号</p>
+        <van-divider
+          :style="{
+            color: '#808080',
+            borderColor: '#808080',
+            padding: '0 16px',
+          }"
+        />
+        <p style="color: #808080; font-size: 14px; ">
+          未注册的手机号验证后自动创建望京小腰账号
+        </p>
         <div class="checkbox">
           <input
             type="checkbox"
             id="cbox"
             name="cbox"
             value="cbox"
-            
             @change="checkboxChange($event)"
           />
           我已阅读并同意《望京小腰用户协议》、《隐私政策》，并授权望京小腰使用该账号信息（如昵称。头像、收货地址）进行统一管理。
@@ -47,15 +55,19 @@
             :disabled="isChecked"
             color="linear-gradient(to right, #DF5FF1, #AE33CC)"
             @click="countDown"
-          >{{ content }}</van-button>
+            >{{ content }}</van-button
+          >
         </div>
       </div>
       <div v-else>
         <van-password-input
+        v-model="password"
           :value="value"
           info="密码为 6 位数字"
           :focused="showKeyboard"
+          :error-message="passwordmsg"
           @focus="showKeyboard = true"
+          @input="checkpassword"
         />
         <div class="checkbox">
           <input
@@ -63,11 +75,9 @@
             id="cbox"
             name="cbox"
             value="cbox"
-            
             @change="checkboxChange($event)"
           />
           我已阅读并同意《望京小腰用户协议》、《隐私政策》，并授权望京小腰使用该账号信息（如昵称。头像、收货地址）进行统一管理。
-          v-model  不能用布尔
         </div>
         <div class="btn">
           <van-button
@@ -76,19 +86,23 @@
             block
             type="default"
             color="linear-gradient(to right, #DF5FF1, #AE33CC)"
-            
-          >登陆</van-button>
+            @click="login"
+            :class="{grey: !check}"
+            >点击登陆</van-button
+          >
         </div>
       </div>
     </van-cell-group>
     <!-- 点击切换 -->
-    <span @click="change" class="change">{{show? "密码登录" :"验证码登录"}}</span>
+    <span @click="change" class="change">{{
+      show ? "密码登录" : "验证码登录"
+    }}</span>
 
-    <router-link to ="/Collapse">遇到问题</router-link>
+    <router-link to="/Collapse" class="router-link">遇到问题</router-link>
   </div>
 </template>
   <script>
-
+    import axios from "axios";
 export default {
   data() {
     return {
@@ -100,8 +114,8 @@ export default {
       pwdState: "",
       content: "获取短信验证码", // 按钮里显示的内容
       totalTime: 60, //记录具体倒计时时间
-      canClick: true, 
-      bordervalue:true,
+      canClick: true,
+      bordervalue: true,
       //添加canClick
       // _clearable: true,   //启用清除控件
       // get clearable() {
@@ -113,10 +127,29 @@ export default {
       value: "",
       showKeyboard: true,
       isChecked: false,
-      show: true
+      show: true,
     };
   },
   methods: {
+    checkphone () {
+      if (!this.phone) {
+        
+      } else {
+        this.phonemsg = ''
+      }
+    },
+    checkpassword () {
+      if (!this.password) {
+        
+      } else {
+        this.passwordmsg = ''
+      }
+    },
+    login () {
+      if (this.phone && this.password && this.check) {
+        console.log('success')
+      }
+    },
     countDown() {
       if (!this.canClick) return;
       if (!this.check()) return;
@@ -145,9 +178,8 @@ export default {
     },
     // 判断input是否被选中
     cbox() {
-      btndocument.getElementsByClassName(
-        "button"
-      ).disabled = !document.getElementById("cbox").checked;
+      btndocument.getElementsByClassName("button").disabled =
+        !document.getElementById("cbox").checked;
     },
 
     // 更改复选框值
@@ -164,25 +196,22 @@ export default {
     change() {
       this.show = !this.show;
     },
-    onClickLeft(){
-
-    },
-    onClickRight(){
-
-    }
+    onClickLeft() {},
+    onClickRight() {},
   },
   mounted() {
     // console.log("测试");
     // alert("222");
-  }
+  },
 };
 </script>
   <style scoped>
 .button {
   margin: 20px 0;
 }
-.DX {
-  margin: 20px;
+.DL .DX {
+  margin: 30px;
+  text-align: center;
 }
 .checkbox {
   padding: 10px;
@@ -194,14 +223,20 @@ export default {
   margin-left: 15px;
 }
 .DL .QH {
-  margin-right: 130px;
+  margin-right: 140px;
   font-size: 14px;
 }
 .btn {
   padding: 13px;
 }
 .change {
-  margin-right: 167px;
+  margin-right: 140px;
+  margin-left: 50px;
+  color: #808080;
+}
+.router-link {
+
+  color: #808080;
 }
 </style>
   

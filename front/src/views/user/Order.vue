@@ -18,13 +18,13 @@
       </van-swipe-item>
     </van-swipe>
     <div class="my-center">
-      <van-tabs v-model="activeName" sticky :offset-top="45">
+      <van-tabs v-model="activeName" sticky :offset-top="45" :color="'#ba90e2'">
         <van-tab title="点餐" name="a">
           <div class="my-card-insert">
             <my-card v-for="cards of 20" :key="cards"></my-card>
           </div>
           <van-sticky :offset-top="90">
-            <van-sidebar v-model="activeKey" class="my-side">
+            <van-sidebar v-model="activeKey" class="my-side" >
               <van-sidebar-item
                 :title="`${item}`"
                 v-for="item of types"
@@ -33,9 +33,15 @@
             </van-sidebar>
           </van-sticky>
           <van-goods-action>
-            <van-goods-action-icon icon="cart-o" badge="0" text="购物车" />
-            <van-goods-action-button type="danger" text="立即购买" />
+            <van-goods-action-icon icon="cart-o" badge="0" text="购物车" @click="chsheet"/>
+            <van-goods-action-icon text="￥10.0" />
+            <van-goods-action-button type="danger" text="去结算" />
           </van-goods-action>
+          <van-action-sheet v-model="show" title="已选商品">
+            <div class="sheet-content">
+              <my-dcard v-for="selected of 1" :key="selected"></my-dcard>
+            </div>
+          </van-action-sheet>
         </van-tab>
         <van-tab title="评论" name="b"> </van-tab>
         <van-tab title="商家" name="c">商家</van-tab>
@@ -45,11 +51,13 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       activeName: "a",
       activeKey: 0,
+      show: false,
       types: [
         "海鲜",
         "牛羊肉",
@@ -65,6 +73,11 @@ export default {
       ],
     };
   },
+  methods:{
+    chsheet(){
+      this.show="true"
+    }
+  }
 };
 </script>
 
@@ -83,7 +96,6 @@ export default {
   float: right;
   height: 520px;
   overflow-y: auto;
-  /* position: relative; */
 }
 .van-sidebar {
   width: 25%;
@@ -96,13 +108,18 @@ export default {
 .my-side {
   height: 400px;
 }
+.van-goods-action {
+  z-index: 10000;
+}
 .van-goods-action-icon {
   margin-left: 30px;
 }
 .van-goods-action-button {
-  margin: 40px;
+  margin-left: 105px;
+  margin-right: 20px;
 }
-/* .van-tabs__wrap{
-  z-index: 100;
-} */
+
+.sheet-content{
+  padding: 16px 16px 50px;
+}
 </style>

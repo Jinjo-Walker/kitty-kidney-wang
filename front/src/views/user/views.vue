@@ -18,6 +18,9 @@
         <div>
             <router-link to="/collapse">遇到问题</router-link>
         </div>
+        <div>
+            <router-link to="/register">注册</router-link>
+        </div>
     </div>
 </template>
 
