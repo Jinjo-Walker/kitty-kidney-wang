@@ -11,7 +11,10 @@ import Register from '../views/user/Register.vue'
 import Coupon from '../views/user/Coupon.vue'
 import Collapse from '../views/user/Collapse.vue'
 import Introduction from '../views/user/Introduction.vue'
-
+import Member from '../views/user/Member.vue'
+import ChangeInfo from '../views/user/ChangeInfo.vue'
+import InfoCheck from '../views/user/InfoCheck.vue'
+import Mine from '../views/user/Mine.vue'
 import vantab from '../test/vantab.vue'
 
 
@@ -59,7 +62,28 @@ const routes = [
   {
     path: '/vantab',
     component:vantab
-  }
+  },
+  {
+    path: '/mine',
+    name: 'mine',
+    component: Mine
+  },
+  {
+    path: '/change_info',
+    name: 'changeInfo',
+    component: ChangeInfo
+  },
+  {
+    path: '/info_check',
+    name: 'infoCheck',
+    component: InfoCheck
+  },
+  {
+    path: '/member',
+    name: 'Member',
+    component: Member
+  },
+
 ]
 
 const router = new VueRouter({

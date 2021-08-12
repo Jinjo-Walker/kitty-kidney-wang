@@ -12,7 +12,8 @@ export default new Vuex.Store({
     user_name: "",
     city:"上海",
     avatar:"",
-    buy_kind:-1
+    buy_kind:-1,
+    coupon_from:"/home"
   },
   mutations: {
     loginCheck(state, user) {
