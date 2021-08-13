@@ -5,9 +5,13 @@ const querystring = require('querystring');
 const userRouter = require('./routes/user.js');
 const goodsRouter = require('./routes/goods.js');
 const shopRouter = require('./routes/shop_info.js');
+const cors = require('cors')
 
 //创建服务，端口5050
 const app = express();
+app.use(cors({
+    origin: ['http://127.0.0.1:8080', 'http://localhost:8080']
+}));
 const port = 5050;
 app.listen(port, () => {
     console.log(`server is running at ${port}`);
