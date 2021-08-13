@@ -2,11 +2,16 @@
   <div class="coup">
     <van-nav-bar
       title="优惠券"
+<<<<<<< HEAD
       fixed
+=======
+      left-text="返回"
+>>>>>>> edb225f35c6abe8518388df0fbc850a437df1b9d
       left-arrow
       right-text="兑换"
       @click-left="$router.push(`${ $store.state.coupon_from}`)"
       @click-right="onClickRight"
+<<<<<<< HEAD
       
     ></van-nav-bar>
     <div class="vbt_top">
@@ -29,6 +34,21 @@
     
       
     
+=======
+    ></van-nav-bar>
+    <div id="input">
+      <van-tag
+        id="tag"
+        type="primary"
+        size="medium"
+        v-for="(tag, i) in tags"
+        :key="i"
+        >{{ tag }}</van-tag
+      >
+    </div>
+    <div>
+      <coupon />
+>>>>>>> edb225f35c6abe8518388df0fbc850a437df1b9d
     </div>
     <van-dialog v-model="show" title="优惠券" show-cancel-button :show-confirm-button="false">
       <van-field
@@ -56,8 +76,13 @@ export default {
       from:'',
       show: false,
       value: "",
+<<<<<<< HEAD
       sms:"",
       active:"推荐使用"
+=======
+      tags: ["推荐使用", "新到", "快到期", "大额优先"],
+      sms:"",
+>>>>>>> edb225f35c6abe8518388df0fbc850a437df1b9d
     };
   },
   methods: {
@@ -69,6 +94,7 @@ export default {
 };
 </script>
 
+<<<<<<< HEAD
 <style lang="scss">
 .coup {
   background-color: #f6f6f6;
@@ -106,6 +132,21 @@ export default {
   border-radius: 5px;
 }
 
+=======
+<style>
+.coup {
+  background-color: #f6f6f6;
+  height: 100vh;
 }
-
+#input {
+  display: flex;
+  justify-content: center;
+}
+#tag {
+  margin: 5% 5% 0 5%;
+  border-radius: 11%;
+  line-height: 170%;
+  background-color: rgb(197, 197, 197);
+>>>>>>> edb225f35c6abe8518388df0fbc850a437df1b9d
+}
 </style>

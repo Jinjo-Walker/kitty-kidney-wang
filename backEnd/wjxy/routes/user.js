@@ -1,10 +1,42 @@
 //导入资源
 const express = require('express');
 const pool = require('../pool.js');
+const multer = require('multer');
+const uuid = require('uuid');
 const tencentcloud = require("tencentcloud-sdk-nodejs");
 const SmsClient = tencentcloud.sms.v20210111.Client;
 //创建路由
 const r = express.Router();
+
+var headerConfig = multer.diskStorage({
+	// destination目的地
+	destination: 'public/avatar',
+	// fliename 文件名 后面跟函数,函数有三个参数
+	// file为当前上传的图片 
+	filename: function (req, file, callback) {
+		//console.log(req)
+		//console.log(file)
+		//  1.选找到图片的名字,并进行分割
+		var nameArray = file.originalname.split('.')
+		// 长度是从1开始的 索引是从0开始的
+		// [1,2,3,4]长度4 -1 [nameArray.length - 1]索引
+		var type = nameArray[nameArray.length - 1]
+
+		// 新的名字 = 随机数组.照片类型
+		var imageName = file.fieldname + new Date().getTime() + '.' + type;
+		//fullName = imageName
+
+		// 设置回调的内容,参数1：错误信息，参数2：图片新的名字
+		callback(null, imageName)
+
+	}
+});
+
+// 设置使用当前的配置信息
+// 上传完照片后要使用的配置信息
+var upload = multer({
+	storage: headerConfig
+})
 
 function send(num) {
 	return new Promise((reslove, reject) => {
@@ -58,6 +90,30 @@ r.use((err, req, res, next) => {
 		msg: '服务器错误'
 	});
 });
+
+r.post('/upload',
+	upload.single('avatar'), (req, res) => {
+		var sql = 'update table_user set avatar = ? where id = ?';
+		pool.query(sql, ['http://101.34.219.80:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
+			if (err) {
+				next(err);
+				return;
+			}
+			if (result.changedRows > 0) {
+				res.send({
+					code: 200,
+					message: '上传成功'
+					// url: 'avatar/' + req.file.filename
+				});
+			} else {
+				res.send({
+					code: 201,
+					message: '上传失败'
+				});
+			}
+		});
+	})
+
 
 //注册请求
 r.post("/reg", (req, res, next) => {
