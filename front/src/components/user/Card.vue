@@ -8,10 +8,6 @@
   num="0"
   class="my-btn-one"
 >
-  <!-- <template #tags>
-    <van-tag plain type="danger">标签</van-tag>
-    <van-tag plain type="danger">标签</van-tag>
-  </template> -->
   <template #footer>
     <van-button size="mini">十</van-button>
   </template>
@@ -29,11 +25,3 @@ export default {
 }
 </script>
 
-<style scoped>
-.van_card{
-  border-bottom: 1px solid black;
-}
-.van-card__price{
-  background-color: rgb(235, 171, 235);
-}
-</style>

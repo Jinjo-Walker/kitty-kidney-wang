@@ -7,8 +7,8 @@ import views from '../views/user/views.vue'
 import index from '../views/user/index.vue'
 import Order from '../views/user/Order.vue'
 import Login from '../views/user/Login.vue'
-import Register from '../views/user/Register.vue'
 import Coupon from '../views/user/Coupon.vue'
+import Register from '../views/user/Register.vue'
 import Collapse from '../views/user/Collapse.vue'
 import Introduction from '../views/user/Introduction.vue'
 
@@ -25,7 +25,7 @@ const routes = [
   },
   {
     path: '/',
-    name: 'index',
+    name: 'home',
     component: index
   },
   {
@@ -38,7 +38,7 @@ const routes = [
     component: Coupon
   },
   {
-    path: '/egister',
+    path: '/register',
     name: 'Register',
     component: Register
   },

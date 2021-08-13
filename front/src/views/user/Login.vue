@@ -1,13 +1,6 @@
 <template>
   <div class="DL">
-    <van-nav-bar
-      title
-      left-text="返回"
-      right-text="注册"
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
-    />
+    <van-nav-bar title left-text="返回" left-arrow @click-left="onClickLeft" />
     <!-- DX短信 -->
     <van-cell-group class="DX">
       <h2>欢迎登录望京小腰</h2>
@@ -32,7 +25,7 @@
             padding: '0 16px',
           }"
         />
-        <p style="color: #808080; font-size: 14px; ">
+        <p style="color: #808080; font-size: 14px">
           未注册的手机号验证后自动创建望京小腰账号
         </p>
         <div class="checkbox">
@@ -55,19 +48,24 @@
             :disabled="isChecked"
             color="linear-gradient(to right, #DF5FF1, #AE33CC)"
             @click="countDown"
-            >{{ content }}</van-button
-          >
+            >{{ content }}
+          </van-button>
         </div>
       </div>
       <div v-else>
         <van-password-input
-        v-model="password"
           :value="value"
           info="密码为 6 位数字"
           :focused="showKeyboard"
-          :error-message="passwordmsg"
           @focus="showKeyboard = true"
           @input="checkpassword"
+        />
+        <!-- 数字键盘 -->
+        <van-number-keyboard
+          :show="showKeyboard"
+          @input="onInput"
+          @delete="onDelete"
+          @blur="showKeyboard = false"
         />
         <div class="checkbox">
           <input
@@ -87,9 +85,14 @@
             type="default"
             color="linear-gradient(to right, #DF5FF1, #AE33CC)"
             @click="login"
-            :class="{grey: !check}"
-            >点击登陆</van-button
-          >
+            :class="{ grey: !check }"
+            id="TencentCaptcha"
+            data-appid="2037762575"
+            data-cbfn="callbackName"
+            data-biz-state="data-biz-state"
+            
+            >点击登陆
+          </van-button>
         </div>
       </div>
     </van-cell-group>
@@ -101,8 +104,7 @@
     <router-link to="/Collapse" class="router-link">遇到问题</router-link>
   </div>
 </template>
-  <script>
-    import axios from "axios";
+<script>
 export default {
   data() {
     return {
@@ -126,45 +128,87 @@ export default {
       // },
       value: "",
       showKeyboard: true,
-      isChecked: false,
+      isChecked: true,
       show: true,
+      passwordmsg: true,
     };
   },
   methods: {
-    checkphone () {
+    checkphone() {
       if (!this.phone) {
-        
       } else {
-        this.phonemsg = ''
+        this.phonemsg = "";
       }
     },
-    checkpassword () {
+    checkpassword() {
       if (!this.password) {
-        
       } else {
-        this.passwordmsg = ''
+        this.passwordmsg = "";
       }
     },
-    login () {
+    login() {
       if (this.phone && this.password && this.check) {
-        console.log('success')
+        // 请求接口
+        const api = "localhost:5050/user/account_login";
+        // 请求入参
+        const params = {
+          account: this.phone,
+          password: this.password,
+        };
+        console.log(1111, '111')
+        this.axios
+          .post(api, { ...params })
+          .then((res) => {
+            console.log("请求结果", res);
+            // 请求成功
+            if (res.code == 200) {
+              console.log(res.result);
+              // 针对登录的数据进行处理 然后进行跳转路由到首页
+              return;
+            }
+            // 这里提示账号密码错误
+          })
+          .catch((err) => {
+            // 请求报错
+            console.log(err);
+          });
+        console.log("success");
       }
     },
     countDown() {
       if (!this.canClick) return;
       if (!this.check()) return;
       this.canClick = false;
-      this.content = this.totalTime + "s后重新发送";
-      let clock = window.setInterval(() => {
-        this.totalTime--;
-        this.content = this.totalTime + "s后重新发送";
-        if (this.totalTime < 0) {
-          window.clearInterval(clock);
-          this.content = "重新发送验证码";
-          this.totalTime = 10;
-          this.canClick = true; //这里重新开启
-        }
-      }, 1000);
+      // 获取验证码的请求接口
+      const api = "localhost:5050/user/yzm?phone=18651726785";
+      const params = {
+        phone: this.phone,
+      };
+      this.$axios
+        .get(api)
+        .then((res) => {
+          // 请求成功
+          if (res.code === 200) {
+            // 请求成功以后做出 获取验证码成功提示
+            this.content = this.totalTime + "s后重新发送";
+            let clock = window.setInterval(() => {
+              this.totalTime--;
+              this.content = this.totalTime + "s后重新发送";
+              if (this.totalTime < 0) {
+                window.clearInterval(clock);
+                this.content = "重新发送验证码";
+                this.totalTime = 10;
+                this.canClick = true; //这里重新开启
+              }
+            }, 1000);
+            return;
+          }
+          // 此处进行请求失败的提示
+        })
+        .catch((err) => {
+          // 这里是请求发生错误的
+          console.log(err);
+        });
     },
     check() {
       let reg = /^1[3-9]\d{9}$/;
@@ -184,7 +228,7 @@ export default {
 
     // 更改复选框值
     checkboxChange(value) {
-      this.isChecked = value;
+      this.isChecked = !value.target.checked;
     },
     onInput(key) {
       this.value = (this.value + key).slice(0, 6);
@@ -196,47 +240,76 @@ export default {
     change() {
       this.show = !this.show;
     },
-    onClickLeft() {},
-    onClickRight() {},
+    onClickLeft() {
+      <router-link to="/mine" ></router-link>;
+    },
   },
   mounted() {
     // console.log("测试");
     // alert("222");
   },
 };
+// 回调函数需要放在全局对象window下
+window.callbackName = function (res) {
+  // 返回结果
+  // ret         Int       验证结果，0：验证成功。2：用户主动关闭验证码。
+  // ticket      String    验证成功的票据，当且仅当 ret = 0 时 ticket 有值。
+  // CaptchaAppId       String    验证码应用ID。
+  // bizState    Any       自定义透传参数。
+  // randstr     String    本次验证的随机串，请求后台接口时需带上。
+  console.log("callback:", res);
+  // res（用户主动关闭验证码）= {ret: 2, ticket: null}
+  // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
+  if (res.ret === 0) {
+    // 复制结果至剪切板
+    let str = `【randstr】->【${res.randstr}】      【ticket】->【${res.ticket}】`;
+    let ipt = document.createElement("input");
+    ipt.value = str;
+    document.body.appendChild(ipt);
+    ipt.select();
+    document.execCommand("Copy");
+    document.body.removeChild(ipt);
+    console.log(验证成功);
+  }
+};
 </script>
-  <style scoped>
+<style scoped>
 .button {
   margin: 20px 0;
 }
+
 .DL .DX {
   margin: 30px;
   text-align: center;
 }
+
 .checkbox {
   padding: 10px;
   color: #808080;
   font-size: 10px;
 }
+
 .DX h2 {
   text-align: left;
   margin-left: 15px;
 }
+
 .DL .QH {
   margin-right: 140px;
   font-size: 14px;
 }
+
 .btn {
   padding: 13px;
 }
+
 .change {
   margin-right: 140px;
   margin-left: 50px;
   color: #808080;
 }
-.router-link {
 
+.router-link {
   color: #808080;
 }
 </style>
-  
