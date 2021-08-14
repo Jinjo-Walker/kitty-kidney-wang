@@ -3,14 +3,9 @@
     <van-nav-bar
       :title="`设置${$route.query.kw}`"
       left-arrow
-<<<<<<< HEAD
       :right-text="$route.query.kw && $route.query.kw != '头像' ? '保存' : ''"
       @click-left="$router.push('/change_info')"
       @click-right="onClickRight"
-=======
-      :right-text="$route.query.kw ? '保存' : ''"
-      @click-left="$router.push('/change_info')"
->>>>>>> edb225f35c6abe8518388df0fbc850a437df1b9d
       class="nav"
     />
     <div v-if="$route.query.kw == '用户名'">
@@ -34,16 +29,12 @@
       <span class="rule">手机号限11位数字</span>
     </div>
     <div v-else-if="$route.query.kw == '头像'">
-<<<<<<< HEAD
       <van-uploader
         v-model="fileList"
         multiple
         max-count="1"
         :after-read="uploadAvatar"
       />
-=======
-      <van-uploader v-model="fileList" multiple max-count="1"/>
->>>>>>> edb225f35c6abe8518388df0fbc850a437df1b9d
       <span class="rule">限jpg、png、jpeg等图片文件</span>
     </div>
     <div v-else>
@@ -53,11 +44,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import { upload,change_info } from "@/api/user_axios.js";
 import { Toast } from "vant";
-=======
->>>>>>> edb225f35c6abe8518388df0fbc850a437df1b9d
 export default {
   data() {
     return {
@@ -65,7 +53,6 @@ export default {
       old_phone: "",
       sms: "",
       new_phone: "",
-<<<<<<< HEAD
       fileList: [],
     };
   },
@@ -102,11 +89,6 @@ export default {
       });
     },
   },
-=======
-      fileList:[]
-    };
-  },
->>>>>>> edb225f35c6abe8518388df0fbc850a437df1b9d
 };
 </script>
 
@@ -133,11 +115,7 @@ export default {
     background-color: #d12ee6;
     border: none;
   }
-<<<<<<< HEAD
   .van-uploader {
-=======
-   .van-uploader{
->>>>>>> edb225f35c6abe8518388df0fbc850a437df1b9d
     margin: 10px;
     display: block;
   }

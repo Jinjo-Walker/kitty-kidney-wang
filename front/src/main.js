@@ -15,8 +15,8 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false
 
 // 引入底部导航栏组件
-import Tabbar from './components/user/Tabbar.vue'
-Vue.component('my-tabbar',Tabbar)
+import tabbar from './components/user/tabbar.vue'
+Vue.component('my-tabbar',tabbar)
 
 // 引入商品卡片组件
 import Card from './components/user/Card.vue'
