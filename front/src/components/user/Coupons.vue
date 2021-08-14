@@ -10,13 +10,16 @@
       </div>
       <div class="item">
         <ul>
-          <li><van-tag class="tag">外卖券</van-tag><span class="content">满100减10</span></li>
+          <li>
+            <van-tag class="tag">外卖券</van-tag
+            ><span class="content">满100减10</span>
+          </li>
           <li>2021/02/17</li>
-          <li>使用规则 ></li>
+          <li @click="dialog">使用规则></li>
         </ul>
       </div>
       <div class="btn">
-        <button><span>去使用</span></button>
+        <button @click="open"><span>去使用</span></button>
       </div>
     </div>
   </div>
@@ -24,17 +27,25 @@
 
 <script>
 export default {
-  data(){
-    return{
-      
-    }
-  }
+  data() {
+    return {};
+  },
+  methods: {
+    open() {
+      this.$router.push(`${"/"}`);
+    },
+    dialog() {
+      this.$dialog.alert({
+        message: "第一条【制定目的】为保障小腰外卖用户的权益，维护平台的正常秩序，根据国家法律法规和或《小腰外卖用户服务条款》等小腰外卖在线条款、规则相关约定制定本规范。"
+  });
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .cla {
-  padding: 15px;
+  padding: 12px 12px 0 12px;
 }
 #div {
   width: 100%;
@@ -45,8 +56,10 @@ export default {
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
+  
 }
-.money,.cpn {
+.money,
+.cpn {
   text-align: center;
   margin-left: 10px;
 }
@@ -86,9 +99,9 @@ export default {
   font-size: 15px;
   color: #fff;
 }
-.content{
+.content {
   font-size: 18px;
-  padding-left:5px ;
+  padding-left: 5px;
 }
 </style>
 

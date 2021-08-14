@@ -1,7 +1,7 @@
 <template>
   <div class="my-order">
     <!-- 页头 -->
-    <van-nav-bar left-arrow fixed>
+    <van-nav-bar left-arrow fixed class="my-order-header">
       <template #right>
         <van-icon name="search" size="18" />
       </template>
@@ -27,8 +27,7 @@
           v-model="activeName"
           sticky
           :offset-top="45"
-          :color="'#ba90e2'"
-        >
+          :color="'#ba90e2'">
           <!-- 点餐界面 -->
           <van-tab title="点餐" name="a" >
             <!-- 商品列表 -->

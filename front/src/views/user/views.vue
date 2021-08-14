@@ -21,6 +21,9 @@
         <div>
             <router-link to="/register">注册</router-link>
         </div>
+        <div>
+            <router-link to="/info_check">info_check</router-link>
+        </div>
     </div>
 </template>
 

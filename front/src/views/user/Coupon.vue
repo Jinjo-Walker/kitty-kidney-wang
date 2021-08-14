@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import coupon from "@/components/user/coupon.vue";
+import coupon from "@/components/user/Coupons.vue";
 export default {
   components: { coupon },
   data() {

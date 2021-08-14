@@ -4,7 +4,7 @@ import { Lazyload } from 'vant';
 Vue.use(Lazyload);
 
 import views from '../views/user/views.vue'
-import index from '../views/user/index.vue'
+import Home from '../views/user/Home.vue'
 import Order from '../views/user/Order.vue'
 import Login from '../views/user/Login.vue'
 import Coupon from '../views/user/Coupon.vue'
@@ -29,7 +29,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: index
+    component: Home
   },
   {
     path: '/order',
