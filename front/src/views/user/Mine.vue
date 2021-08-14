@@ -2,14 +2,14 @@
   <div class="mine">
     <van-row class="top" type="flex" justify="space-between" align="center">
       <van-col class="user_info"
-        ><van-image round width="60" height="60" src="./banner/1.jpg"/><span
+        ><van-image round width="60" height="60" :src="$store.state.avatar"/><span
           class="uname"
           v-text="user_name"
         ></span
       ></van-col>
       <van-col
         ><span class="logout" v-if="flag" v-text="`注销`"></span>
-        <span class="login" v-else v-text="`登录/注册`"></span>
+        <span class="login" v-else v-text="`登录/注册`" @click="$router.push('/login')"></span>
       </van-col>
     </van-row>
     <van-row class="row_vip" type="flex" justify="space-between" align="center">
@@ -65,7 +65,7 @@
 </template>
 <script>
 import mineIcon from "@/components/user/MineIcon.vue";
-import tabbar from "@/components/user/tabbar";
+import tabbar from "@/components/user/Tabbar";
 export default {
   name: "mine",
   data() {

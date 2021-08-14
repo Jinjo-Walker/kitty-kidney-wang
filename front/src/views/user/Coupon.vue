@@ -24,11 +24,6 @@
       <coupon />
       <coupon />
       <coupon />
-      
-      
-    
-      
-    
     </div>
     <van-dialog v-model="show" title="优惠券" show-cancel-button :show-confirm-button="false">
       <van-field
@@ -78,12 +73,12 @@ export default {
   justify-content: center;
 }
 #vbt1{
-  width: 17%;
+  width: 18%;
   margin: 12px 0 0 30px;
   border-radius: 5px;
 }
 #vbt4{
-  width: 17%;
+  width: 18%;
   margin: 12px 30px 0 0;
   border-radius: 5px;
 }

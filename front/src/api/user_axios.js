@@ -15,8 +15,27 @@ function change_info(info) {
         });
     })
 }
+
+function yzm(info) {
+    return new Promise((reslove, reject) => {
+        Vue.prototype.axios.get(`/user/yzm?phone=${info}`).then(res => {
+            reslove(res.data);
+        });
+    })
+}
+
+function change_private(info) {
+    return new Promise((reslove, reject) => {
+        Vue.prototype.axios.put('/user/account_private', info).then(res => {
+            reslove(res.data);
+        });
+    })
+}
+
 export {
     upload,
-    change_info
+    change_info,
+    yzm,
+    change_private
 };
 

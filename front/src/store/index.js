@@ -7,13 +7,13 @@ export default new Vuex.Store({
   state: {
     isLogin: sessionStorage.getItem("isLogin") || false,
     account: sessionStorage.getItem("account") || "",
-    uid: -1,
-    phone:-1,
-    user_name: "",
+    uid: 1,
+    phone:18129275376,
+    user_name: "zxxxxxxx",
     city:"上海",
-    avatar:"",
+    avatar:"img/avatar/avatar_default.jpg",
     buy_kind:-1,
-    coupon_from:"/home"
+    coupon_from:"/"
   },
   mutations: {
     loginCheck(state, user) {
