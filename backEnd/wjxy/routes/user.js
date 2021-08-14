@@ -52,7 +52,14 @@ function send(num) {
 				},
 			},
 		};
-		let yzm = Math.floor(Math.random() * 10000);
+		let yzm = `${Math.floor(Math.random() * 10000)}`;
+		let head = '';
+		if (yzm.length < 4) {
+			for (var i = 0; i < 4 - yzm.length; i++) {
+				head += "0";
+			}
+			yzm = head + yzm;
+		}
 		const client = new SmsClient(clientConfig);
 		const params = {
 			"PhoneNumberSet": [`+86${num}`],
@@ -207,7 +214,7 @@ r.post("/account_login", (req, res, next) => {
 //短信验证接口
 r.get("/yzm", (req, res, next) => {
 	send(req.query.phone).then(result => {
-		console.log(result.data);
+		console.log(result);
 		if (result.data.SendStatusSet[0].Code == 'Ok') {
 			res.send({
 				code: 200,
@@ -241,8 +248,8 @@ r.post("/phone_login", (req, res, next) => {
 				result: result
 			});
 		} else {
-			var sql2 = 'insert into table_user(id,account,password,phone) values(null,?,?,?)';
-			pool.query(sql2, [req.body.phone, '123456', req.body.phone], function (err2, result2) {
+			var sql2 = 'insert into table_user(id,account,password,phone) values(null,?,md5(123456),?)';
+			pool.query(sql2, [req.body.phone, req.body.phone], function (err2, result2) {
 				if (err2) {
 					next(err2);
 					return;
@@ -288,10 +295,10 @@ r.get("/account_info", (req, res, next) => {
 	});
 });
 
-//更新用户信息
+//更新用户基本信息
 r.put("/account_change", (req, res, next) => {
-	var sql = 'update table_user set phone = ?,user_name = ? where id = ?';
-	pool.query(sql, [req.body.phone, req.body.user_name, req.body.id], function (err, result) {
+	var sql = 'update table_user set user_name = ? where id = ?';
+	pool.query(sql, [req.body.user_name, req.body.id], function (err, result) {
 		if (err) {
 			next(err);
 			return;
@@ -299,13 +306,65 @@ r.put("/account_change", (req, res, next) => {
 		if (result.affectedRows > 0) {
 			res.send({
 				code: 200,
-				message: '更新成功',
+				message: '用户名更新成功',
 				result: result
 			});
 		} else {
 			res.send({
 				code: 201,
-				message: '更新失败'
+				message: '用户名更新失败'
+			});
+		}
+	});
+});
+
+//更新用户密码、手机
+r.put("/account_private", (req, res, next) => {
+	var sql;
+	var sql2;
+	var arr = [];
+	var arr2 = [];
+	if (req.body.old_phone) {
+		sql = 'select id from table_user where phone = ? and id = ?';
+		sql2 = 'update table_user set phone = ? where id = ?';
+		arr.push(req.body.old_phone);
+		arr2.push(req.body.new_phone);
+	} else if (req.body.old_password) {
+		sql = 'select id from table_user where password = md5(?) and id = ?';
+		sql2 = 'update table_user set password = md5(?) where id = ?';
+		arr.push(req.body.old_password);
+		arr2.push(req.body.new_password);
+	}
+	arr.push(req.body.id);
+	arr2.push(req.body.id);
+	pool.query(sql, arr, function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.length > 0) {
+			pool.query(sql2, arr2, function (err, result) {
+				if (err) {
+					next(err);
+					return;
+				}
+				if (result.affectedRows > 0) {
+					res.send({
+						code: 200,
+						message: '更新成功',
+						result: result
+					});
+				} else {
+					res.send({
+						code: 202,
+						message: '更新失败'
+					});
+				}
+			});
+		} else {
+			res.send({
+				code: 201,
+				message: '信息错误，更新失败'
 			});
 		}
 	});
