@@ -27,10 +27,10 @@
           v-model="activeName"
           sticky
           :offset-top="45"
-          :color="'#ba90e2'"
+          :color="'#b3f'"
         >
           <!-- 点餐界面 -->
-          <van-tab title="点餐" name="a">
+          <van-tab title="点餐" class="my-three-top" name="a">
             <!-- 商品列表 -->
             <div class="my-card-insert">
               <!-- 商品按类分割线 -->
@@ -39,7 +39,7 @@
                 class="my-card-divide"
                 id="haixian"
                 title="海鲜"
-                :style="{ color: '#d36dd3', borderColor: '#fff' }"
+                :style="{borderColor: '#b6f' }"
                 content-position="left"
                 >海鲜</van-divider
               >
@@ -48,7 +48,7 @@
               <van-divider
                 class="my-card-divide"
                 id="niuyang"
-                :style="{ color: '#d36dd3', borderColor: '#fff' }"
+                :style="{ borderColor: '#b6f' }"
                 content-position="left"
                 >牛羊肉</van-divider
               >
@@ -57,7 +57,7 @@
               <van-divider
                 class="my-card-divide"
                 id="zhurou"
-                :style="{ color: '#d36dd3', borderColor: '#fff' }"
+                :style="{ borderColor: '#b6f' }"
                 content-position="left"
                 >猪肉</van-divider
               >
@@ -66,7 +66,7 @@
               <van-divider
                 class="my-card-divide"
                 id="sucai"
-                :style="{ color: '#d36dd3', borderColor: '#fff' }"
+                :style="{ borderColor: '#b6f' }"
                 content-position="left"
                 >素菜</van-divider
               >
@@ -75,7 +75,7 @@
               <van-divider
                 class="my-card-divide"
                 id="kaoyu"
-                :style="{ color: '#d36dd3', borderColor: '#fff' }"
+                :style="{ borderColor: '#b6f' }"
                 content-position="left"
                 >烤鱼</van-divider
               >
@@ -84,7 +84,7 @@
               <van-divider
                 class="my-card-divide"
                 id="niuwa"
-                :style="{ color: '#d36dd3', borderColor: '#fff' }"
+                :style="{ borderColor: '#b6f' }"
                 content-position="left"
                 >牛蛙</van-divider
               >
@@ -93,7 +93,7 @@
               <van-divider
                 class="my-card-divide"
                 id="jiya"
-                :style="{ color: '#d36dd3', borderColor: '#fff' }"
+                :style="{ borderColor: '#b6f' }"
                 content-position="left"
                 >鸡鸭肉</van-divider
               >
@@ -102,7 +102,7 @@
               <van-divider
                 class="my-card-divide"
                 id="yinliao"
-                :style="{ color: '#d36dd3', borderColor: '#fff' }"
+                :style="{ borderColor: '#b6f' }"
                 content-position="left"
                 >饮料</van-divider
               >
@@ -120,14 +120,30 @@
                   :title="`${item}`"
                   v-for="item of types"
                   :key="item"/> -->
-                  <a href="#haixian" id="aside" @click="clickanchor"><van-sidebar-item title="海鲜" /></a>
-                  <a href="#niuyang" id="aside" @click="clickanchor"><van-sidebar-item title="牛羊肉" /></a>
-                  <a href="#zhurou" id="aside" @click="clickanchor"><van-sidebar-item title="猪肉" /></a>
-                  <a href="#sucai" id="aside"><van-sidebar-item title="素菜" /></a>
-                  <a href="#kaoyu" id="aside"><van-sidebar-item title="烤鱼" /></a>
-                  <a href="#niuwa" id="aside"><van-sidebar-item title="牛蛙" /></a>
-                  <a href="#jiya" id="aside"><van-sidebar-item title="鸡鸭肉" /></a>
-                  <a href="#yinliao" id="aside"><van-sidebar-item title="饮料" /></a>
+                  <a @click="goto('#haixian')">
+                    <van-sidebar-item title="海鲜"
+                  /></a>
+                  <a @click="goto('#niuyang')">
+                    <van-sidebar-item title="牛羊肉"
+                  /></a>
+                  <a @click="goto('#zhurou')">
+                    <van-sidebar-item title="猪肉"
+                  /></a>
+                  <a @click="goto('#sucai')">
+                    <van-sidebar-item title="素菜"
+                  /></a>
+                  <a @click="goto('#kaoyu')">
+                    <van-sidebar-item title="烤鱼"
+                  /></a>
+                  <a @click="goto('#niuwa')">
+                    <van-sidebar-item title="牛蛙"
+                  /></a>
+                  <a @click="goto('#jiya')">
+                    <van-sidebar-item title="鸡鸭肉"
+                  /></a>
+                  <a @click="goto('#yinliao')">
+                    <van-sidebar-item title="饮料"
+                  /></a>
                 </div>
               </van-sidebar>
             </van-sticky>
@@ -139,7 +155,7 @@
                 text="购物车"
                 @click="chsheet"
               />
-              <van-goods-action-icon text="￥10.0" />
+              <van-goods-action-icon :text="`￥${text}`" />
               <van-goods-action-button
                 class="my-action-button"
                 type="danger"
@@ -149,14 +165,14 @@
             <!-- 已选商品详情弹窗 -->
             <van-action-sheet v-model="show" title="已选商品">
               <div class="sheet-content">
-                <my-dcard v-for="selected of 1" :key="selected"></my-dcard>
+                <my-dcard v-for="selected of 6" :key="selected"></my-dcard>
               </div>
             </van-action-sheet>
           </van-tab>
           <!-- 评论界面 -->
-          <van-tab title="评论" name="b"> </van-tab>
+          <van-tab title="评论" class="my-three-top" name="b"> </van-tab>
           <!-- 商家界面 -->
-          <van-tab title="商家" name="c">商家</van-tab>
+          <van-tab title="商家" class="my-three-top" name="c">商家</van-tab>
         </van-tabs>
       </div>
     </div>
@@ -170,6 +186,7 @@ export default {
       activeName: "a",
       activeKey: 0,
       show: false,
+      text:10.0,
       types: [
         "海鲜",
         "牛羊肉",
@@ -184,13 +201,11 @@ export default {
     };
   },
   methods: {
-    clickanchor(aside) {
-      console.log(aside)
-      var asides=document.querySelectorAll(aside);
-      console.log(asides)
-      asides.scrollIntoView({ behavior: "smooth" });
-      console.log("点了")
+    // 锚点滚动效果
+    goto(idname) {
+      document.querySelector(idname).scrollIntoView({ behavior: "smooth" });
     },
+    // 底部已选商品弹窗开关
     chsheet() {
       if (this.show == false) {
         this.show = true;

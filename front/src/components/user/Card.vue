@@ -1,27 +1,30 @@
 <template>
-  <div>
-    <van-card
-  :thumb='img'
-  title="商品标题"
-  desc="描述信息"
-  price="2.0"
-  num="0"
-  class="my-btn-one"
->
-  <template #footer>
-    <van-button size="mini">十</van-button>
-  </template>
-</van-card>
+  <div class="my-card">
+    <van-card :thumb="img" title="肉肉" desc="来数肉肉一二三西五六七八九十块">
+      <template #tags>
+        <div class="my-card-price-all">￥
+          <span class="my-card-price">3.1</span>
+        </div>
+        <div class="my-two-btn">
+          <!-- <van-tag>
+            <button class="my-two-btn1">－</button>
+          </van-tag>
+          <span class="my-count">1</span> -->
+          <van-tag>
+            <button>＋</button>
+          </van-tag>
+        </div>
+      </template>
+    </van-card>
   </div>
 </template>
 
 <script>
 export default {
-  data(){
-    return{
-      img:'/img/banner/rourou.jpg'
-    }
-  }
-}
+  data() {
+    return {
+      img: "/img/banner/rourou.jpg",
+    };
+  },
+};
 </script>
-

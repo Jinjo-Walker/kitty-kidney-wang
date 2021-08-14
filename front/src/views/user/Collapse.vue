@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <van-nav-bar left-arrow title="遇到问题"></van-nav-bar>
+    <van-nav-bar  left-text="返回" name="arrow-left"  left-arrow @click-left="onClickLeft" />
     <van-collapse v-model="activeName" accordion>
       <van-collapse-item title="找回密码" name="1">找回密码</van-collapse-item>
       <van-collapse-item title="手机号无法接收短信" name="2">手机号无法接收短信</van-collapse-item>
@@ -14,11 +14,14 @@
 export default {
   data() {
     return {
-      activeName: "1"
+      activeName: ""
     };
-  }, 
-  mounted() {
-    
+  },
+  methods: {
+    onClickLeft() {
+      this.$router.go(-1)
+    }
+   
   }
 };
 </script>

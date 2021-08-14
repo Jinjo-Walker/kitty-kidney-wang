@@ -1,6 +1,6 @@
 <template>
   <div class="DL">
-    <van-nav-bar title left-text="返回" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar title left-text="返回" left-arrow @click-left="onClickLeft('/Mine')" />
     <!-- DX短信 -->
     <van-cell-group class="DX">
       <h2>欢迎登录望京小腰</h2>
@@ -90,7 +90,7 @@
             data-appid="2037762575"
             data-cbfn="callbackName"
             data-biz-state="data-biz-state"
-            
+             :disabled="isChecked"
             >点击登陆
           </van-button>
         </div>
@@ -105,6 +105,7 @@
   </div>
 </template>
 <script>
+
 export default {
   data() {
     return {
@@ -147,7 +148,7 @@ export default {
       }
     },
     login() {
-      if (this.phone && this.password && this.check) {
+      if (this.phone && this.passwordmsg && !this.isChecked  ) {
         // 请求接口
         const api = "localhost:5050/user/account_login";
         // 请求入参
@@ -156,7 +157,7 @@ export default {
           password: this.password,
         };
         console.log(1111, '111')
-        this.axios
+        this.$axios
           .post(api, { ...params })
           .then((res) => {
             console.log("请求结果", res);
@@ -240,8 +241,8 @@ export default {
     change() {
       this.show = !this.show;
     },
-    onClickLeft() {
-      <router-link to="/mine" ></router-link>;
+    onClickLeft(path) {
+      this.$router.replace(path)
     },
   },
   mounted() {

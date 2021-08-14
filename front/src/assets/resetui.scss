@@ -1,23 +1,6 @@
-.van-popup {
-    .van-card__header {
-        height: 85px;
-    }
-
-    .sheet-content {
-        padding: 16px 16px 150px;
-    }
-
-    .van-card__thumb {
-        height: 65px;
-        width: 65px;
-    }
-}
-
-
 .my-order {
-    
-//   padding: 5px 10px 0px;
-  background-color: #f6f6f6;
+    background-color: #f6f6f6;
+
     .my-main {
         margin-top: 45px;
 
@@ -37,7 +20,7 @@
             .my-order-side {
                 left: 0;
                 height: 520px;
-                width: 25%;
+                width: 22%;
 
                 .my-order-side-w {
                     padding-bottom: 150px;
@@ -45,55 +28,151 @@
                     .van-sidebar-item {
                         padding: 15px 12px;
                     }
+
+                    .van-sidebar-item--select::before {
+                        background-color: #b3f;
+                    }
                 }
 
             }
 
             .my-card-insert {
-                width: 75%;
+                width: 78%;
                 float: right;
                 height: 520px;
                 overflow-y: auto;
 
-                    .van-card__price-integer {
-                        font-size: 20px;
-                    }
-                }
-
-                .van-card__price {
-                    color: blueviolet;
-                    font-size: 18px;
-
                 .my-card-divide {
                     margin: 0;
+                    padding-left: 23px;
+                    color: #b6f;
                     background-color: white;
+                    font-size: 19px;
+                    font-weight: 600;
+                }
+
+                .my-card-divide::before {
+                    content: none;
                 }
             }
 
             .my-action-button {
-                margin-left: 45px;
-                margin-right: 25px;
+                margin-left: 30%;
+                margin-right: 8%;
             }
 
             .sheet-content {
                 padding: 16px 16px 60px;
-                .van-card__price-integer{
-                    font-size: 20px;
-                }
-                .van-card-btn{
-                    position: fixed;
-                    right: 30px;
-                  }
             }
 
             .van-goods-action {
-                padding-left: 15px;
+                padding-left: 8%;
                 z-index: 10000;
             }
 
-            .van-goods-action-icon {
-                margin-left: 5px;
+            .van-info {
+                background-color: #b3f;
+            }
+
+            .van-goods-action-icon:nth-child(2) {
+                margin-left: 4%;
+                font-size: 20px;
+                padding-bottom: 10px;
+                color: #b3f;
+            }
+
+            .van-goods-action-button--danger {
+                background: linear-gradient(to right, #e6e, #b3f);
             }
         }
+    }
+}
+
+.my-card {
+    .van-card {
+        padding-left: 6px;
+        padding-right: 8px;
+    }
+
+    position: relative;
+
+    .van-card__title {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .my-card-desc {
+        height: 32px;
+        overflow: hidden;
+    }
+
+    .my-card-price-all {
+        color: #b3f;
+        margin-top: 23px;
+        font-size: 14px;
+
+        .my-card-price {
+            font-size: 18px;
+        }
+    }
+
+    .my-card-price-n {
+        margin-top: 10px;
+    }
+
+    .my-two-btn {
+        position: absolute;
+        right: 35px;
+        bottom: 17px;
+
+        .van-tag {
+            background-color: white;
+            padding: 0;
+
+            button {
+                position: absolute;
+                padding: 0;
+                line-height: 22px;
+                border: 0;
+                border-radius: 50%;
+                font-size: 24px;
+                color: white;
+                background-color: #b6f;
+            }
+
+            .my-two-btn1 {
+                right: 22px;
+                font-size: 21px;
+                line-height: 18px;
+                padding-bottom: 2px;
+                border: 2px solid #b6f;
+                color: #b6f;
+                background-color: white;
+            }
+        }
+
+        .my-count {
+            position: absolute;
+            right: 1px;
+            top: -4px;
+            color: #b4f;
+            padding: 5px;
+            font-size: 20px;
+        }
+    }
+}
+
+.van-popup {
+    .van-card__header {
+        height: 85px;
+    }
+
+    .sheet-content {
+        padding: 16px 16px 150px;
+    }
+
+    .van-card__thumb {
+        height: 75px;
+        width: 75px;
     }
 }

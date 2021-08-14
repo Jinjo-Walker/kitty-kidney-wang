@@ -3,11 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import axios from "axios"
-Vue.prototype.$axios = axios
-
 import Vant from 'vant'
+// 引入全部样式
 import 'vant/lib/index.css'
+
 Vue.use(Vant)
 
 import ElementUI from 'element-ui';
@@ -17,8 +16,8 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false
 
 // 引入底部导航栏组件
-// import tabbar from './components/user/tabbar.vue'
-// Vue.component('my-tabbar',tabbar)
+// import Tabbar from './components/user/Tabbar.vue'
+// Vue.component('my-tabbar',Tabbar)
 
 // 引入商品卡片组件
 import Card from './components/user/Card.vue'
@@ -30,8 +29,10 @@ Vue.component('my-dcard',Dcard)
 
 // 引入全局resetui组件
 import "./assets/resetui.scss"
+//引入axios
+import axios from 'axios'
 
-
+Vue.prototype.$axios = axios
 new Vue({
   router,
   store,
