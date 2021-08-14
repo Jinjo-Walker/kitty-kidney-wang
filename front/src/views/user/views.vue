@@ -24,6 +24,12 @@
         <div>
             <router-link to="/info_check">info_check</router-link>
         </div>
+        <div>
+            <router-link to="/ordered">订单</router-link>
+        </div>
+        <div>
+            <router-link to="/change_info">修改信息</router-link>
+        </div>
     </div>
 </template>
 

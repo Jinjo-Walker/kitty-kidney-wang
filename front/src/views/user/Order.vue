@@ -21,88 +21,114 @@
       </van-swipe>
 
       <!-- 商品内容区 -->
-      <div class="my-center" >
+      <div class="my-center">
         <!-- 顶部导航栏 -->
         <van-tabs
           v-model="activeName"
           sticky
           :offset-top="45"
-          :color="'#ba90e2'">
+          :color="'#ba90e2'"
+        >
           <!-- 点餐界面 -->
-          <van-tab title="点餐" name="a" >
+          <van-tab title="点餐" name="a">
             <!-- 商品列表 -->
             <div class="my-card-insert">
               <!-- 商品按类分割线 -->
               <!-- 海鲜类 -->
               <van-divider
-                class="my-card-divide" id="haixian" title="海鲜"
+                class="my-card-divide"
+                id="haixian"
+                title="海鲜"
                 :style="{ color: '#d36dd3', borderColor: '#fff' }"
-                content-position="left">海鲜</van-divider>
+                content-position="left"
+                >海鲜</van-divider
+              >
               <my-card v-for="cards of 6" :key="cards"></my-card>
               <!-- 牛羊肉类 -->
               <van-divider
-                class="my-card-divide" id="niuyang"
+                class="my-card-divide"
+                id="niuyang"
                 :style="{ color: '#d36dd3', borderColor: '#fff' }"
-                content-position="left">牛羊肉</van-divider>
+                content-position="left"
+                >牛羊肉</van-divider
+              >
               <my-card v-for="cards of 4" :key="cards"></my-card>
               <!-- 猪肉类 -->
               <van-divider
-                class="my-card-divide" id="zhurou"
+                class="my-card-divide"
+                id="zhurou"
                 :style="{ color: '#d36dd3', borderColor: '#fff' }"
-                content-position="left">猪肉</van-divider>
+                content-position="left"
+                >猪肉</van-divider
+              >
               <my-card v-for="cards of 3" :key="cards"></my-card>
               <!-- 素菜类 -->
               <van-divider
-                class="my-card-divide" id="sucai"
+                class="my-card-divide"
+                id="sucai"
                 :style="{ color: '#d36dd3', borderColor: '#fff' }"
-                content-position="left">素菜</van-divider>
+                content-position="left"
+                >素菜</van-divider
+              >
               <my-card v-for="cards of 7" :key="cards"></my-card>
               <!-- 烤鱼类 -->
               <van-divider
-                class="my-card-divide" id="kaoyu"
+                class="my-card-divide"
+                id="kaoyu"
                 :style="{ color: '#d36dd3', borderColor: '#fff' }"
-                content-position="left">烤鱼</van-divider>
+                content-position="left"
+                >烤鱼</van-divider
+              >
               <my-card v-for="cards of 2" :key="cards"></my-card>
               <!-- 牛蛙类 -->
               <van-divider
-                class="my-card-divide" id="niuwa"
+                class="my-card-divide"
+                id="niuwa"
                 :style="{ color: '#d36dd3', borderColor: '#fff' }"
-                content-position="left">牛蛙</van-divider>
+                content-position="left"
+                >牛蛙</van-divider
+              >
               <my-card v-for="cards of 5" :key="cards"></my-card>
               <!-- 鸡鸭肉类 -->
               <van-divider
-                class="my-card-divide" id="jiya"
+                class="my-card-divide"
+                id="jiya"
                 :style="{ color: '#d36dd3', borderColor: '#fff' }"
-                content-position="left">鸡鸭肉</van-divider>
+                content-position="left"
+                >鸡鸭肉</van-divider
+              >
               <my-card v-for="cards of 6" :key="cards"></my-card>
               <!-- 饮料类 -->
               <van-divider
-                class="my-card-divide" id="yinliao"
+                class="my-card-divide"
+                id="yinliao"
                 :style="{ color: '#d36dd3', borderColor: '#fff' }"
-                content-position="left">饮料</van-divider>
+                content-position="left"
+                >饮料</van-divider
+              >
               <my-card v-for="cards of 4" :key="cards"></my-card>
               <!-- 到底了 -->
               <van-divider class="my-card-divide" id="end">到底了</van-divider>
             </div>
             <!-- 侧边分类栏，吸顶 -->
-            <van-sticky :offset-top="90" >
-              <van-sidebar v-model="activeKey" class="my-order-side" >
+            <van-sticky :offset-top="90">
+              <van-sidebar v-model="activeKey" class="my-order-side">
                 <!-- 包裹侧边栏限制宽度，使右侧商品栏不受padding-bottom影响 -->
                 <div class="my-order-side-w">
                   <!-- 获取分类生成分类栏 -->
-                <!-- <van-sidebar-item
+                  <!-- <van-sidebar-item
                   :title="`${item}`"
                   v-for="item of types"
                   :key="item"/> -->
-                  <a href="#haixian"><van-sidebar-item title="海鲜"/></a>
-                  <a href="#niuyang"><van-sidebar-item title="牛羊肉"/></a>
-                  <a href="#zhurou"><van-sidebar-item title="猪肉"/></a>
-                  <a href="#sucai"><van-sidebar-item title="素菜"/></a>
-                  <a href="#kaoyu"><van-sidebar-item title="烤鱼"/></a>
-                  <a href="#niuwa"><van-sidebar-item title="牛蛙"/></a>
-                  <a href="#jiya"><van-sidebar-item title="鸡鸭肉"/></a>
-                  <a href="#yinliao"><van-sidebar-item title="饮料"/></a>
-                  </div>
+                  <a href="#haixian" id="aside" @click="clickanchor"><van-sidebar-item title="海鲜" /></a>
+                  <a href="#niuyang" id="aside" @click="clickanchor"><van-sidebar-item title="牛羊肉" /></a>
+                  <a href="#zhurou" id="aside" @click="clickanchor"><van-sidebar-item title="猪肉" /></a>
+                  <a href="#sucai" id="aside"><van-sidebar-item title="素菜" /></a>
+                  <a href="#kaoyu" id="aside"><van-sidebar-item title="烤鱼" /></a>
+                  <a href="#niuwa" id="aside"><van-sidebar-item title="牛蛙" /></a>
+                  <a href="#jiya" id="aside"><van-sidebar-item title="鸡鸭肉" /></a>
+                  <a href="#yinliao" id="aside"><van-sidebar-item title="饮料" /></a>
+                </div>
               </van-sidebar>
             </van-sticky>
             <!-- 底部结算区 -->
@@ -158,13 +184,20 @@ export default {
     };
   },
   methods: {
+    clickanchor(aside) {
+      console.log(aside)
+      var asides=document.querySelectorAll(aside);
+      console.log(asides)
+      asides.scrollIntoView({ behavior: "smooth" });
+      console.log("点了")
+    },
     chsheet() {
-      if(this.show==false){
+      if (this.show == false) {
         this.show = true;
-      }else if(this.show==true){
-        this.show=false;
+      } else if (this.show == true) {
+        this.show = false;
       }
-    }
+    },
   },
 };
 </script>

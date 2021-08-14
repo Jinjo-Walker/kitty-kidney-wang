@@ -6,6 +6,7 @@ Vue.use(Lazyload);
 import views from '../views/user/views.vue'
 import Home from '../views/user/Home.vue'
 import Order from '../views/user/Order.vue'
+import Ordered from '../views/user/Ordered.vue'
 import Login from '../views/user/Login.vue'
 import Coupon from '../views/user/Coupon.vue'
 import Register from '../views/user/Register.vue'
@@ -15,7 +16,6 @@ import Member from '../views/user/Member.vue'
 import ChangeInfo from '../views/user/ChangeInfo.vue'
 import InfoCheck from '../views/user/InfoCheck.vue'
 import Mine from '../views/user/Mine.vue'
-import vantab from '../test/vantab.vue'
 
 
 Vue.use(VueRouter)
@@ -34,6 +34,10 @@ const routes = [
   {
     path: '/order',
     component: Order
+  },
+  {
+    path: '/ordered',
+    component: Ordered
   },
   {
     path: '/coupon',
@@ -58,10 +62,6 @@ const routes = [
   {
     path: '/login',
     component:Login
-  },
-  {
-    path: '/vantab',
-    component:vantab
   },
   {
     path: '/mine',
