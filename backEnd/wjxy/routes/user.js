@@ -190,7 +190,7 @@ r.get("/phone_exist", (req, res, next) => {
 
 //账号登录请求
 r.post("/account_login", (req, res, next) => {
-	var sql = 'select id,account,phone,user_name from table_user where (account = ? and password = ?) and isDel = 0';
+	var sql = 'select id,account,phone,avatar,VIP,user_name from table_user where (account = ? and password = ?) and isDel = 0';
 	pool.query(sql, [req.body.account, req.body.password], function (err, result) {
 		if (err) {
 			next(err);
@@ -234,7 +234,7 @@ r.get("/yzm", (req, res, next) => {
 
 //手机登录请求
 r.post("/phone_login", (req, res, next) => {
-	var sql = 'select id,account,phone,user_name from table_user where (phone = ?) and isDel = 0';
+	var sql = 'select id,account,phone,avatar,VIP,user_name from table_user where (phone = ?) and isDel = 0';
 	pool.query(sql, [req.body.phone], function (err, result) {
 		if (err) {
 			next(err);
@@ -255,26 +255,40 @@ r.post("/phone_login", (req, res, next) => {
 					return;
 				}
 				if (result2.affectedRows > 0) {
-					//短信验证接口判断
-					res.send({
-						code: 200,
-						message: '新用户注册登录成功，初始密码为123456，请尽快修改密码。',
-						result: result2
+					var sql3 = 'select id,account,phone,avatar,VIP,user_name from table_user where id = ? and isDel = 0';
+					pool.query(sql3, [result2.insertId], function (err3, result3) {
+						if (err3) {
+							next(err3);
+							return;
+						}
+						if (result3.length > 0) {
+							//短信验证接口判断
+							res.send({
+								code: 200,
+								message: '新用户注册登录成功，初始密码为123456，请尽快修改密码。',
+								result: result3
+							});
+						} else {
+							res.send({
+								code: 202,
+								message: '注册登录失败'
+							});
+						}
 					});
 				} else {
 					res.send({
 						code: 201,
-						message: '注册登录失败'
+						message: '信息录入失败'
 					});
 				}
 			});
 		}
-	});
+	})
 });
 
 //账号信息查询请求
 r.get("/account_info", (req, res, next) => {
-	var sql = 'select id,account,phone,user_name from table_user where id = ?';
+	var sql = 'select id,account,phone,avatar,VIP,user_name from table_user where id = ?';
 	pool.query(sql, [req.query.id], function (err, result) {
 		if (err) {
 			next(err);

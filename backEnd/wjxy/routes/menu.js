@@ -1,8 +1,6 @@
 //导入资源
 const express = require('express');
 const pool = require('../pool.js');
-const tencentcloud = require("tencentcloud-sdk-nodejs");
-const SmsClient = tencentcloud.sms.v20210111.Client;
 //创建路由
 const r = express.Router();
 
@@ -20,11 +18,17 @@ r.use((err, req, res, next) => {
 	});
 });
 
-
-//商品列表
-r.get("/goods", (req, res, next) => {
-	var sql = 'select * from xxx where xxx = ?';
-	pool.query(sql, [req.query.xxx], function (err, result) {
+//查询商户
+r.get("/menu_info", (req, res, next) => {
+	var sql;
+	var menus = [];
+	if (req.query.id) {
+		sql = 'select * from table_menu where cid = ?';
+		menus.push(req.query.id);
+	} else {
+		sql = 'select * from table_menu';
+	}
+	pool.query(sql, menus, function (err, result) {
 		if (err) {
 			next(err);
 			return;
@@ -32,9 +36,15 @@ r.get("/goods", (req, res, next) => {
 		if (result.length > 0) {
 			res.send({
 				code: 200,
-				result:result
+				message: '查询成功',
+				result: result
 			});
-		} 
+		} else {
+			res.send({
+				code: 201,
+				message: '查询失败'
+			});
+		}
 	});
 });
 

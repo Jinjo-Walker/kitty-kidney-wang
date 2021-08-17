@@ -3,8 +3,8 @@ const express = require('express');
 const fs = require('fs');
 const querystring = require('querystring');
 const userRouter = require('./routes/user.js');
-const goodsRouter = require('./routes/goods.js');
 const shopRouter = require('./routes/shop_info.js');
+const menuRouter = require('./routes/menu.js');
 const cors = require('cors')
 
 //创建服务，端口5050
@@ -28,6 +28,6 @@ app.use(express.urlencoded({
 
 //user路由
 app.use('/user', userRouter);
-app.use('/goods', goodsRouter);
 app.use('/shop', shopRouter);
+app.use('/menu', menuRouter);
 module.exports = app;
