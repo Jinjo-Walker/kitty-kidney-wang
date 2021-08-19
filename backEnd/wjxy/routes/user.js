@@ -101,7 +101,9 @@ r.use((err, req, res, next) => {
 r.post('/upload',
 	upload.single('avatar'), (req, res) => {
 		var sql = 'update table_user set avatar = ? where id = ?';
-		pool.query(sql, ['http://101.34.219.80:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
+		// pool.query(sql, ['http://101.34.219.80:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
+		pool.query(sql, ['http://localhost:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
+
 			if (err) {
 				next(err);
 				return;
@@ -109,8 +111,8 @@ r.post('/upload',
 			if (result.changedRows > 0) {
 				res.send({
 					code: 200,
-					message: '上传成功'
-					// url: 'avatar/' + req.file.filename
+					message: '上传成功',
+					url: 'http://localhost:5050/avatar/' + req.file.filename
 				});
 			} else {
 				res.send({
@@ -190,7 +192,7 @@ r.get("/phone_exist", (req, res, next) => {
 
 //账号登录请求
 r.post("/account_login", (req, res, next) => {
-	var sql = 'select id,account,phone,avatar,VIP,user_name from table_user where (account = ? and password = ?) and isDel = 0';
+	var sql = 'select id,account,phone,avatar,VIP,user_name from table_user where (account = ? and password = md5(?)) and isDel = 0';
 	pool.query(sql, [req.body.account, req.body.password], function (err, result) {
 		if (err) {
 			next(err);
@@ -321,7 +323,8 @@ r.put("/account_change", (req, res, next) => {
 			res.send({
 				code: 200,
 				message: '用户名更新成功',
-				result: result
+				result: result,
+				user_name:req.body.user_name
 			});
 		} else {
 			res.send({
@@ -366,7 +369,8 @@ r.put("/account_private", (req, res, next) => {
 					res.send({
 						code: 200,
 						message: '更新成功',
-						result: result
+						result: result,
+						new:arr2[0]
 					});
 				} else {
 					res.send({
