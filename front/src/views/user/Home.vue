@@ -1,11 +1,12 @@
 <template>
   <div class="home">
     <div id="row">
-      <div @click.stop="showPop">
-        <span>上海<van-icon name="arrow-down" size="5" /></span>
+      <div @click="showPop">
+        <span v-html="$store.state.city"></span>
+        <span id="a-down"><van-icon name="arrow-down" /></span>
       </div>
       <!-- 顶部搜索框 -->
-      <div id="input">
+      <div id="ipt">
         <van-search
           v-model="value"
           placeholder="请输入搜索关键词"
@@ -36,12 +37,20 @@
     <!-- 面板 -->
     <van-grid :column-num="3" :border="false">
       <!-- 外卖 -->
-      <van-grid-item icon="/img/banner/004.png" text="外卖" to="/" />
+      <van-grid-item
+        icon="http://img.ztmnbt.xyz/banner/daohang1.png"
+        text="外卖"
+        to="/"
+      />
       <!-- 预约 -->
-      <van-grid-item icon="/img/banner/005.png" text="预约" to="/" />
+      <van-grid-item
+        icon="http://img.ztmnbt.xyz/banner/daohang2.png"
+        text="预约"
+        to="/"
+      />
       <!-- 领券 -->
       <van-grid-item
-        icon="/img/banner/006.png"
+        icon="http://img.ztmnbt.xyz/banner/daohang3.png"
         text="领券"
         @click.stop="showPopup"
       />
@@ -83,7 +92,45 @@
       </van-popup>
     </div>
     <!-- 点击上海旁边的icon弹出 -->
-    
+    <van-popup
+      v-model="show2"
+      lock-scroll
+      position="bottom"
+      :style="{ height: '100%', background: '#f6f6f6' }"
+    >
+      <div>
+        <van-sticky style="width: 100%">
+          <div id="address">
+            <div class="address_head">
+              <van-icon
+                name="cross"
+                size="18"
+                color="grey"
+                @click.stop="close"
+                class="address_icon"
+              />
+            </div>
+            <!-- 弹出框顶部搜索框 -->
+            <div id="inpt">
+              <van-search
+                v-model="value2"
+                placeholder="请输入搜索关键词"
+                @search="onSearch2"
+                shape="round"
+                maxlength="10"
+                @keyup.enter="scrollTo"
+              />
+            </div>
+            <div class="address-search">搜索</div>
+          </div>
+          <div></div>
+        </van-sticky>
+        <div>
+          <div class="current_city"><span>当前城市：{{$store.state.city}}</span></div>
+          <tab />
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -91,6 +138,7 @@ import message from "@/components/user/message";
 import swip from "@/components/user/swip";
 import tabbar from "@/components/user/Tabbar";
 import couponmain from "@/components/user/Couponsmain";
+import tab from "@/components/user/Tab";
 
 export default {
   data() {
@@ -101,6 +149,7 @@ export default {
         "http://img.ztmnbt.xyz/image/lb3.jpg",
       ],
       value: "",
+      value2: "",
       showPopover: false,
       actions: [{ text: "扫一扫" }, { text: "分享" }, { text: "选项三" }],
       isLoading: false,
@@ -108,13 +157,25 @@ export default {
       offset: [14, 7],
       show: false,
       container: null,
+      show2: false,
+      active: "",
     };
   },
 
   methods: {
+    scrollTo() {},
     //调用onSearch方法获取搜索框的值
     onSearch() {
       console.log(this.value);
+    },
+    onSearch2() {
+      var scto = document.getElementById(`#${this.value2}`);
+      scto.scrollIntoView();
+      this.$nextTick(() => {
+        scto.scrollTop = scto.offsetTop;
+      });
+
+      // document.documentElement.scrollTop = topVal;
     },
     Popover() {},
     onRefresh() {
@@ -126,20 +187,25 @@ export default {
     showPop() {
       this.show2 = true;
     },
-    
+
     close() {
       this.show = false;
+      this.show2 = false;
     },
+
     mounted() {
       this.container = this.$refs.container;
     },
+    
   },
+  watch: {},
 
   components: {
     message,
     swip,
     tabbar,
     couponmain,
+    tab,
   },
   beforeRouteLeave(to, from, next) {
     if (to.path == "/coupon") {
@@ -149,18 +215,43 @@ export default {
   },
 };
 </script>
-<style  scoped >
-#input {
-  display: block;
-  width: 75%;
-}
-#row {
-  display: block;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+<style  lang="scss" >
 .home {
   margin-bottom: 50px;
+  #ipt {
+    display: block;
+    width: 75%;
+  }
+  #row,
+  #address {
+    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #address {
+    background-color: white;
+  }
+  .address_head {
+    position: relative;
+  }
+  #inpt {
+    width: 80%;
+  }
+  .address_icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #a-down {
+    margin-top: 2px;
+  }
+  .address-search {
+    font-size: 16px;
+  }
+  .current_city {
+    background-color: white;
+  }
 }
 </style>

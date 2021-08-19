@@ -67,7 +67,9 @@ export default {
 <style lang="scss">
 .coup {
   background-color: #f6f6f6;
-  height: 100vh;
+  height: 250vh;
+  padding-bottom:250px ;
+  
   #input {
   display: flex;
   justify-content: center;

@@ -16,7 +16,11 @@ import Member from '../views/user/Member.vue'
 import ChangeInfo from '../views/user/ChangeInfo.vue'
 import InfoCheck from '../views/user/InfoCheck.vue'
 import Mine from '../views/user/Mine.vue'
-
+import Form from '../views/user/Form.vue'
+import Pay from '../views/payment/Pay.vue'
+import AddressList from '../views/payment/AddressList.vue'
+import Address_add from '../views/payment/Address_add.vue'
+import Address_add2 from '../views/payment/Address_add2.vue'
 
 Vue.use(VueRouter)
 
@@ -83,12 +87,63 @@ const routes = [
     name: 'Member',
     component: Member
   },
+  {
+    path: '/form',
+    name: 'Form',
+    component:Form
+  },
+  {
+    path: '/address_add',
+    component:Address_add
+  },
+  {
+    path: '/address_add2',
+    component:Address_add2
+  },
+  {
+    path: '/addressList',
+    component:AddressList,
+    meta: {
+      keepAlive: true
+    }
+  },
+  {
+    path: '/pay',
+    component:Pay
+  },
 
 ]
 
 const router = new VueRouter({
   mode:'history',
   routes
+})
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
+
+router.beforeEach((to, from, next) => {
+  let islogin = sessionStorage.getItem("islogin");
+  islogin = Boolean(Number(islogin));
+  if (to.path == "/login") {
+    if (islogin) {
+      next("/mine");
+    } else {
+      next();
+    }
+  } else if (to.path == "/change_info" || to.path == "/info_check" || to.path == "/coupon") {
+    // requireAuth:可以在路由元信息指定哪些页面需要登录权限
+    if (islogin) {
+      next();
+    } else {
+      next("/login");
+    }
+  } else {
+    next();
+  }
 })
 
 export default router

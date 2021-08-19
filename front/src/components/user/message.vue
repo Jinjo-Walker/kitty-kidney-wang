@@ -13,13 +13,13 @@ export default {
   
   data(){
     return{
-      imgs:['/banner/main1.gif','/banner/main2.gif','/banner/main3.gif','/banner/main4.gif'],
+      imgs:['http://img.ztmnbt.xyz/banner/main1.gif','http://img.ztmnbt.xyz/banner/main2.gif','http://img.ztmnbt.xyz/banner/main3.gif','http://img.ztmnbt.xyz/banner/main4.gif'],
     }
   }
 }
 </script>
 
-<style lang="sss" scoped>
+<style lang="scss" scoped>
 
 </style>
 

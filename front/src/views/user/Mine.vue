@@ -2,14 +2,24 @@
   <div class="mine">
     <van-row class="top" type="flex" justify="space-between" align="center">
       <van-col class="user_info"
-        ><van-image round width="60" height="60" :src="$store.state.avatar"/><span
+        ><van-image
+          round
+          width="60"
+          height="60"
+          :src="$store.state.avatar"
+          @click="$router.push('/change_info')"/><span
           class="uname"
           v-text="user_name"
         ></span
       ></van-col>
       <van-col
         ><span class="logout" v-if="flag" v-text="`注销`"></span>
-        <span class="login" v-else v-text="`登录/注册`" @click="$router.push('/login')"></span>
+        <span
+          class="login"
+          v-else
+          v-text="`登录/注册`"
+          @click="$router.push('/login')"
+        ></span>
       </van-col>
     </van-row>
     <van-row class="row_vip" type="flex" justify="space-between" align="center">
@@ -124,7 +134,7 @@ export default {
           to: "/",
           str: "我的客服",
         },
-                {
+        {
           name: "shop-o",
           color: "black",
           size: "25",
@@ -136,21 +146,21 @@ export default {
   },
   components: {
     mineIcon,
-    tabbar
+    tabbar,
   },
-   beforeRouteLeave(to,from,next){
-    if(to.path=='/coupon'){
-      this.$store.state.coupon_from='/mine'
+  beforeRouteLeave(to, from, next) {
+    if (to.path == "/coupon") {
+      this.$store.state.coupon_from = "/mine";
     }
     next();
-  }
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .mine {
   padding: 5px 10px 0px;
-  background-color: #F6F6F6;
+  background-color: #f6f6f6;
   height: 100vh;
 }
 .top {

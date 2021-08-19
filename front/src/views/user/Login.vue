@@ -1,6 +1,11 @@
 <template>
   <div class="DL">
-    <van-nav-bar title left-text="返回" left-arrow @click-left="onClickLeft('/Mine')" />
+    <van-nav-bar
+      title
+      left-text="返回"
+      left-arrow
+      @click-left="onClickLeft('/mine')"
+    />
     <!-- DX短信 -->
     <van-cell-group class="DX">
       <h2>欢迎登录望京小腰</h2>
@@ -17,6 +22,25 @@
         :error-message="msg"
         @input="checkphone"
       />
+      <van-field
+        v-if="show"
+        clearable
+        v-model.trim="messageCheck"
+        :rules="[
+          { validator: false, message: '请输入正确内容', trigger: 'onBlur' },
+        ]"
+        placeholder="请输入短信验证码"
+      >
+        <template #button>
+          <van-button
+            size="small"
+            :block="true"
+            type="default"
+            @click="countDown"
+            >{{ content }}
+          </van-button>
+        </template>
+      </van-field>
       <div v-if="show">
         <van-divider
           :style="{
@@ -31,7 +55,7 @@
         <div class="checkbox">
           <input
             type="checkbox"
-            id="cbox"
+            id="cbox1"
             name="cbox"
             value="cbox"
             @change="checkboxChange($event)"
@@ -47,8 +71,9 @@
             type="default"
             :disabled="isChecked"
             color="linear-gradient(to right, #DF5FF1, #AE33CC)"
-            @click="countDown"
-            >{{ content }}
+            @click="login"
+          >
+            验证码登录
           </van-button>
         </div>
       </div>
@@ -86,11 +111,7 @@
             color="linear-gradient(to right, #DF5FF1, #AE33CC)"
             @click="login"
             :class="{ grey: !check }"
-            id="TencentCaptcha"
-            data-appid="2037762575"
-            data-cbfn="callbackName"
-            data-biz-state="data-biz-state"
-             :disabled="isChecked"
+            :disabled="isChecked"
             >点击登陆
           </van-button>
         </div>
@@ -105,7 +126,7 @@
   </div>
 </template>
 <script>
-
+import { Toast } from "vant";
 export default {
   data() {
     return {
@@ -132,6 +153,11 @@ export default {
       isChecked: true,
       show: true,
       passwordmsg: true,
+      // 短信验证码
+      messageCheck: "",
+      messageIn: -1,
+      // 数字键盘验证码
+      messageKey: false,
     };
   },
   methods: {
@@ -147,33 +173,52 @@ export default {
         this.passwordmsg = "";
       }
     },
+    // 短信验证码的校验
+    smsValidator(val) {
+      return val.length === 4;
+    },
     login() {
-      if (this.phone && this.passwordmsg && !this.isChecked  ) {
+      // 判断条件是否输入完整
+
+      const isComplete = !this.show
+        ? !this.phone || !this.passwordmsg || this.isChecked
+        : !this.phone || !this.messageCheck || this.isChecked;
+      console.log(isComplete);
+      if (isComplete) {
+        return;
+      }
+      if (this.messageCheck == this.messageIn && this.messageIn != -1) {
         // 请求接口
-        const api = "localhost:5050/user/account_login";
+        const api = this.show ? "/user/account_login" : "/user/phone_login";
         // 请求入参
-        const params = {
-          account: this.phone,
-          password: this.password,
-        };
-        console.log(1111, '111')
+        const params = this.show
+          ? {
+              account: this.phone,
+              password: this.password,
+            }
+          : {
+              phone: this.phone,
+            };
         this.$axios
           .post(api, { ...params })
           .then((res) => {
+            const { code, result } = res;
             console.log("请求结果", res);
             // 请求成功
-            if (res.code == 200) {
-              console.log(res.result);
+            if (code == 200) {
+              console.log(result);
+              this.store.commit('loginCheck',res.data.result);
               // 针对登录的数据进行处理 然后进行跳转路由到首页
-              return;
+              this.$router.push('/');
             }
-            // 这里提示账号密码错误
+            // 这里提示账号密码错误 或者 验证码错误
           })
           .catch((err) => {
             // 请求报错
             console.log(err);
           });
-        console.log("success");
+      } else {
+        Toast.fail("验证码或密码不正确");
       }
     },
     countDown() {
@@ -181,15 +226,13 @@ export default {
       if (!this.check()) return;
       this.canClick = false;
       // 获取验证码的请求接口
-      const api = "localhost:5050/user/yzm?phone=18651726785";
-      const params = {
-        phone: this.phone,
-      };
-      this.$axios
+      const api = `/user/yzm?phone=${this.phone}`;
+      this.axios
         .get(api)
         .then((res) => {
           // 请求成功
-          if (res.code === 200) {
+          if (res.data.code === 200) {
+            this.messageIn = res.data.yzm;
             // 请求成功以后做出 获取验证码成功提示
             this.content = this.totalTime + "s后重新发送";
             let clock = window.setInterval(() => {
@@ -200,6 +243,7 @@ export default {
                 this.content = "重新发送验证码";
                 this.totalTime = 10;
                 this.canClick = true; //这里重新开启
+                this.messageIn = -1;
               }
             }, 1000);
             return;
@@ -240,38 +284,21 @@ export default {
     //绑定一个事件
     change() {
       this.show = !this.show;
+      // 切换的时候记得清空密码或者验证码
+      if (this.show) {
+        this.value = "";
+      } else {
+        this.messageCheck = "";
+      }
     },
     onClickLeft(path) {
-      this.$router.replace(path)
+      this.$router.replace(path);
     },
   },
   mounted() {
     // console.log("测试");
     // alert("222");
   },
-};
-// 回调函数需要放在全局对象window下
-window.callbackName = function (res) {
-  // 返回结果
-  // ret         Int       验证结果，0：验证成功。2：用户主动关闭验证码。
-  // ticket      String    验证成功的票据，当且仅当 ret = 0 时 ticket 有值。
-  // CaptchaAppId       String    验证码应用ID。
-  // bizState    Any       自定义透传参数。
-  // randstr     String    本次验证的随机串，请求后台接口时需带上。
-  console.log("callback:", res);
-  // res（用户主动关闭验证码）= {ret: 2, ticket: null}
-  // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
-  if (res.ret === 0) {
-    // 复制结果至剪切板
-    let str = `【randstr】->【${res.randstr}】      【ticket】->【${res.ticket}】`;
-    let ipt = document.createElement("input");
-    ipt.value = str;
-    document.body.appendChild(ipt);
-    ipt.select();
-    document.execCommand("Copy");
-    document.body.removeChild(ipt);
-    console.log(验证成功);
-  }
 };
 </script>
 <style scoped>
@@ -312,5 +339,10 @@ window.callbackName = function (res) {
 
 .router-link {
   color: #808080;
+}
+
+.DL /deep/ .van-nav-bar__left .van-icon,
+.DL /deep/ .van-nav-bar__left .van-nav-bar__text {
+  color: #000 !important;
 }
 </style>

@@ -21,8 +21,6 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 
-Vue.component('my-tabbar', Tabbar)
-
 Vue.component('my-card', Card)
 
 Vue.component('my-dcard', Dcard)

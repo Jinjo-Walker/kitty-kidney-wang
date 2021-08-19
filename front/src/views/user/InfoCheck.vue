@@ -85,7 +85,7 @@ export default {
       old_pwd: "",
       new_pwd: "",
       con_pwd: "",
-      fileList: [],
+      fileList: [{url:this.$store.state.avatar}],
       disabled: false,
     };
   },

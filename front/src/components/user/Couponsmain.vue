@@ -19,7 +19,7 @@
         </ul>
       </div>
       <div class="btn">
-        <button><span>领取</span></button>
+        <button ><span>领取</span></button>
       </div>
     </div>
   </div>

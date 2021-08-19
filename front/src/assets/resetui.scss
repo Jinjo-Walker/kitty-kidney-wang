@@ -39,7 +39,7 @@
             .my-card-insert {
                 width: 78%;
                 float: right;
-                height: 520px;
+                height: 523px;
                 overflow-y: auto;
 
                 .my-card-divide {
@@ -57,7 +57,7 @@
             }
 
             .my-action-button {
-                margin-left: 30%;
+                margin-left: 13%;
                 margin-right: 8%;
             }
 
@@ -68,6 +68,9 @@
             .van-goods-action {
                 padding-left: 8%;
                 z-index: 10000;
+                button{
+                    width: 50px;
+                }
             }
 
             .van-info {
@@ -75,9 +78,10 @@
             }
 
             .van-goods-action-icon:nth-child(2) {
-                margin-left: 4%;
+                margin-left: 3%;
+                width: 30%;
+                text-align: left;
                 font-size: 20px;
-                padding-bottom: 10px;
                 color: #b3f;
             }
 
@@ -89,12 +93,14 @@
 }
 
 .my-card {
+    float: right;
+    width: 100%;
+    position: relative;
     .van-card {
         padding-left: 6px;
         padding-right: 8px;
     }
 
-    position: relative;
 
     .van-card__title {
         font-size: 16px;
@@ -141,7 +147,7 @@
             }
 
             .my-two-btn1 {
-                right: 22px;
+                right: 33px;
                 font-size: 21px;
                 line-height: 18px;
                 padding-bottom: 2px;
@@ -152,17 +158,20 @@
         }
 
         .my-count {
+            width: 25px;
+            text-align: center;
             position: absolute;
-            right: 1px;
+            right: 3px;
             top: -4px;
             color: #b4f;
-            padding: 5px;
+            padding: 5px 0;
             font-size: 20px;
         }
     }
 }
 
 .van-popup {
+    padding-bottom: 50px;
     .van-card__header {
         height: 85px;
     }
