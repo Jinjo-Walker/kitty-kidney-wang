@@ -1,14 +1,16 @@
 <template>
   <div class="htmls">
+    <!-- 页头 -->
     <van-nav-bar
       class="title"
       title="确认订单"
       left-text="返回"
       left-arrow
       @click-left="onClickLeft"
-      style="background-color: #ae57a4"
+      style="background-color: #e7e"
       fixed
     />
+    <!-- 用户收货信息 -->
     <van-tabs class="tabss">
       <van-cell
         class="cells"
@@ -29,30 +31,29 @@
         icon="phone-o"
         to="addressList"
       />
-
+      <!-- 时间 -->
       <van-cell title="立即送出">
         <div>大约{{ nowDate }} 送达</div>
       </van-cell>
     </van-tabs>
-
+    <!-- 订单列表 -->
     <div class="cardss">
       <van-card
         v-for="(item, i) in list"
         :key="i"
-        :num="item.num"
+        :num="item.count"
         :price="item.price"
-        :title="item.title"
-        :thumb="item.thumb"
+        :title="item.cname"
+        :thumb="`http://${item.picture}`"
       >
       </van-card>
     </div>
-    <van-submit-bar
-      class="bars"
-      :price="11800"
-      button-text="提交订单"
-      @submit="onSubmit"
-    />
-
+    <!-- 商品提交订单栏 -->
+    <van-goods-action class="bars">
+      <van-goods-action-icon :text="`合计: ￥${price}`" class="barss" />
+      <van-goods-action-button text="去结算" @click="onSubmit" />
+    </van-goods-action>
+    <!-- 遮罩 -->
     <van-overlay :show="show" @click="show1 = false">
       <div class="wrapper" @click.stop></div>
     </van-overlay>
@@ -75,7 +76,6 @@
 </template>
 <script>
 import { Toast } from "vant";
-
 export default {
   data() {
     return {
@@ -85,38 +85,35 @@ export default {
       showKeyboard: true,
       currentData: [],
       nowDate: "", // 当前日期
-      list: [
-        {
-          num: "8",
-          price: "6.00",
-          title: "招牌小腰",
-          thumb:
-            "https://gimg2.baidu.com/image_search/src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181201%2F957283799ee944e9adf3396511db2670.jpeg&refer=http%3A%2F%2F5b0988e595225.cdn.sohucs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1631345478&t=fb8ab12095c57d4a9f9684cd1fdd592d",
-        },
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-      ],
+      list: this.$store.state.arr,
     };
+  },
+  computed: {
+    // 计算订单商品价格
+    price: function () {
+      var total_prc = 0;
+      for (var i in this.$store.state.menu) {
+        for (var j of this.$store.state.menu[i]) {
+          if (j.count != 0) {
+            // 计算已选商品总价
+            total_prc += new Number((j.count * j.price).toFixed(1));
+            // 保留一位有效数字
+            total_prc = Math.round(total_prc * 100) / 100;
+          }
+        }
+      }
+      return total_prc;
+    },
   },
 
   methods: {
+    // 点击结算显示弹框
     onSubmit() {
       this.show = true;
     },
-    onEdit() {
-      Toast("编辑");
-    },
+    // 点击页头返回到商品列表
     onClickLeft() {
-      this.$router.replace({ path: "/index" });
+      this.$router.replace({ path: "/order" });
     },
     currentTime() {
       setInterval(this.formatDate, 500);
@@ -140,6 +137,7 @@ export default {
   },
 
   watch: {
+    //密码
     value(value) {
       if (value.length === 6 && value !== "123456") {
         this.value = "";
@@ -148,6 +146,12 @@ export default {
           icon: "cross",
         });
       } else if (value.length === 6 && value === "123456") {
+        this.$store.state.arr=[];
+        for (var i in this.$store.state.menu) {
+          for (var j of this.$store.state.menu[i]) {
+            j.count=0;
+          }
+        }
         const toast = Toast.loading({
           duration: 0, // 持续展示 toast
           forbidClick: true,
@@ -165,7 +169,7 @@ export default {
                 message: "支付成功",
                 icon: "success",
               }),
-              this.$router.replace({ path: "/" })
+              this.$router.replace({ path: "/form" })
             );
           }
         }, 1000);
@@ -252,11 +256,13 @@ div .cellss span {
   color: #9b9b9b;
 }
 .cardss {
+  margin-bottom:55px;
   position: relative;
+  
   .van-card {
     font-size: 15px;
     height: 65px;
-    margin: 20px 10px 0px 10px;
+    margin: 5px 10px 0px 10px;
     border-radius: 10px;
   }
   .van-card__thumb {
@@ -279,33 +285,40 @@ div .cellss span {
   .van-card__content {
     min-height: 70px;
   }
-  .van-card__num{
+  .van-card__num {
     position: absolute;
-    right:0%;
+    right: 0%;
     bottom: 25%;
   }
 }
 
-.bars .van-submit-bar__bar {
-  background-color: #ae57a4;
-  height: 60px;
+.bars .van-goods-action-button {
+  background-image: linear-gradient(to right, #e6e, #b3f);
+}
+.bars .van-button--default {
+  color: white;
+  font-size: 15px;
+}
+.bars .van-goods-action-icon {
+  width: 45%;
+  color: #b3f;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0px 50px 0px 50px;
+  background-color: #f3f3f3;
 }
 
-.bars .van-submit-bar__price {
-  color: white;
-  text-align: left;
-  font-size: 20px;
-}
-.bars .van-submit-bar__text {
-  color: white;
-  text-align: left;
-  font-size: 20px;
-  font-weight: 500;
+.bars {
+  background-color: #f3f3f3;
 }
 div .van-password-input__security li {
   border: 1px solid #e0e0e0;
 }
+div .van-button .button_pay {
+  width: 40px;
+}
 .htmls {
-  background-image: linear-gradient(#ae57a4, #ffffff);
+  background-image: linear-gradient(#e6e, #ffffff);
 }
 </style>

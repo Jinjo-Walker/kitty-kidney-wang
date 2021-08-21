@@ -13,7 +13,7 @@
         ></span
       ></van-col>
       <van-col
-        ><span class="logout" v-if="$store.state.isLogin" v-text="`注销`"></span>
+        ><span class="logout" v-if="$store.state.isLogin" v-text="`注销`" @click="logout"></span>
         <span
           class="login"
           v-else
@@ -129,7 +129,7 @@ export default {
           name: "service-o",
           color: "black",
           size: "25",
-          to: `/chat?sendId=${this.$store.state.uid}`,
+          to: `http://localhost:8083/?sendId=${this.$store.state.uid}`,
           str: "我的客服",
         },
         {
@@ -141,6 +141,13 @@ export default {
         },
       ],
     };
+  },
+  methods:{
+    logout(){
+      sessionStorage.clear();
+      this.$store.commit('logout');
+      this.$router.push('/login');
+    }
   },
   components: {
     mineIcon,

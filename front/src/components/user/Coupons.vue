@@ -4,17 +4,17 @@
       <div class="coupon">
         <div class="money">
           <span>￥</span>
-          <span>10</span>
+          <span>{{coupon.money}}</span>
         </div>
-        <div class="cpn">优惠券</div>
+        <div class="cpn">{{coupon.couponname}}</div>
       </div>
       <div class="item">
         <ul>
           <li>
             <van-tag class="tag">外卖券</van-tag
-            ><span class="content">满100减10</span>
+            ><span class="content">{{coupon.information}}</span>
           </li>
-          <li>2021/02/17</li>
+          <li>{{moment(coupon.Start_date).format('YYYY/MM/DD')}}~{{moment(coupon.end_date).format('YYYY/MM/DD')}}</li>
           <li @click="dialog">使用规则></li>
         </ul>
       </div>
@@ -27,6 +27,7 @@
 
 <script>
 export default {
+  props:['coupon'],
   data() {
     return {};
   },

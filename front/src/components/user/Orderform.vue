@@ -1,7 +1,7 @@
 <template>
   <div class="order">
     <div class="order_top">
-      <div class="order_img"><img src="http://img.ztmnbt.xyz/image/biaoqian4.png" alt="" /></div>
+      <div class="order_img"><img src="/img/banner/icon3.png" alt="" /></div>
       <div class="commodity">
         <ul>
           <li><span>望京小腰</span></li>

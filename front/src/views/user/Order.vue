@@ -1,17 +1,16 @@
 <template>
   <div class="my-order">
     <!-- 页头 -->
-    <van-nav-bar 
-    left-arrow 
-    color="#b3f"
-    fixed 
-    @click-left="$router.push('/')"
-    class="my-order-header">
-      <template #right
-      ><van-search v-model="value" placeholder="请输入搜索关键词" />
-        <van-icon name="search" color="black" size="18" />
-      </template>
-    </van-nav-bar>
+    <van-sticky class="my-order-head" :offset-top="0">
+      <van-search class="my-head-search" v-model="value" show-action shape="round" placeholder="请输入搜索关键词">
+        <template #left>
+          <van-icon @click="$router.push('/')" name="arrow-left"></van-icon>
+        </template>
+        <template #action>
+          <div>搜索</div>
+        </template>
+      </van-search>
+    </van-sticky>
     <div class="my-main">
       <!-- 轮播图 -->
       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
@@ -34,7 +33,7 @@
           <van-tab title="点餐" class="my-three-top" name="a">
             <van-sticky :offset-top="90">
               <!-- 商品列表 -->
-              <div class="my-card-insert">
+              <div class="my-card-insert" v-cloak>
                 <!-- 商品按类分割线 -->
                 <!-- 素菜类 -->
                 <van-divider
@@ -234,6 +233,7 @@
                 class="my-action-button"
                 type="danger"
                 text="去结算"
+                @click="onClickButton"
               />
             </van-goods-action>
             <!-- 已选商品详情弹窗 -->
@@ -261,6 +261,8 @@
 
 <script>
 import { pro } from "@/api/product_axios.js";
+// 引入resetui组件
+import "@/assets/resetui.scss";
 export default {
   data() {
     return {
@@ -271,7 +273,7 @@ export default {
       // 底部商品弹窗默认选项
       show: false,
       // 搜索栏
-      value:'',
+      value: "",
       // 菜品分类及id
       types: [
         { name: "素菜", id: "sucai" },
@@ -320,6 +322,12 @@ export default {
     },
   },
   methods: {
+    //结算按钮跳转支付界面
+    onClickButton() {
+      this.$router.replace({
+        path: "/pay",
+      });
+    },
     // 锚点
     goto(idname) {
       document.querySelector(idname).scrollIntoView(true);
@@ -334,7 +342,7 @@ export default {
     },
     add_cart(arr, kind, i) {
       var flag = true;
-      arr["kindAll"] = kind +"|" +i;
+      arr["kindAll"] = kind + "|" + i;
       //this.$set(this.$store.state.arr,kind+i,arr)
       for (let i = 0; i < this.$store.state.arr.length; i++) {
         if (arr.cid == this.$store.state.arr[i].cid) {
@@ -348,17 +356,17 @@ export default {
         this.$store.state.arr.push(arr);
       }
     },
-    del_arr(i){
-      this.$store.state.arr.splice(i,1);
+    del_arr(i) {
+      this.$store.state.arr.splice(i, 1);
     },
-    del_card(id){
+    del_card(id) {
       for (var i of this.$store.state.arr) {
-        if(i.cid == id){
-          this.$store.state.arr.splice(this.$store.state.arr.indexOf(i),1);
+        if (i.cid == id) {
+          this.$store.state.arr.splice(this.$store.state.arr.indexOf(i), 1);
           break;
         }
       }
-    }
+    },
   },
   created() {
     pro().then((res) => {
@@ -398,12 +406,12 @@ export default {
     });
     console.log(this.menu);
   },
-  watch:{
-    arr(){
-      if(this.$store.state.arr.length == 0){
+  watch: {
+    arr() {
+      if (this.$store.state.arr.length == 0) {
         this.show = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>

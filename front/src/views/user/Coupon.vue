@@ -16,14 +16,7 @@
       <van-button id="vbt4" size="mini" color="grey"><span>大额优先</span></van-button> 
     </div>
     <div>
-      <coupon />
-      <coupon />
-      <coupon />
-      <coupon />
-      <coupon />
-      <coupon />
-      <coupon />
-      <coupon />
+      <coupon v-for="(item, index) in coupons" :key="index" :coupon="item"/>
     </div>
     <van-dialog v-model="show" title="优惠券" show-cancel-button :show-confirm-button="false">
       <van-field
@@ -43,6 +36,7 @@
 </template>
 
 <script>
+import {coupon_search} from "@/api/user_axios.js"
 import coupon from "@/components/user/Coupons.vue";
 export default {
   components: { coupon },
@@ -52,7 +46,8 @@ export default {
       show: false,
       value: "",
       sms:"",
-      active:"推荐使用"
+      active:"推荐使用",
+      coupons:[]
     };
   },
   methods: {
@@ -60,6 +55,12 @@ export default {
       this.show = !this.show;
     },
   },
+  created(){
+    coupon_search(`id=${this.$store.state.uid}`).then(res=>{
+      this.coupons = res.result;
+      console.log(this.coupons);
+    })
+  }
  
 };
 </script>

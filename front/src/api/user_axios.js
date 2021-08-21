@@ -32,10 +32,19 @@ function change_private(info) {
     })
 }
 
+function coupon_search(info) {
+    return new Promise((reslove, reject) => {
+        Vue.prototype.axios.post('/user/account_coupon', info).then(res => {
+            reslove(res.data);
+        });
+    })
+}
+
 export {
     upload,
     change_info,
     yzm,
-    change_private
+    change_private,
+    coupon_search
 };
 

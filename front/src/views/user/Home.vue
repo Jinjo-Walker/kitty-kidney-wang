@@ -83,11 +83,6 @@
         </van-sticky>
         <div style="height: 80%; overflow-y: scroll">
           <couponmain />
-          <couponmain />
-          <couponmain />
-          <couponmain />
-          <couponmain />
-          <couponmain />
         </div>
       </van-popup>
     </div>
@@ -220,7 +215,7 @@ export default {
   margin-bottom: 50px;
   #ipt {
     display: block;
-    width: 75%;
+    width: 70%;
   }
   #row,
   #address {

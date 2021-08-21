@@ -1,43 +1,71 @@
 <template>
   <div class="cla">
-    <div id="div">
+    <div id="div" v-for="(couponid, index) in couponlist" :key="index">
       <div class="coupon">
         <div class="money">
           <span>￥</span>
-          <span>10</span>
+          <span>{{couponid.money}}</span>
         </div>
-        <div class="cpn">优惠券</div>
+        <div class="cpn">{{couponid.couponname}}</div>
       </div>
-      <div class="item">
+      <div class="item_i">
         <ul>
           <li>
             <van-tag class="tag">外卖券</van-tag
-            ><span class="content">满100减10</span>
+            ><span class="content">{{couponid.information}}</span>
           </li>
-          <li>2021/02/17</li>
+          <li>{{moment(couponid.Start_date).format('YYYY/MM/DD')}}~{{moment(couponid.end_date).format('YYYY/MM/DD')}}</li>
           <li @click="dialog">使用规则></li>
         </ul>
       </div>
       <div class="btn">
-        <button ><span>领取</span></button>
+        <button @click="Couponreceive"><span>领取</span></button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { coupon_recive } from "@/api/coupon_axios.js";
+import { coupon_search2 } from "@/api/coupon_axios.js";
+import { Toast } from "vant";
+
 export default {
   data() {
-    return {};
+    return {
+      couponlist: [],
+    };
+  },
+  mounted() {
+    this.Couponsearch();
   },
   methods: {
+    Couponreceive() {
+      coupon_recive(1, this.$store.state.uid).then((res) => {
+        if (res.code == 200) {
+          //弹出消息
+          const toast = Toast.success({
+            message: "领取成功宝贝",
+            icon: "like-o",
+          });
+        }
+      });
+    },
+    Couponsearch() {
+      coupon_search2().then((res) => {
+        console.log(res.result);
+        this.couponlist = res.result;
+        //  console.log(this.couponlist)
+      });
+    },
     // open() {
     //   this.$router.push(`${"/"}`);
     // },
     dialog() {
       this.$dialog.alert({
-        message: "第一条【制定目的】为保障小腰外卖用户的权益，维护平台的正常秩序，根据国家法律法规和或《小腰外卖用户服务条款》等小腰外卖在线条款、规则相关约定制定本规范。"
-  });
+        message:
+          "第一条【制定目的】为保障小腰外卖用户的权益，维护平台的正常秩序，根据国家法律法规和或《小腰外卖用户服务条款》等小腰外卖在线条款、规则相关约定制定本规范。",
+      });
     },
   },
 };
@@ -56,7 +84,7 @@ export default {
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
-  
+  margin-bottom: 12px;
 }
 .money,
 .cpn {
@@ -65,7 +93,7 @@ export default {
 }
 
 .coupon,
-.item {
+.item_i {
   margin: 10px 10px;
 }
 .coupon span:nth-child(2) {
@@ -80,7 +108,7 @@ export default {
   margin-bottom: 10px;
 }
 
-.item li {
+.item_i li {
   font-size: 12px;
   :first-child {
     color: rgb(231, 25, 25);
@@ -93,7 +121,6 @@ export default {
   border: 0;
   background-color: rgb(238, 121, 67);
   border-radius: 5px;
-  
 }
 .btn button span {
   line-height: 27px;
@@ -104,7 +131,7 @@ export default {
   font-size: 18px;
   padding-left: 5px;
 }
-.btn{
+.btn {
   padding-right: 4px;
 }
 </style>

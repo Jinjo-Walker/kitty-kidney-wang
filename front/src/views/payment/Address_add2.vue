@@ -5,7 +5,7 @@
       left-text="返回"
       left-arrow
       @click-left="onClickLeft"
-      style="background-color: #ae57a4"
+      style="background-color: #e7e"
     />
     <van-address-edit
       class="address_add"

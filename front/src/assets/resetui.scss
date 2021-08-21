@@ -1,25 +1,20 @@
 .my-order {
     background-color: #ececec;
-    .van-search{
-        display: fixed;
-        left: 20px;
-        margin-right: 25%;
-        height: 45px;
-    }
+
+   
+    
+    
     .van-icon-arrow-left{
         color: black;
     }
 
     .my-main {
-        margin-top: 45px;
-
         .my-swipe img {
             width: 100%;
             height: 140px;
         }
 
         .my-center {
-            // margin: 0 6px;
             height: 620px;
 
             .van-sticky{
@@ -205,4 +200,7 @@
         height: 75px;
         width: 75px;
     }
+}
+[v-cloak]{
+    display: none;
 }

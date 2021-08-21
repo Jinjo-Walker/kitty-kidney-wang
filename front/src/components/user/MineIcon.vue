@@ -11,7 +11,12 @@ export default {
   props: ["name", "color", "size", "to", "str"],
   methods: {
     route_to() {
-      this.$router.push(`${this.to}`);
+      if(this.str == "我的客服"){
+        location.href = this.to;
+      }
+      else{
+        this.$router.push(`${this.to}`);
+      }
     },
   },
 };
