@@ -324,7 +324,7 @@ r.put("/account_change", (req, res, next) => {
 				code: 200,
 				message: '用户名更新成功',
 				result: result,
-				user_name:req.body.user_name
+				user_name: req.body.user_name
 			});
 		} else {
 			res.send({
@@ -370,7 +370,7 @@ r.put("/account_private", (req, res, next) => {
 						code: 200,
 						message: '更新成功',
 						result: result,
-						new:arr2[0]
+						new: arr2[0]
 					});
 				} else {
 					res.send({
@@ -410,6 +410,66 @@ r.post("/account_coupon", (req, res, next) => {
 		}
 	});
 });
+
+//账户优惠券领取
+r.get("/coupon_recive", (req, res, next) => {
+	var sql = 'select * from table_coupon  where couponid = ?';
+	pool.query(sql, [req.query.couponid], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.length > 0) {
+			var sql = 'insert into table_user_coupon  values(?,?)';
+			pool.query(sql, [req.query.id, req.query.couponid], function (err, result) {
+				if (err) {
+					next(err);
+					return;
+				}
+				if (result.affectedRows > 0) {
+					res.send({
+						code: 200,
+						message: '优惠券领取成功',
+						result: result
+					});
+				} else {
+					res.send({
+						code: 202,
+						message: '优惠券领取失败'
+					});
+				}
+			});
+		} else {
+			res.send({
+				code: 201,
+				message: '优惠券查询失败或不存在'
+			});
+		}
+	});
+});
+//全部优惠券查询
+r.get("/coupon_search", (req, res, next) => {
+	var sql = 'select * from table_coupon';
+	pool.query(sql, [], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.length > 0) {
+			res.send({
+				code: 200,
+				message: '优惠券查询成功',
+				result: result
+			});
+		} else {
+			res.send({
+				code: 201,
+				message: '优惠券查询失败'
+			});
+		}
+	});
+});
+
 
 //注销请求
 r.get("/logout", (req, res) => {
