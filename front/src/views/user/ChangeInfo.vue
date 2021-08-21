@@ -9,7 +9,7 @@
     <span class="ux">用户信息</span>
     <van-cell title="密码" arrow-direction is-link to="info_check?kw=密码" />
     <van-cell title="用户名" :value="$store.state.user_name" arrow-direction is-link to="info_check?kw=用户名" />
-    <van-cell title="手机" :value="$store.state.phone" arrow-direction is-link to="info_check?kw=手机" />
+    <van-cell title="手机" :value="`${$store.state.phone.slice(0,4)}****${$store.state.phone.slice(7)}`" arrow-direction is-link to="info_check?kw=手机" />
     <van-cell title="头像" arrow-direction is-link to="info_check?kw=头像" />
     <van-cell title="地址" value="查看" arrow-direction is-link to="mine" />
   </div>

@@ -1,6 +1,7 @@
 <template>
   <div class="my-card">
-    <van-card :thumb="menuIn.picture" :title="menuIn.cname">
+    <van-card :thumb="`http://${menuIn.picture}`" 
+    :title="menuIn.cname">
       <template #tags>
         <div class="my-card-desc">{{ menuIn.cname }}</div>
         <div class="my-card-price-all my-card-price-n">

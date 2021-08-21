@@ -187,29 +187,35 @@ export default {
       if (isComplete) {
         return;
       }
-      if (this.messageCheck == this.messageIn && this.messageIn != -1) {
-        // 请求接口
-        const api = this.show ? "/user/account_login" : "/user/phone_login";
+      // 请求接口
+      const api = this.show ? "/user/phone_login" : "/user/account_login";
+      if (
+        api == "/user/account_login" ||
+        (api == "/user/phone_login" &&
+          this.messageCheck == this.messageIn &&
+          this.messageIn != -1)
+      ) {
         // 请求入参
         const params = this.show
           ? {
-              account: this.phone,
-              password: this.password,
+              phone: this.phone,
             }
           : {
-              phone: this.phone,
+              account: this.phone,
+              password: this.value,
             };
-        this.$axios
+        this.axios
           .post(api, { ...params })
           .then((res) => {
-            const { code, result } = res;
+            const { code, result } = res.data;
             console.log("请求结果", res);
             // 请求成功
             if (code == 200) {
-              console.log(result);
-              this.store.commit('loginCheck',res.data.result);
+              console.log(result[0]);
+              this.$store.commit("loginCheck", result[0]);
+              Toast.success("登录成功");
               // 针对登录的数据进行处理 然后进行跳转路由到首页
-              this.$router.push('/');
+              this.$router.push("/");
             }
             // 这里提示账号密码错误 或者 验证码错误
           })
@@ -218,6 +224,7 @@ export default {
             console.log(err);
           });
       } else {
+        console.log(this.show, api, this.phone, this.value);
         Toast.fail("验证码或密码不正确");
       }
     },
@@ -267,8 +274,9 @@ export default {
     },
     // 判断input是否被选中
     cbox() {
-      btndocument.getElementsByClassName("button").disabled =
-        !document.getElementById("cbox").checked;
+      btndocument.getElementsByClassName(
+        "button"
+      ).disabled = !document.getElementById("cbox").checked;
     },
 
     // 更改复选框值

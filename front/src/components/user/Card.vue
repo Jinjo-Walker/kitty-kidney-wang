@@ -1,7 +1,7 @@
 <template>
   <div class="my-card">
     <van-card
-      :thumb="$store.state.menu[kind][i].picture"
+      :thumb="`http://${$store.state.menu[kind][i].picture}`"
       :title="$store.state.menu[kind][i].cname"
       :desc="$store.state.menu[kind][i].cname"
     >

@@ -6,10 +6,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLogin: sessionStorage.getItem("isLogin") || false,
-    account: sessionStorage.getItem("account") || "",
     uid: sessionStorage.getItem("uid") || -1,
     phone: sessionStorage.getItem("phone") || -1,
-    user_name: sessionStorage.getItem("user_name") || "",
+    user_name: sessionStorage.getItem("user_name") || "用户名",
     city:"上海",
     avatar: sessionStorage.getItem("avatar") || "img/avatar/avatar_default.jpg",
     buy_kind:-1,
@@ -46,13 +45,11 @@ export default new Vuex.Store({
     loginCheck(state, user) {
       sessionStorage.setItem("isLogin", true);
       sessionStorage.setItem("user_name", user.user_name);
-      sessionStorage.setItem("uid", user.uid);
+      sessionStorage.setItem("uid", user.id);
       sessionStorage.setItem("phone", user.phone);
-      sessionStorage.setItem("user_name", user.user_name);
       sessionStorage.setItem("avatar", user.avatar);
       state.isLogin = true;
       state.user_name = user.user_name;
-      state.account = user.account;
       state.uid = user.id;
       state.phone = user.phone;
       state.avatar = user.avatar;

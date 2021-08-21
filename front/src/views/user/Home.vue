@@ -38,19 +38,19 @@
     <van-grid :column-num="3" :border="false">
       <!-- 外卖 -->
       <van-grid-item
-        icon="http://img.ztmnbt.xyz/banner/daohang1.png"
+        icon="/img/banner/waimai.svg"
         text="外卖"
-        to="/"
+        to="/order"
       />
       <!-- 预约 -->
       <van-grid-item
-        icon="http://img.ztmnbt.xyz/banner/daohang2.png"
+        icon="/img/banner/yuyue.svg"
         text="预约"
         to="/"
       />
       <!-- 领券 -->
       <van-grid-item
-        icon="http://img.ztmnbt.xyz/banner/daohang3.png"
+        icon="/img/banner/youhui.svg"
         text="领券"
         @click.stop="showPopup"
       />

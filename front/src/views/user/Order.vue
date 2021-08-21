@@ -1,9 +1,15 @@
 <template>
   <div class="my-order">
     <!-- 页头 -->
-    <van-nav-bar left-arrow fixed class="my-order-header">
-      <template #right>
-        <van-icon name="search" size="18" />
+    <van-nav-bar 
+    left-arrow 
+    color="#b3f"
+    fixed 
+    @click-left="$router.push('/')"
+    class="my-order-header">
+      <template #right
+      ><van-search v-model="value" placeholder="请输入搜索关键词" />
+        <van-icon name="search" color="black" size="18" />
       </template>
     </van-nav-bar>
     <div class="my-main">
@@ -219,8 +225,8 @@
             <van-goods-action>
               <van-goods-action-icon
                 icon="cart-o"
+                color="#b3f"
                 :badge="num"
-                text="购物车"
                 @click="chsheet"
               />
               <van-goods-action-icon :text="`￥${price}`" />
@@ -264,6 +270,8 @@ export default {
       activeKey: 0,
       // 底部商品弹窗默认选项
       show: false,
+      // 搜索栏
+      value:'',
       // 菜品分类及id
       types: [
         { name: "素菜", id: "sucai" },
@@ -388,7 +396,7 @@ export default {
         }
       }
     });
-    // console.log(this.menu);
+    console.log(this.menu);
   },
   watch:{
     arr(){

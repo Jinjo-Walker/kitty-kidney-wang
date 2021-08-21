@@ -9,11 +9,11 @@
           :src="$store.state.avatar"
           @click="$router.push('/change_info')"/><span
           class="uname"
-          v-text="user_name"
+          v-text="$store.state.user_name"
         ></span
       ></van-col>
       <van-col
-        ><span class="logout" v-if="flag" v-text="`注销`"></span>
+        ><span class="logout" v-if="$store.state.isLogin" v-text="`注销`"></span>
         <span
           class="login"
           v-else
@@ -80,8 +80,6 @@ export default {
   name: "mine",
   data() {
     return {
-      user_name: "用户名",
-      flag: false,
       gongneng: [
         {
           name: "gift",
@@ -131,7 +129,7 @@ export default {
           name: "service-o",
           color: "black",
           size: "25",
-          to: "/",
+          to: `/chat?sendId=${this.$store.state.uid}`,
           str: "我的客服",
         },
         {

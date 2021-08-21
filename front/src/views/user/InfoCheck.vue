@@ -85,7 +85,7 @@ export default {
       old_pwd: "",
       new_pwd: "",
       con_pwd: "",
-      fileList: [{url:this.$store.state.avatar}],
+      fileList: [{ url: this.$store.state.avatar }],
       disabled: false,
     };
   },
@@ -97,6 +97,8 @@ export default {
       upload(fd).then((res) => {
         if (res.code == 200) {
           Toast.success("上传成功");
+          sessionStorage.setItem("avatar", res.url);
+          this.$store.state.avatar = res.url;
         } else {
           Toast.fail("上传失败");
         }
@@ -135,6 +137,8 @@ export default {
           change_info(info).then((res) => {
             if (res.code == 200) {
               Toast.success("修改成功");
+              sessionStorage.setItem("user_name", res.user_name);
+              this.$store.state.user_name = res.user_name;
             } else {
               Toast.fail("修改失败");
             }
@@ -153,6 +157,8 @@ export default {
             change_private(info).then((res) => {
               if (res.code == 200) {
                 Toast.success("修改成功");
+                sessionStorage.setItem("phone", res.new);
+                this.$store.state.phone = res.new;
               } else {
                 Toast.fail(res.message);
               }
