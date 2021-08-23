@@ -10,6 +10,7 @@
     "@vant/area-data": "^1.1.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "echarts": "^5.1.2",
     "element-ui": "^2.15.5",
     "moment": "^2.29.1",
     "muse-ui": "^3.0.2",

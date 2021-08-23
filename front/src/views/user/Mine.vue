@@ -115,7 +115,7 @@ export default {
           name: "location-o",
           color: "black",
           size: "25",
-          to: "/",
+          to: "/addressList",
           str: "我的地址",
         },
         {

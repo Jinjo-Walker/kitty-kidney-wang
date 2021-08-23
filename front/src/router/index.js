@@ -13,10 +13,12 @@ import ChangeInfo from '../views/user/ChangeInfo.vue'
 import InfoCheck from '../views/user/InfoCheck.vue'
 import Mine from '../views/user/Mine.vue'
 import Form from '../views/user/Form.vue'
+import Chart from '../views/user/Chart.vue'
 import Pay from '../views/payment/Pay.vue'
 import AddressList from '../views/payment/AddressList.vue'
 import Address_add from '../views/payment/Address_add.vue'
 import Address_add2 from '../views/payment/Address_add2.vue'
+import AMap from '../views/payment/AMap.vue'
 
 Vue.use(VueRouter)
 
@@ -70,6 +72,10 @@ const routes = [
     component:Form
   },
   {
+    path: '/chart',
+    component:Chart
+  },
+  {
     path: '/address_add',
     component:Address_add
   },
@@ -87,6 +93,11 @@ const routes = [
   {
     path: '/pay',
     component:Pay
+  },
+  {
+    path: '/amap',
+    name: 'AMap',
+    component: AMap
   },
 
 ]

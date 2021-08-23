@@ -12,6 +12,7 @@ export default new Vuex.Store({
     city: "上海",
     avatar: sessionStorage.getItem("avatar") || "img/avatar/avatar_default.jpg",
     buy_kind: -1,
+    pay_click:0,
     coupon_from: "/",
     list: [{
         id: "1",
@@ -39,6 +40,12 @@ export default new Vuex.Store({
       '酒水': [],
     },
     arr: [],
+    AddressInfo: {
+      name: "",
+      tel: "",
+      addressDetail: "",
+      areaCode: "",
+    }
   },
   mutations: {
     loginCheck(state, user) {

@@ -13,11 +13,9 @@
       :address-info="AddressInfo"
       show-search-result
       save-button-text="确定"
-      show-delete
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
       @save="onSave"
-      @delete="onDelete"
-      @change-area="onArea"
+      ref="alist"
     />
   </div>
 </template>
@@ -29,42 +27,30 @@ export default {
   data() {
     return {
       areaList,
-      AddressInfo: {
-        name: `${this.$route.query.name}`,
-        tel: `${this.$route.query.tel}`,
-        addressDetail: `${this.$route.query.address}`,
-        areaCode: "",
-      },
+      AddressInfo: this.$store.state.AddressInfo,
     };
   },
   methods: {
-    onDelete(content, index) {
-      this.$store.state.list.splice(this.$route.query.index, 1);
-      this.$router.replace({ path: "/addressList" });
-    },
-
-    onArea(values,val) {
-      // if (values[2].code != this.AddressInfo.areaCode) {
-      //   this.AddressInfo.addressDetail = "";
-      // }
-    },
     onClickLeft() {
       this.$router.replace({ path: "/addressList" });
     },
-
     onSave(val, index) {
-      var index = `${this.$route.query.index}`;
-      
       this.$router.replace({
         path: `/addressList?address=${val.addressDetail}&name=${val.name}&tel=${val.tel}`,
-      }); 
+      });
       //新增地址
-        this.$store.state.list.push({
-          id:'',
-          name: `${val.name}`,
-          tel: `${val.tel}`,
-          address: `${val.addressDetail}`
-        });    
+      this.$store.state.list.push({
+        id: "",
+        name: `${val.name}`,
+        tel: `${val.tel}`,
+        address: `${val.addressDetail}`,
+      });
+      this.$store.state.AddressInfo = {
+        name: "",
+        tel: "",
+        addressDetail: "",
+        areaCode: "",
+      };
     },
 
     confirmParse() {
@@ -77,17 +63,33 @@ export default {
   },
 
   mounted() {
-    var cy = this.$route.query.address.slice(3, 6);
+    var cy = this.$store.state.AddressInfo.areaCode.slice(4);
     var value2 = "";
     for (var key in areaList.county_list) {
       if (areaList.county_list[key] === cy) {
         value2 = key;
         break;
-      } else {
-        this.address = "";
       }
     }
-    this.AddressInfo.areaCode = value2;
+    this.$store.state.AddressInfo.areaCode = value2;
+    this.$nextTick(() => {
+      this.$refs.alist.$children[3].$el.addEventListener("click", () => {
+        this.$store.state.AddressInfo = {
+          name: this.$refs.alist.$children[0].$el.children[1].children[0]
+            .children[0].value,
+          tel: this.$refs.alist.$children[1].$el.children[1].children[0]
+            .children[0].value,
+          areaCode:
+            this.$refs.alist.$children[2].$el.children[1].children[0]
+              .children[0].value,
+          addressDetail:
+            this.$refs.alist.$children[3].$el.children[0].children[0]
+              .children[1].children[0].children[0].value,
+        };
+
+        this.$router.push("/amap");
+      });
+    });
   },
 };
 </script>

@@ -19,7 +19,7 @@
         }`"
         icon="location-o"
         is-link
-        to="addressList"
+        @click="onclick"
       />
       <van-cell
         class="cellss"
@@ -29,7 +29,7 @@
             : ''
         }`"
         icon="phone-o"
-        to="addressList"
+        @click="onclick"
       />
       <!-- 时间 -->
       <van-cell title="立即送出">
@@ -107,9 +107,17 @@ export default {
   },
 
   methods: {
+    // 地址点击跳转
+    onclick() {
+      this.$store.state.pay_click = 1;
+      this.$router.replace({ path: "/addressList" });
+    },
+
     // 点击结算显示弹框
     onSubmit() {
-      this.show = true;
+      if (this.$store.state.pay_click == 1) {
+        this.show = true;
+      }
     },
     // 点击页头返回到商品列表
     onClickLeft() {
@@ -146,10 +154,10 @@ export default {
           icon: "cross",
         });
       } else if (value.length === 6 && value === "123456") {
-        this.$store.state.arr=[];
+        this.$store.state.arr = [];
         for (var i in this.$store.state.menu) {
           for (var j of this.$store.state.menu[i]) {
-            j.count=0;
+            j.count = 0;
           }
         }
         const toast = Toast.loading({
@@ -256,9 +264,9 @@ div .cellss span {
   color: #9b9b9b;
 }
 .cardss {
-  margin-bottom:55px;
+  margin-bottom: 55px;
   position: relative;
-  
+
   .van-card {
     font-size: 15px;
     height: 65px;

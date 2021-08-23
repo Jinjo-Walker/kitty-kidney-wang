@@ -42,7 +42,7 @@ export default {
     },
     onAdd() {
       this.$router.replace({
-        path: `/address_add2?&name=&tel=&address=&id=0`,
+        path: `/address_add2`,
       });
     },
     onEdit(item, index) {

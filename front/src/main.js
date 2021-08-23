@@ -12,6 +12,11 @@ import Card from './components/user/Card.vue'
 import Dcard from './components/user/Dcard.vue'
 import router from './router'
 import store from './store'
+
+// 引入echarts
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
 import moment from "moment"
 Vue.prototype.moment = moment;
 
