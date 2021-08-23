@@ -111,6 +111,7 @@ export default {
     onclick() {
       this.$store.state.pay_click = 1;
       this.$router.replace({ path: "/addressList" });
+      this.$store.state.address_from = "/pay";
     },
 
     // 点击结算显示弹框
@@ -121,7 +122,7 @@ export default {
     },
     // 点击页头返回到商品列表
     onClickLeft() {
-      this.$router.replace({ path: "/order" });
+      this.$router.push({ path: "/order" });
     },
     currentTime() {
       setInterval(this.formatDate, 500);

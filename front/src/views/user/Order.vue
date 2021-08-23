@@ -261,6 +261,7 @@
 
 <script>
 import { pro } from "@/api/product_axios.js";
+import {Toast} from 'vant'
 // 引入resetui组件
 import "@/assets/resetui.scss";
 export default {
@@ -324,9 +325,14 @@ export default {
   methods: {
     //结算按钮跳转支付界面
     onClickButton() {
-      this.$router.replace({
+      if(this.$store.state.arr.length==0){
+        Toast('尚未选择商品！');
+      }
+      else{
+      this.$router.push({
         path: "/pay",
       });
+      }
     },
     // 锚点
     goto(idname) {

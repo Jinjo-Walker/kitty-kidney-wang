@@ -1,17 +1,25 @@
 <template>
   <div @click="search_city">
-        <van-index-bar highlight-color="#fb6463" :index-list="list" :sticky-offset-top=54 ref="scroll">
-          <div v-for="(cityname, index) in city" :key="index">
-            <van-index-anchor :index="list[index]" :title="list[index]">
-            </van-index-anchor>
-            <van-cell v-for="(item, cindex) in cityname.list" :key="cindex" :id="`#${item.name}`">
-              {{ item.name }}
-            </van-cell>
-          </div>
-        </van-index-bar>
-   
-    
-    
+    <div>
+      <van-index-bar
+        highlight-color="#fb6463"
+        :index-list="list"
+        :sticky-offset-top="54"
+        ref="scroll"
+      >
+        <div v-for="(cityname, index) in city" :key="index">
+          <van-index-anchor :index="list[index]" :title="list[index]">
+          </van-index-anchor>
+          <van-cell
+            v-for="(item, cindex) in cityname.list"
+            :key="cindex"
+            :id="`#${item.name}`"
+          >
+            {{ item.name }}
+          </van-cell>
+        </div>
+      </van-index-bar>
+    </div>
   </div>
 </template>
 
@@ -61,10 +69,14 @@ export default {
     });
   },
   methods: {
-    search_city(e){
-      console.log(e.target.innerHTML);
-      // location.hash(e.target.innerHTML);
-    }
+    search_city(e) {
+      let cn = e.target;
+      if (cn.classList[0] == "van-cell__value") {
+        this.$store.state.city = cn.innerHTML;
+        this.$emit('hide');
+        
+      }
+    },
   },
 };
 </script>

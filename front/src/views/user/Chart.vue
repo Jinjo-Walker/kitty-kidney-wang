@@ -9,7 +9,7 @@
       style="background-color: #e7e"
       fixed
     />
-        <div id="myChart" :style="{width: '450px', height: '300px'}"></div>
+        <div id="myChart"></div>
     </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
             title: {
                 text: '品牌近五年PE走势',
                 textStyle:{
-                    color:'red'
+                    color:'#b3f'
                 }
             },
             // 鼠标悬浮提示信息
@@ -48,6 +48,9 @@ export default {
         ]
         };
     chart.setOption(option);//设置图标的样式、内容
+    },
+    onClickLeft(){
+      this.$router.replace({ path: "/mine" });
     }
   }
 }
@@ -55,7 +58,7 @@ export default {
 
 <style scoped lang="scss">
     #myChart{
-        margin-top: 70px;
+        margin: 70px auto 0;
         width: 80%;
         height: 300px;
     }

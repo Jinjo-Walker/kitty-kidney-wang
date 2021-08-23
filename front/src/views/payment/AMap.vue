@@ -65,7 +65,7 @@
 export default {
   data() {
     return {
-      center: [121.43692, 31.197348], //经度+纬度
+      center: this.$store.state.center, //经度+纬度
       search_key: "", //搜索值
       lists: [], //地点列表
       search_list: [], //搜索结果列表
@@ -179,7 +179,7 @@ export default {
     onAddressLi(e) {
       console.log(e);
       this.marker.setPosition([e.location.lng, e.location.lat]); //更新标记的位置
-      this.$store.state.AddressInfo.addressDetail = e.address;
+      this.$store.state.AddressInfo.addressDetail = `${e.address}${e.name}`;
       this.$router.push(`/address_add2`);
     },
     onSearchLi(e) {

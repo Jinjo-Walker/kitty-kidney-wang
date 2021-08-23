@@ -40,7 +40,7 @@ export default {
   methods: {
     onDelete(content, index) {
       this.$store.state.list.splice(this.$route.query.index, 1);
-      this.$router.replace({ path: "/addressList" });
+      this.$router.push({ path: "/addressList" });
     },
 
     onArea(values,val) {
@@ -49,13 +49,13 @@ export default {
       // }
     },
     onClickLeft() {
-      this.$router.replace({ path: "/addressList" });
+      this.$router.push({ path: "/addressList" });
     },
 
     onSave(val, index) {
       var index = `${this.$route.query.index}`;
       
-      this.$router.replace({
+      this.$router.push({
         path: `/addressList?address=${val.addressDetail}&name=${val.name}&tel=${val.tel}`,
       });
       //修改地址

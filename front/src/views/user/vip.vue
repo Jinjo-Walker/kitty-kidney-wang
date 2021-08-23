@@ -2,104 +2,49 @@
   <div class="vip">
     <van-nav-bar
       title="大会员"
-      left-text="返回"
-      right-text="..."
-      left-arrow
-      @click-left="onClickLeft"
-      @click-right="onClickRight"
     />
+    <div class="cover_box"></div>
+    <div class="vip_tx">
+      <div class="TX"></div>
+      <p class="TX_P">承诺像刀伤了人</p>
+    </div>
+
+    <span class="SP">我的会员</span> <span>会员积分</span>
+    <van-divider />
+    <van-progress
+      pivot-text="321"
+      color="#ae33cc"
+      :percentage="50"
+      stroke-width="10"
+    />
+    <p>我的特权</p>
     <div class="box">
-      <div class="cover_box">
-        <van-image
-          round
-          cover
-          width="5rem"
-          height="5rem"
-          src="img/banner/TBrx.png"
-        />
+      <div class="box_item">
+        <van-icon name="img/banner/TBsw.png" size="4em" /> <p>免费试吃</p>
       </div>
-      <div>
-        <!-- 优惠券单元格 -->
-        <van-coupon-cell
-          :coupons="coupons"
-          :chosen-coupon="chosenCoupon"
-          @click="showList = true"
-        />
-        <!-- 优惠券列表 -->
-        <van-popup
-          v-model="showList"
-          round
-          position="bottom"
-          style="height: 90%; padding-top: 4px"
-        >
-          <van-coupon-list
-            :coupons="coupons"
-            :chosen-coupon="chosenCoupon"
-            :disabled-coupons="disabledCoupons"
-            @change="onChange"
-            @exchange="onExchange"
-          />
-        </van-popup>
-        <van-divider />
-        <div>
-          <span>我的会员</span> <span>会员积分</span>
-          <van-divider />
-          <van-progress
-            pivot-text="9927"
-            color="#ae33cc"
-            :percentage="77"
-            stroke-width="12"
-          />
-        </div>
-        <p>我的特权</p>
-        <div><van-icon name="img/banner/TBsw.png" size="4em" />
-        <span>免费试吃</span></div>
-       <div><van-icon name="img/banner/TBlw.png" size="4em"/>
-        <span>积分兑换</span></div>
-        <div>
-          <van-icon name="img/banner/TBrx.png" size="4em"/>
-        <span>身份铭牌</span>
-        </div>
-       
+      <div class="box_item">
+        <van-icon name="img/banner/TBlw.png" size="4em" /> <p>积分兑换</p>
+      </div>
+      <div class="box_item">
+        <van-icon name="img/banner/TBrx.png" size="4em" />
+        <p>身份铭牌</p>
       </div>
     </div>
+    <tabbar/>
   </div>
 </template>
 <script>
-const coupon = {
-  available: 1,
-  condition: "无使用门槛\n最多优惠12元",
-  reason: "",
-  value: 150,
-  name: "优惠券名称",
-  startAt: 1489104000,
-  endAt: 1514592000,
-  valueDesc: "1.5",
-  unitDesc: "元",
-};
+import tabbar from "@/components/user/Tabbar";
 export default {
   data() {
-    return {
-      chosenCoupon: -1,
-      coupons: [coupon],
-      disabledCoupons: [coupon],
-    };
+    return {};
   },
   methods: {
-    onClickLeft() {
-      Toast("返回");
-    },
-    onClickRight() {
-      Toast("按钮");
-    },
   },
-  onChange(index) {
-    this.showList = false;
-    this.chosenCoupon = index;
-  },
-  onExchange(code) {
-    this.coupons.push(coupon);
-  },
+  components:{
+    tabbar
+  }
+
 };
 </script>
 <style scoped>
@@ -108,21 +53,55 @@ export default {
 .vip /deep/ .van-nav-bar__right {
   color: #000 !important;
 }
-.box {
-  margin: 20px 20px;
- 
-}
+
 .cover_box {
-  
+  background-image: url("/img/banner/2.jpg");
   height: 10rem;
-  background-image: -webkit-linear-gradient(
-    45deg,
-    rgb(223, 95, 241),
-    rgb(174, 75, 255)
-  );
- 
-  border: 1px solid #9632af;
-  border-radius: 10px;
-  box-shadow: 3px 3px 2px rgb(131, 103, 158);
+  width: 100%;
+  /* border: 1px solid;
+  border-radius: 20px; */
+  background-repeat: no-repeat;
+  background-size: 30rem;
+  background-origin: right;
+}
+.TX {
+  background-image: url("/img/banner/tx.jpg");
+  width: 5rem;
+  height: 5rem;
+  border: 1px solid;
+  border-radius: 50%;
+  background-size: cover;
+  position: absolute;
+}
+.vip_tx {
+  float: left;
+  height: 7rem;
+  width: 90%;
+  vertical-align: middle;
+  margin: 0 1rem;
+}
+.vip_tx .TX_P {
+  width: 200px;
+  margin-left: 6rem;
+  display: block;
+  line-height: 5rem;
+}
+.SP {
+  margin-left: 20px;
+  margin-right: 12rem;
+}
+.box :after {
+  display: block;
+  height: 0;
+  clear: both;
+}
+.box_item {
+  width: 31%;
+  float: left;
+  text-align: center;
+  padding: 40px 0 60px 0;
+}
+.vip p{
+  margin-left: 20px;
 }
 </style>

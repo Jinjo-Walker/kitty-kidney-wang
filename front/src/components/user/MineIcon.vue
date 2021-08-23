@@ -14,6 +14,10 @@ export default {
       if(this.str == "我的客服"){
         location.href = this.to;
       }
+      else if(this.str == "我的地址"){
+        this.$store.state.address_from = "/mine";
+        this.$router.push(`${this.to}`);
+      }
       else{
         this.$router.push(`${this.to}`);
       }

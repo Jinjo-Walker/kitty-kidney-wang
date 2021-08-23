@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { ContactList, Toast } from "vant";
 export default {
   data() {
     return {
@@ -33,25 +32,27 @@ export default {
   methods: {
     sel(item, index) {
       let chosen = this.list[index];
-      this.$router.replace({
+      this.$router.push({
         path: `/pay?id=${chosen}&address=${chosen.address}&name=${chosen.name}&tel=${chosen.tel}`,
       });
     },
     onClickLeft() {
-      this.$router.replace({ path: "/pay" });
+      console.log(this.$store.state.address_from);
+      this.$router.push(`${this.$store.state.address_from}`);
     },
     onAdd() {
-      this.$router.replace({
+      this.$router.push({
         path: `/address_add2`,
       });
     },
     onEdit(item, index) {
       let chosen = this.list[index];
-      this.$router.replace({
+      this.$router.push({
         path: `/address_add?id=${chosen.id}&name=${chosen.name}&tel=${chosen.tel}&address=${chosen.address}&index=${index}`,
       });
     },
   },
+  
   watch: {},
 };
 </script>

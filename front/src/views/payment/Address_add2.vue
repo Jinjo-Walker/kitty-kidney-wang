@@ -32,10 +32,11 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.replace({ path: "/addressList" });
+      this.$router.push({ path: "/addressList" });
     },
     onSave(val, index) {
-      this.$router.replace({
+      console.log(val);
+      this.$router.push({
         path: `/addressList?address=${val.addressDetail}&name=${val.name}&tel=${val.tel}`,
       });
       //新增地址
@@ -43,7 +44,7 @@ export default {
         id: "",
         name: `${val.name}`,
         tel: `${val.tel}`,
-        address: `${val.addressDetail}`,
+        address: `${val.city}${val.county}${val.addressDetail}`,
       });
       this.$store.state.AddressInfo = {
         name: "",

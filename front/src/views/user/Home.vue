@@ -37,17 +37,9 @@
     <!-- 面板 -->
     <van-grid :column-num="3" :border="false">
       <!-- 外卖 -->
-      <van-grid-item
-        icon="/img/banner/waimai.svg"
-        text="外卖"
-        to="/order"
-      />
+      <van-grid-item icon="/img/banner/waimai.svg" text="外卖" to="/order" />
       <!-- 预约 -->
-      <van-grid-item
-        icon="/img/banner/yuyue.svg"
-        text="预约"
-        to="/"
-      />
+      <van-grid-item icon="/img/banner/yuyue.svg" text="预约" to="/" />
       <!-- 领券 -->
       <van-grid-item
         icon="/img/banner/youhui.svg"
@@ -121,8 +113,10 @@
           <div></div>
         </van-sticky>
         <div>
-          <div class="current_city"><span>当前城市：{{$store.state.city}}</span></div>
-          <tab />
+          <div class="current_city">
+            <span>当前城市：{{ $store.state.city }}</span>
+          </div>
+          <tab @hide="hide"/>
         </div>
       </div>
     </van-popup>
@@ -187,11 +181,45 @@ export default {
       this.show = false;
       this.show2 = false;
     },
+    hide(){
+      this.show2 = false;
+    },
 
     mounted() {
       this.container = this.$refs.container;
     },
-    
+    getLocation() {
+      let _this = this;
+      AMap.plugin("AMap.Geolocation", function () {
+        var geolocation = new AMap.Geolocation({
+          // 是否使用高精度定位，默认：true
+          enableHighAccuracy: true,
+          // 设置定位超时时间，默认：无穷大
+          timeout: 5000,
+        });
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, "complete", onComplete);
+        AMap.event.addListener(geolocation, "error", onError);
+        // data是具体的定位信息
+        function onComplete(data) {
+          console.log("具体的定位信息", data);
+         _this.$store.state.city =  data.addressComponent.province;
+         _this.$store.state.center = [data.position.lng,data.position.lat];
+        }
+        function onError(data) {
+          // 失败 启用 ip定位
+          AMap.plugin("AMap.CitySearch", function () {
+            var citySearch = new AMap.CitySearch();
+            citySearch.getLocalCity(function (status, result) {
+              if (status === "complete" && result.info === "OK") {
+                // 查询成功，result即为当前所在城市信息
+                console.log("通过ip获取当前城市：", result);
+              }
+            });
+          });
+        }
+      });
+    },
   },
   watch: {},
 
@@ -207,6 +235,11 @@ export default {
       this.$store.state.coupon_from = "/";
     }
     next();
+  },
+  created() {
+    this.getLocation();
+    // 此处为调用精确定位之后，调取ip定位，可根据实际情况改写
+    //this.$store.state.city = this.getLocation();
   },
 };
 </script>
@@ -247,6 +280,9 @@ export default {
   }
   .current_city {
     background-color: white;
+  }
+  .van-popup{
+    padding-bottom: 0px;
   }
 }
 </style>

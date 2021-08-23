@@ -8,12 +8,12 @@ import Order from '../views/user/Order.vue'
 import Login from '../views/user/Login.vue'
 import Coupon from '../views/user/Coupon.vue'
 import Collapse from '../views/user/Collapse.vue'
-import Member from '../views/user/Member.vue'
 import ChangeInfo from '../views/user/ChangeInfo.vue'
 import InfoCheck from '../views/user/InfoCheck.vue'
 import Mine from '../views/user/Mine.vue'
 import Form from '../views/user/Form.vue'
 import Chart from '../views/user/Chart.vue'
+import Vip from '../views/user/vip.vue'
 import Pay from '../views/payment/Pay.vue'
 import AddressList from '../views/payment/AddressList.vue'
 import Address_add from '../views/payment/Address_add.vue'
@@ -31,6 +31,11 @@ const routes = [
   {
     path: '/order',
     component: Order
+  },
+  {
+    path: '/vip',
+    name:'vip',
+    component: Vip
   },
   {
     path: '/coupon',
@@ -60,11 +65,6 @@ const routes = [
     path: '/info_check',
     name: 'infoCheck',
     component: InfoCheck
-  },
-  {
-    path: '/member',
-    name: 'Member',
-    component: Member
   },
   {
     path: '/form',
@@ -121,7 +121,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.path == "/change_info" || to.path == "/info_check" || to.path == "/coupon") {
+  } else if (to.path == "/change_info" || to.path == "/info_check" || to.path == "/coupon" || to.path == "/addressList") {
     // requireAuth:可以在路由元信息指定哪些页面需要登录权限
     if (islogin) {
       next();

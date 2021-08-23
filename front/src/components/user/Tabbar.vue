@@ -5,7 +5,7 @@
         首页
         <img slot="icon" src="/img/banner/home.svg" />
       </van-tabbar-item>
-      <van-tabbar-item to="/member" name="member">
+      <van-tabbar-item to="/vip" name="vip">
         会员
         <img slot="icon" src="/img/banner/VIP.svg" />
       </van-tabbar-item>
@@ -29,7 +29,6 @@ export default {
     active:this.nav
     }
   },
- 
 }
 </script>
 

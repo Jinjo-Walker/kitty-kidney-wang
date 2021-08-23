@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <div>
-      <van-nav-bar left-text="返回" left-arrow class="a"> </van-nav-bar>
+      <van-nav-bar title="订单"> </van-nav-bar>
     </div>
     <div>
       <van-tabs v-model="activeName">
@@ -40,9 +40,5 @@ export default {
 .form {
   background-color: #f6f6f6;
   height: 100vh;
-  .a {
-    color: plum !important;
-    // background: plum;
-  }
 }
 </style>
