@@ -5,6 +5,7 @@ const querystring = require('querystring');
 const userRouter = require('./routes/user.js');
 const shopRouter = require('./routes/shop_info.js');
 const menuRouter = require('./routes/menu.js');
+const orderRouter = require('./routes/order.js');
 const cors = require('cors')
 
 //创建服务，端口5050
@@ -30,4 +31,5 @@ app.use(express.urlencoded({
 app.use('/user', userRouter);
 app.use('/shop', shopRouter);
 app.use('/menu', menuRouter);
+app.use('/order', orderRouter);
 module.exports = app;

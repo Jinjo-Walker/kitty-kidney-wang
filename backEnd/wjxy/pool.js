@@ -1,7 +1,7 @@
 const mysql=require('mysql');
 //创建连接池对象
 const pool=mysql.createPool({
-  host:'176.46.10.90',
+  host:'176.46.10.130',
   port:'3306',
   user:'root',
   password:'',
