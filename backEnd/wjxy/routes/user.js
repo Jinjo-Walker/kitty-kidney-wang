@@ -5,6 +5,7 @@ const multer = require('multer');
 const uuid = require('uuid');
 const tencentcloud = require("tencentcloud-sdk-nodejs");
 const SmsClient = tencentcloud.sms.v20210111.Client;
+const qiniu = require('qiniu');
 //创建路由
 const r = express.Router();
 
@@ -98,11 +99,35 @@ r.use((err, req, res, next) => {
 	});
 });
 
-r.post('/upload',
-	upload.single('avatar'), (req, res) => {
+const accessKey = 'LShK02QmaQzCny_y25-POHAindOJ5CSTAO4beKsj';
+const secretKey = 'y7anmWKAfSrhZigK4772s4RDnkX2To7tFBo9_fN-';
+const bucket = 'wjxy';
+
+r.post('/token', (req, res, next) => {
+	let mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+	let options = {
+		scope: bucket,
+		expires: 3600 * 24
+	};
+	let putPolicy = new qiniu.rs.PutPolicy(options);
+	let uploadToken = putPolicy.uploadToken(mac);
+	if (uploadToken) {
+		res.send({
+			code: 200,
+			token: uploadToken
+		});
+	} else {
+		res.send({
+			code: 201,
+			token: 'error'
+		});
+	}
+})
+
+r.post('/upload',(req, res) => {
 		var sql = 'update table_user set avatar = ? where id = ?';
 		// pool.query(sql, ['http://101.34.219.80:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
-		pool.query(sql, ['http://localhost:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
+		pool.query(sql, [req.body.filename, req.body.id], function (err, result) {
 
 			if (err) {
 				next(err);
@@ -111,8 +136,7 @@ r.post('/upload',
 			if (result.changedRows > 0) {
 				res.send({
 					code: 200,
-					message: '上传成功',
-					url: 'http://localhost:5050/avatar/' + req.file.filename
+					message: '上传成功'
 				});
 			} else {
 				res.send({
@@ -122,6 +146,31 @@ r.post('/upload',
 			}
 		});
 	})
+
+// r.post('/upload',
+// 	upload.single('avatar'), (req, res) => {
+// 		var sql = 'update table_user set avatar = ? where id = ?';
+// 		// pool.query(sql, ['http://101.34.219.80:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
+// 		pool.query(sql, ['http://localhost:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
+
+// 			if (err) {
+// 				next(err);
+// 				return;
+// 			}
+// 			if (result.changedRows > 0) {
+// 				res.send({
+// 					code: 200,
+// 					message: '上传成功',
+// 					url: 'http://localhost:5050/avatar/' + req.file.filename
+// 				});
+// 			} else {
+// 				res.send({
+// 					code: 201,
+// 					message: '上传失败'
+// 				});
+// 			}
+// 		});
+// 	})
 
 
 //注册请求
