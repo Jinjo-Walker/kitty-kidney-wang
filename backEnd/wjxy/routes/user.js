@@ -529,17 +529,59 @@ r.get("/order_delete", (req, res, next) => {
 		if (result.affectedRows > 0) {
 			res.send({
 				code: 200,
-				message: '优惠券删除成功',
+				message: '订单删除成功',
 			});
 		} else {
 			res.send({
 				code: 201,
-				message: '优惠券删除失败'
+				message: '订单删除失败'
 			});
 		}
 	});
 })
 
+//用户地址获取
+r.get("/address_info", (req, res, next) => {
+	var sql = 'select id,name,tel,address from table_address where uid=?';
+	pool.query(sql, [req.query.uid], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.length > 0) {
+			res.send({
+				code: 200,
+				message: '查询成功',
+				result: result
+			});
+		} else {
+			res.send({
+				code: 201,
+				message: '查询失败'
+			});
+		}
+	});
+});
+
+//用户新增地址
+r.post("/addressAdd", (req, res, next) => {
+	var sql = 'insert into table_address(id,name,tel,address,uid) values(null,?,?,?,?)';
+	pool.query(sql, [req.body.name, req.body.tel, req.body.address, req.body.uid], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.affectedRows > 0) {
+			res.send({
+				code: 200,
+			});
+		} else {
+			res.send({
+				code: 201,
+			});
+		}
+	});
+});
 
 //注销请求
 r.get("/logout", (req, res) => {
