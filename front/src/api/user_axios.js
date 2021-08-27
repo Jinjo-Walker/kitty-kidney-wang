@@ -47,12 +47,19 @@ function coupon_search(info) {
         });
     })
 }
-
+function order_delete(info) {
+    return new Promise((reslove, reject) => {
+        Vue.prototype.axios.get(`/user/order_delete?orderid=${info}`).then(res => {
+            reslove(res.data);
+        });
+    })
+}
 export {
     upload,
     change_info,
     yzm,
     change_private,
-    coupon_search
+    coupon_search,
+    order_delete
 };
 

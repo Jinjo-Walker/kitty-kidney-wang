@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     open() {
-      this.$router.push(`${"/"}`);
+      this.$router.push(`${"/order"}`);
     },
     dialog() {
       this.$dialog.alert({

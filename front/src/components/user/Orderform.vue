@@ -15,7 +15,7 @@
         <ul>
           <li>已完成</li>
           <li>￥{{ order_one.total }}</li>
-          <li><button class="btn1">删除订单</button></li>
+          <li><button class="btn1" @click="Delete(order_one.orderid)">删除订单</button></li>
         </ul>
       </div>
     </div>
@@ -23,15 +23,25 @@
 </template>
 
 <script>
+import {order_delete} from '@/api/user_axios.js'
 export default {
-  props: ["order_one", "picAll"],
+  props: ["order_one", "picAll","show"],
   data() {
     return {};
   },
 
-  mounted() {},
+  created() {
+  },
 
-  methods: {},
+  methods: {
+    Delete(oid){
+      order_delete(oid).then((res)=>{
+        // console.log(res);
+        // this.$router.go(0);
+        this.show();
+      })
+    }
+  },
 };
 </script>
 

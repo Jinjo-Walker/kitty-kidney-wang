@@ -29,6 +29,7 @@ export default new Vuex.Store({
       address: "上海市黄浦区xx第一中学小学",
     },
     ],
+    firstmenu:0,
     menu: {
       '素菜': [],
       '荤菜': [],

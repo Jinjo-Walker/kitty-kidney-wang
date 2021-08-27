@@ -323,6 +323,12 @@ export default {
   padding: 10px;
   color: #808080;
   font-size: 10px;
+  position: relative;
+}
+.checkbox input{
+  position: absolute;
+  left: 7px;
+  top: 9px;
 }
 
 .DX h2 {

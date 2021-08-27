@@ -1,9 +1,10 @@
 <template>
   <div class="home">
+    <van-sticky>
     <div id="row">
-      <div @click="showPop">
+      <div @click="showPop" class="my-top-left">
         <span v-html="$store.state.city"></span>
-        <span id="a-down"><van-icon name="arrow-down"/></span>
+        <span id="a-down"><van-icon name="arrow-down" class="my-home-arror-down"/></span>
       </div>
       <!-- 顶部搜索框 -->
       <div id="ipt">
@@ -18,7 +19,7 @@
       <div>
         <van-popover
           v-model="showPopover"
-          theme="dark"
+          theme="light"
           :actions="actions"
           trigger="click"
           placement="bottom-end"
@@ -38,12 +39,13 @@
         />
       </div>
     </div>
+    </van-sticky>
 
     <!-- 顶部轮播图 -->
     <swip :images="images" />
 
     <!-- 面板 -->
-    <van-grid :column-num="3" :border="false">
+    <van-grid :column-num="3" :border="false" class="my-home-grid">
       <!-- 外卖 -->
       <van-grid-item icon="/img/banner/waimai4.png" text="外卖" to="/order" />
       <!-- 预约 -->
@@ -136,6 +138,7 @@ import swip from "@/components/user/swip";
 import tabbar from "@/components/user/Tabbar";
 import couponmain from "@/components/user/Couponsmain";
 import tab from "@/components/user/Tab";
+import { Toast } from "vant";
 
 export default {
   data() {
@@ -186,7 +189,11 @@ export default {
       // console.log(11);
     },
     showPopup() {
-      this.show = true;
+      if(!this.$store.state.isLogin){
+        Toast("请先登录！");
+      } else{
+        this.show = true;
+      }
     },
     showPop() {
       this.show2 = true;
@@ -275,6 +282,27 @@ export default {
     #ipt {
     display: block;
     width: 70%;
+  }
+
+  .my-home-grid .van-grid-item{
+    transform: scale(0.9);
+    box-sizing: border-box;
+    border: 1px solid white;
+    border-radius: 5px;
+    box-shadow: 3px 3px 15px #d1d1d1;
+    height: 90px;
+  }
+  .my-home-grid .van-grid-item .van-grid-item__icon{
+    font-size: 40px;
+  }
+
+  .my-top-left{
+    position: relative;
+    font-size: 13px;
+  }
+  .my-home-arror-down{
+    position: absolute;
+    top: 3px;
   }
   #row,
   #address {

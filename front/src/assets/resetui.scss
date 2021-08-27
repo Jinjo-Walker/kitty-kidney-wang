@@ -1,11 +1,11 @@
 .my-order {
     background-color: #ececec;
 
-   
-    
-    
     .van-icon-arrow-left{
         color: black;
+    }
+    .van-icon-arrow-left::before{
+        margin-right: 6px;
     }
 
     .my-main {
@@ -21,10 +21,6 @@
                 border-top: 1px solid #ececec;
             }
 
-            // .van-sticky--fixed {
-            //     margin: 0 6px;
-            // }
-
             .my-order-side {
                 left: 0;
                 height: 520px;
@@ -38,11 +34,13 @@
                         padding: 15px 12px;
                     }
 
+                    .van-sidebar-item--select{
+                        background-color: #ffffff !important;
+                    }
                     .van-sidebar-item--select::before {
-                        background-color: #b3f;
+                        content: none;
                     }
                 }
-
             }
 
             .my-card-insert {
@@ -54,13 +52,16 @@
                 .my-card-divide {
                     margin: 0;
                     padding-left: 23px;
-                    color: #b6f;
-                    background-color: white;
+                    color: #0baff0;
+                    background-color: #ffffff;
                     font-size: 16px;
                     font-weight: 600;
                 }
 
                 .my-card-divide::before {
+                    content: none;
+                }
+                .my-card-divide::after {
                     content: none;
                 }
             }
@@ -87,7 +88,7 @@
             }
 
             .van-info {
-                background-color: #b3f;
+                background-color: #0baff0;
             }
 
             .van-goods-action-icon:nth-child(2) {
@@ -97,11 +98,11 @@
                 width: 30%;
                 text-align: left;
                 font-size: 20px;
-                color: #b3f;
+                color: #0baff0;
             }
 
             .van-goods-action-button--danger {
-                background: linear-gradient(to right, #e6e, #b3f);
+                background: linear-gradient(to right, #5acefc, #0baff0);
             }
         }
     }
@@ -116,7 +117,6 @@
         padding-right: 8px;
     }
 
-
     .van-card__title {
         margin-top: 3px;
         font-size: 16px;
@@ -129,7 +129,7 @@
     }
 
     .my-card-price-all {
-        color: #b3f;
+        color: #0baff0;
         margin-top: 23px;
         font-size: 14px;
 
@@ -159,7 +159,7 @@
                 border-radius: 50%;
                 font-size: 24px;
                 color: white;
-                background-color: #b6f;
+                background-color: #0baff0;
             }
 
             .my-two-btn1 {
@@ -167,8 +167,8 @@
                 font-size: 21px;
                 line-height: 18px;
                 padding-bottom: 2px;
-                border: 2px solid #b6f;
-                color: #b6f;
+                border: 2px solid #0baff0;
+                color: #0baff0;
                 background-color: white;
             }
         }
@@ -179,7 +179,7 @@
             position: absolute;
             right: 3px;
             top: -4px;
-            color: #b4f;
+            color: #0baff0;
             padding: 5px 0;
             font-size: 20px;
         }

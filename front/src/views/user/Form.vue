@@ -1,6 +1,6 @@
 <template>
   <div class="form">
-    <div sticky :offset="0">
+    <div>
       <van-nav-bar title="订单"> </van-nav-bar>
     </div>
     <div>
@@ -11,6 +11,7 @@
             :key="index"
             :order_one="item"
             :picAll="img[index]"
+            :show="show"
           />
         </van-tab>
         <van-tab title="待评价" name="evaluate"></van-tab>
@@ -35,7 +36,12 @@ export default {
   },
 
   created() {
-    order_info(this.$store.state.uid).then((res) => {
+    this.show();
+  },
+
+  methods: {
+    show(){
+      order_info(this.$store.state.uid).then((res) => {
       this.order = res.result;
       // console.log(this.order);
       for (var i of this.order) {
@@ -45,9 +51,8 @@ export default {
         });
       }
     });
+    }
   },
-
-  methods: {},
   components: {
     tabbar,
     orderform,

@@ -2,7 +2,13 @@
   <div class="my-order">
     <!-- 页头 -->
     <van-sticky class="my-order-head" :offset-top="0">
-      <van-search class="my-head-search" v-model="value" show-action shape="round" placeholder="请输入搜索关键词">
+      <van-search
+        class="my-head-search"
+        v-model="value"
+        show-action
+        shape="round"
+        placeholder="请输入搜索关键词"
+      >
         <template #left>
           <van-icon @click="$router.push('/')" name="arrow-left"></van-icon>
         </template>
@@ -28,7 +34,7 @@
       <!-- 商品内容区 -->
       <div class="my-center">
         <!-- 顶部导航栏 -->
-        <van-tabs v-model="activeName" sticky :offset-top="45" :color="'#b3f'">
+        <van-tabs v-model="activeName" sticky :offset-top="45" :color="'#0baff0'">
           <!-- 点餐界面 -->
           <van-tab title="点餐" class="my-three-top" name="a">
             <van-sticky :offset-top="90">
@@ -40,7 +46,7 @@
                   class="my-card-divide"
                   id="sucai"
                   title="素菜"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >素菜</van-divider
                 >
                 <my-card
@@ -56,7 +62,7 @@
                 <van-divider
                   class="my-card-divide"
                   id="huncai"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >荤菜</van-divider
                 >
                 <my-card
@@ -72,7 +78,7 @@
                 <van-divider
                   class="my-card-divide"
                   id="niuyang"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >牛羊肉</van-divider
                 >
                 <my-card
@@ -88,7 +94,7 @@
                 <van-divider
                   class="my-card-divide"
                   id="zhurou"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >猪肉</van-divider
                 >
                 <my-card
@@ -104,7 +110,7 @@
                 <van-divider
                   class="my-card-divide"
                   id="haixian"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >海鲜</van-divider
                 >
                 <my-card
@@ -120,7 +126,7 @@
                 <van-divider
                   class="my-card-divide"
                   id="kaoyu"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >烤鱼</van-divider
                 >
                 <my-card
@@ -136,7 +142,7 @@
                 <van-divider
                   class="my-card-divide"
                   id="niuwa"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >牛蛙</van-divider
                 >
                 <my-card
@@ -152,7 +158,7 @@
                 <van-divider
                   class="my-card-divide"
                   id="jiya"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >鸡鸭肉</van-divider
                 >
                 <my-card
@@ -168,7 +174,7 @@
                 <van-divider
                   class="my-card-divide"
                   id="yinliao"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >饮料</van-divider
                 >
                 <my-card
@@ -184,7 +190,7 @@
                 <van-divider
                   class="my-card-divide"
                   id="jiushui"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >酒水</van-divider
                 >
                 <my-card
@@ -198,7 +204,7 @@
 
                 <van-divider
                   class="my-card-divide"
-                  :style="{ borderColor: '#b6f' }"
+                  :style="{ borderColor: '#0baff0' }"
                   >到底了···</van-divider
                 >
               </div>
@@ -224,7 +230,7 @@
             <van-goods-action>
               <van-goods-action-icon
                 icon="cart-o"
-                color="#b3f"
+                color="#0baff0"
                 :badge="num"
                 @click="chsheet"
               />
@@ -260,8 +266,10 @@
 </template>
 
 <script>
+//获取接口数据
 import { pro } from "@/api/product_axios.js";
-import {Toast} from 'vant'
+// 引入Toast组件
+import { Toast } from "vant";
 // 引入resetui组件
 import "@/assets/resetui.scss";
 export default {
@@ -325,13 +333,12 @@ export default {
   methods: {
     //结算按钮跳转支付界面
     onClickButton() {
-      if(this.$store.state.arr.length==0){
-        Toast('尚未选择商品！');
-      }
-      else{
-      this.$router.push({
-        path: "/pay",
-      });
+      if (this.$store.state.arr.length == 0) {
+        Toast("请选择商品！");
+      } else {
+        this.$router.push({
+          path: "/pay",
+        });
       }
     },
     // 锚点
@@ -340,7 +347,10 @@ export default {
     },
     // 底部已选商品弹窗开关
     chsheet() {
-      if (this.show == false) {
+      if(this.$store.state.arr.length==0){
+        Toast("请选择商品！");
+        return;
+      } else if (this.show == false) {
         this.show = true;
       } else if (this.show == true) {
         this.show = false;
@@ -376,38 +386,41 @@ export default {
   },
   created() {
     pro().then((res) => {
-      for (var key of res.result) {
-        if (key.kind2 == 1) {
-          key.count = 0;
-          this.$store.state.menu["素菜"].push(key);
-        } else if (key.kind2 == 2) {
-          key.count = 0;
-          this.$store.state.menu["荤菜"].push(key);
-        } else if (key.kind2 == 3) {
-          key.count = 0;
-          this.$store.state.menu["牛羊肉"].push(key);
-        } else if (key.kind2 == 4) {
-          key.count = 0;
-          this.$store.state.menu["猪肉"].push(key);
-        } else if (key.kind2 == 5) {
-          key.count = 0;
-          this.$store.state.menu["海鲜"].push(key);
-        } else if (key.kind2 == 6) {
-          key.count = 0;
-          this.$store.state.menu["烤鱼"].push(key);
-        } else if (key.kind2 == 7) {
-          key.count = 0;
-          this.$store.state.menu["牛蛙"].push(key);
-        } else if (key.kind2 == 8) {
-          key.count = 0;
-          this.$store.state.menu["鸡鸭肉"].push(key);
-        } else if (key.kind2 == 9) {
-          key.count = 0;
-          this.$store.state.menu["饮料"].push(key);
-        } else if (key.kind2 == 10) {
-          key.count = 0;
-          this.$store.state.menu["酒水"].push(key);
+      if (this.$store.state.firstmenu == 0) {
+        for (var key of res.result) {
+          if (key.kind2 == 1) {
+            key.count = 0;
+            this.$store.state.menu["素菜"].push(key);
+          } else if (key.kind2 == 2) {
+            key.count = 0;
+            this.$store.state.menu["荤菜"].push(key);
+          } else if (key.kind2 == 3) {
+            key.count = 0;
+            this.$store.state.menu["牛羊肉"].push(key);
+          } else if (key.kind2 == 4) {
+            key.count = 0;
+            this.$store.state.menu["猪肉"].push(key);
+          } else if (key.kind2 == 5) {
+            key.count = 0;
+            this.$store.state.menu["海鲜"].push(key);
+          } else if (key.kind2 == 6) {
+            key.count = 0;
+            this.$store.state.menu["烤鱼"].push(key);
+          } else if (key.kind2 == 7) {
+            key.count = 0;
+            this.$store.state.menu["牛蛙"].push(key);
+          } else if (key.kind2 == 8) {
+            key.count = 0;
+            this.$store.state.menu["鸡鸭肉"].push(key);
+          } else if (key.kind2 == 9) {
+            key.count = 0;
+            this.$store.state.menu["饮料"].push(key);
+          } else if (key.kind2 == 10) {
+            key.count = 0;
+            this.$store.state.menu["酒水"].push(key);
+          }
         }
+        this.$store.state.firstmenu = 1;
       }
     });
     // console.log(this.menu);
