@@ -7,7 +7,6 @@
       right-text="兑换"
       @click-left="$router.push(`${ $store.state.coupon_from}`)"
       @click-right="onClickRight"
-      
     ></van-nav-bar>
     <div class="vbt_top">
       <van-button id="vbt1" size="mini" color="grey"><span>推荐使用</span></van-button> 
@@ -58,7 +57,7 @@ export default {
   created(){
     coupon_search(`id=${this.$store.state.uid}`).then(res=>{
       this.coupons = res.result;
-      console.log(this.coupons);
+      // console.log(this.coupons);
     })
   }
  

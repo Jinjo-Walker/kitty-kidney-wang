@@ -10,24 +10,24 @@ export default new Vuex.Store({
     phone: sessionStorage.getItem("phone") || -1,
     user_name: sessionStorage.getItem("user_name") || "用户名",
     city: "定位中",
-    center:[121.43692, 31.197348],
+    center: [121.43692, 31.197348],
     avatar: sessionStorage.getItem("avatar") || "img/avatar/avatar_default.jpg",
     buy_kind: -1,
-    pay_click:0,
+    pay_click: 0,
     coupon_from: "/",
     address_from: "/mine",
     list: [{
-        id: "1",
-        name: "张三",
-        tel: "13782221981",
-        address: "上海市徐汇区汇银广场北楼707室",
-      },
-      {
-        id: "2",
-        name: "李四",
-        tel: "13100000001",
-        address: "上海市黄浦区xx第一中学小学",
-      },
+      id: "1",
+      name: "张三",
+      tel: "13782221981",
+      address: "上海市徐汇区汇银广场北楼707室",
+    },
+    {
+      id: "2",
+      name: "李四",
+      tel: "13100000001",
+      address: "上海市黄浦区xx第一中学小学",
+    },
     ],
     menu: {
       '素菜': [],
@@ -42,12 +42,13 @@ export default new Vuex.Store({
       '酒水': [],
     },
     arr: [],
-    AddressInfo: {
+    AddressInfo: JSON.parse(sessionStorage.getItem("AddressInfo")) || {
       name: "",
       tel: "",
       addressDetail: "",
       areaCode: "",
-    }
+    },
+    popcount:0,
   },
   mutations: {
     loginCheck(state, user) {
@@ -68,6 +69,7 @@ export default new Vuex.Store({
       state.uid = -1;
       state.phone = -1;
       state.avatar = "img/avatar/avatar_default.jpg";
+      sessionStorage.clear();
     }
   },
   actions: {},

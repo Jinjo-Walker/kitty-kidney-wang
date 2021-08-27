@@ -31,13 +31,16 @@ export default {
 
   methods: {
     sel(item, index) {
+      if(this.$store.state.address_from == '/mine'){
+        return;
+      }
       let chosen = this.list[index];
       this.$router.push({
         path: `/pay?id=${chosen}&address=${chosen.address}&name=${chosen.name}&tel=${chosen.tel}`,
       });
     },
     onClickLeft() {
-      console.log(this.$store.state.address_from);
+      // console.log(this.$store.state.address_from);
       this.$router.push(`${this.$store.state.address_from}`);
     },
     onAdd() {

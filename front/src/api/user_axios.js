@@ -1,12 +1,20 @@
 import Vue from 'vue';
 
-function upload(file) {
+function upload(info) {
     return new Promise((reslove, reject) => {
-        Vue.prototype.axios.post('/user/upload', file).then(res => {
+        Vue.prototype.axios.post('/user/upload', info).then(res => {
             reslove(res.data);
         });
     })
 }
+
+// function upload(file) {
+//     return new Promise((reslove, reject) => {
+//         Vue.prototype.axios.post('/user/upload', file).then(res => {
+//             reslove(res.data);
+//         });
+//     })
+// }
 
 function change_info(info) {
     return new Promise((reslove, reject) => {

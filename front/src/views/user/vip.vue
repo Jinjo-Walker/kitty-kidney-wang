@@ -6,7 +6,7 @@
     <div class="cover_box"></div>
     <div class="vip_tx">
       <div class="TX"></div>
-      <p class="TX_P">承诺像刀伤了人</p>
+      <p class="TX_P">张三</p>
     </div>
 
     <span class="SP">我的会员</span> <span>会员积分</span>
@@ -102,6 +102,6 @@ export default {
   padding: 40px 0 60px 0;
 }
 .vip p{
-  margin-left: 20px;
+  margin-left: 10px;
 }
 </style>

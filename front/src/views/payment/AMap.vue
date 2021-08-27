@@ -94,7 +94,7 @@ export default {
       //获取初始中心点并赋值
       var currentCenter = map.getCenter(); //此方法是获取当前地图的中心点
       this.center = [currentCenter.lng, currentCenter.lat]; //将获取到的中心点的纬度经度赋值给data的center
-      console.log(this.center);
+      // console.log(this.center);
 
       //创建标记
       this.marker = new AMap.Marker({
@@ -177,15 +177,15 @@ export default {
       });
     },
     onAddressLi(e) {
-      console.log(e);
+      // console.log(e);
       this.marker.setPosition([e.location.lng, e.location.lat]); //更新标记的位置
       this.$store.state.AddressInfo.addressDetail = `${e.address}${e.name}`;
       this.$router.push(`/address_add2`);
     },
     onSearchLi(e) {
-      console.log(e.lng + "-" + e.lat);
+      // console.log(e.lng + "-" + e.lat);
       this.center = [e.lng, e.lat];
-      console.log(this.center);
+      // console.log(this.center);
       this.search_key = "";
       // this.loading=true;
       setTimeout(() => {

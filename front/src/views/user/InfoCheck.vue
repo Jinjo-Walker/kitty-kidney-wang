@@ -49,7 +49,7 @@
         v-model="fileList"
         multiple
         max-count="1"
-        :after-read="uploadAvatar"
+        :after-read="afterRead"
       />
       <span class="rule">限jpg、png、jpeg等图片文件</span>
     </div>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import { upload, change_info, yzm, change_private } from "@/api/user_axios.js";
 import { Toast } from "vant";
 export default {
@@ -87,23 +88,81 @@ export default {
       con_pwd: "",
       fileList: [{ url: this.$store.state.avatar }],
       disabled: false,
+      token: "",
     };
   },
+  created() {
+    this.axios.post("/user/token").then((res) => {
+      //console.log(res);
+      this.token = res.data.token;
+    });
+  },
   methods: {
-    uploadAvatar(file) {
-      let fd = new FormData();
-      fd.append("avatar", file.file);
-      fd.append("id", this.$store.state.uid);
-      upload(fd).then((res) => {
-        if (res.code == 200) {
-          Toast.success("上传成功");
-          sessionStorage.setItem("avatar", res.url);
-          this.$store.state.avatar = res.url;
-        } else {
-          Toast.fail("上传失败");
-        }
-      });
+    afterRead(file) {
+      this.uploadImgToQiniu(this.token, file); // token 后台获取
     },
+    uploadImgToQiniu(token, file) {
+      let that = this;
+      const axiosInstance = axios.create({ withCredentials: false }); //withCredentials 禁止携带cookie，带cookie在七牛上有可能出现跨域问题
+      let data = new FormData();
+      data.append("token", token); //七牛需要的token，后台获取
+      data.append("file", file["file"]); // 图片文件
+
+      //  key 是上传到七牛的名字  例：原图是1.jpg,file.file.name的值为1.jpg
+      let file_info = file.file.name.split(".");
+      let file_kind = file_info[file_info.length - 1];
+      data.append("key", `avatar/avatar_${new Date().getTime()}.${file_kind}`);
+      axiosInstance({
+        method: "POST",
+        url: "https://upload-z2.qiniup.com", //上传地址
+        data: data,
+        timeout: 30000, //超时时间，因为图片上传时间有可能比较长
+        // onUploadProgress: (progressEvent)=> {
+        //     //imgLoadPercent 是上传进度，可以用来添加进度条
+        //     let imgLoadPercent = Math.round(progressEvent.loaded * 100 / progressEvent.total);
+        // },
+      })
+        .then((res) => {
+          if (res.status == 200) {
+            // 上传成功， 返回的res中会带上文件的名字 例：1.jpg  传入的key是什么返回的就是什么
+            console.log(res);
+            let fd = `filename=http://img.ztmnbt.xyz/${res.data.key}&id=${this.$store.state.uid}`;
+            upload(fd).then((res2) => {
+              console.log(res2);
+              if (res2.code == 200) {
+                Toast.success("上传成功");
+                sessionStorage.setItem(
+                  "avatar",
+                  `http://img.ztmnbt.xyz/${res.data.key}`
+                );
+                this.$store.state.avatar = `http://img.ztmnbt.xyz/${res.data.key}`;
+              } else {
+                Toast.fail("上传更新失败");
+              }
+            });
+          } else {
+            Toast.fail("上传失败");
+          }
+        })
+        .catch(function(err) {
+          //上传失败
+        });
+    },
+
+    // uploadAvatar(file) {
+    //   let fd = new FormData();
+    //   fd.append("avatar", file.file);
+    //   fd.append("id", this.$store.state.uid);
+    //   upload(fd).then((res) => {
+    //     if (res.code == 200) {
+    //       Toast.success("上传成功");
+    //       sessionStorage.setItem("avatar", res.url);
+    //       this.$store.state.avatar = res.url;
+    //     } else {
+    //       Toast.fail("上传失败");
+    //     }
+    //   });
+    // },
     send_yzm(info) {
       if (this.old_phone) {
         yzm(info).then((res) => {

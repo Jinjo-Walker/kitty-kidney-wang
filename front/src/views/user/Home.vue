@@ -3,7 +3,7 @@
     <div id="row">
       <div @click="showPop">
         <span v-html="$store.state.city"></span>
-        <span id="a-down"><van-icon name="arrow-down" /></span>
+        <span id="a-down"><van-icon name="arrow-down"/></span>
       </div>
       <!-- 顶部搜索框 -->
       <div id="ipt">
@@ -23,11 +23,19 @@
           trigger="click"
           placement="bottom-end"
           :offset="offset"
+          @select="onSelect"
         >
           <template #reference>
-            <van-icon name="plus" @click="Popover" />
+            <van-icon name="plus" size="23" @click="Popover" />
           </template>
         </van-popover>
+      </div>
+      <div>
+        <van-share-sheet
+          v-model="showShare"
+          title="立即分享给好友"
+          :options="options"
+        />
       </div>
     </div>
 
@@ -37,12 +45,12 @@
     <!-- 面板 -->
     <van-grid :column-num="3" :border="false">
       <!-- 外卖 -->
-      <van-grid-item icon="/img/banner/waimai.svg" text="外卖" to="/order" />
+      <van-grid-item icon="/img/banner/waimai4.png" text="外卖" to="/order" />
       <!-- 预约 -->
-      <van-grid-item icon="/img/banner/yuyue.svg" text="预约" to="/" />
+      <van-grid-item icon="/img/banner/yuyue2.png" text="预约" to="/" />
       <!-- 领券 -->
       <van-grid-item
-        icon="/img/banner/youhui.svg"
+        icon="/img/banner/linquan2.png"
         text="领券"
         @click.stop="showPopup"
       />
@@ -116,7 +124,7 @@
           <div class="current_city">
             <span>当前城市：{{ $store.state.city }}</span>
           </div>
-          <tab @hide="hide"/>
+          <tab @hide="hide" />
         </div>
       </div>
     </van-popup>
@@ -133,14 +141,14 @@ export default {
   data() {
     return {
       images: [
-        "http://img.ztmnbt.xyz/image/lb1.jpg",
-        "http://img.ztmnbt.xyz/image/lb2.jpg",
-        "http://img.ztmnbt.xyz/image/lb3.jpg",
+        "/img/banner/lunbo1.jpg",
+        "/img/banner/lunbo2.jpg",
+        "/img/banner/lunbo4.jpg",
       ],
       value: "",
       value2: "",
       showPopover: false,
-      actions: [{ text: "扫一扫" }, { text: "分享" }, { text: "选项三" }],
+      actions: [{ text: "扫一扫" }, { text: "分享" }],
       isLoading: false,
       count: 0,
       offset: [14, 7],
@@ -148,6 +156,13 @@ export default {
       container: null,
       show2: false,
       active: "",
+      showShare:false,
+      options: [
+          { name: '微信', icon: 'wechat' },
+          { name: '朋友圈', icon: 'wechat-moments' },
+          { name: '微博', icon: 'weibo' },
+          { name: 'QQ', icon: 'qq' },
+        ],
     };
   },
 
@@ -155,7 +170,7 @@ export default {
     scrollTo() {},
     //调用onSearch方法获取搜索框的值
     onSearch() {
-      console.log(this.value);
+      // console.log(this.value);
     },
     onSearch2() {
       var scto = document.getElementById(`#${this.value2}`);
@@ -168,7 +183,7 @@ export default {
     },
     Popover() {},
     onRefresh() {
-      console.log(11);
+      // console.log(11);
     },
     showPopup() {
       this.show = true;
@@ -181,16 +196,21 @@ export default {
       this.show = false;
       this.show2 = false;
     },
-    hide(){
-      this.show2 = false;
-    },
+    hide() {
+      this.show2 = false;
+    },
+    onSelect(action) {
+      if (action.text == "分享") {
+        this.showShare=true
+      }
+    },
 
     mounted() {
       this.container = this.$refs.container;
     },
     getLocation() {
       let _this = this;
-      AMap.plugin("AMap.Geolocation", function () {
+      AMap.plugin("AMap.Geolocation", function() {
         var geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
           enableHighAccuracy: true,
@@ -202,18 +222,23 @@ export default {
         AMap.event.addListener(geolocation, "error", onError);
         // data是具体的定位信息
         function onComplete(data) {
-          console.log("具体的定位信息", data);
-         _this.$store.state.city =  data.addressComponent.province;
-         _this.$store.state.center = [data.position.lng,data.position.lat];
+          // console.log("具体的定位信息", data);
+          _this.$store.state.city = data.addressComponent.province;
+          _this.$store.state.center = [data.position.lng, data.position.lat];
         }
         function onError(data) {
           // 失败 启用 ip定位
-          AMap.plugin("AMap.CitySearch", function () {
+          AMap.plugin("AMap.CitySearch", function() {
             var citySearch = new AMap.CitySearch();
-            citySearch.getLocalCity(function (status, result) {
+            citySearch.getLocalCity(function(status, result) {
               if (status === "complete" && result.info === "OK") {
                 // 查询成功，result即为当前所在城市信息
-                console.log("通过ip获取当前城市：", result);
+                // console.log("通过ip获取当前城市：", result);
+                _this.$store.state.city = result.city;
+                _this.$store.state.center = [
+                  result.bounds.nc.lng,
+                  result.bounds.nc.lat,
+                ];
               }
             });
           });
@@ -243,10 +268,11 @@ export default {
   },
 };
 </script>
-<style  lang="scss" >
+<style lang="scss">
 .home {
   margin-bottom: 50px;
-  #ipt {
+  background-color: #F5F5F5;
+    #ipt {
     display: block;
     width: 70%;
   }
@@ -258,6 +284,9 @@ export default {
     align-items: center;
   }
   #address {
+      background-color: white;
+  }
+  #row{
     background-color: white;
   }
   .address_head {
@@ -281,7 +310,7 @@ export default {
   .current_city {
     background-color: white;
   }
-  .van-popup{
+  .van-popup {
     padding-bottom: 0px;
   }
 }

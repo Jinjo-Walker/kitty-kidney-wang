@@ -410,7 +410,7 @@ export default {
         }
       }
     });
-    console.log(this.menu);
+    // console.log(this.menu);
   },
   watch: {
     arr() {

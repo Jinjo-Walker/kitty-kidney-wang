@@ -14,20 +14,22 @@
     <van-tabs class="tabss">
       <van-cell
         class="cells"
-        :title="`${
-          $route.query.address ? $route.query.address : '请选择收货地址'
-        }`"
+        :title="
+          `${$route.query.address ? $route.query.address : '请选择收货地址'}`
+        "
         icon="location-o"
         is-link
         @click="onclick"
       />
       <van-cell
         class="cellss"
-        :title="`${
-          $route.query.name + $route.query.tel
-            ? $route.query.name + ' ' + $route.query.tel
-            : ''
-        }`"
+        :title="
+          `${
+            $route.query.name + $route.query.tel
+              ? $route.query.name + ' ' + $route.query.tel
+              : ''
+          }`
+        "
         icon="phone-o"
         @click="onclick"
       />
@@ -75,6 +77,7 @@
   </div>
 </template>
 <script>
+import { order_add } from "@/api/order_axios.js";
 import { Toast } from "vant";
 export default {
   data() {
@@ -90,7 +93,7 @@ export default {
   },
   computed: {
     // 计算订单商品价格
-    price: function () {
+    price: function() {
       var total_prc = 0;
       for (var i in this.$store.state.menu) {
         for (var j of this.$store.state.menu[i]) {
@@ -155,6 +158,23 @@ export default {
           icon: "cross",
         });
       } else if (value.length === 6 && value === "123456") {
+        let str = "";
+        for (let a of this.$store.state.arr) {
+          if (
+            this.$store.state.arr.indexOf(a) !=
+            this.$store.state.arr.length - 1
+          ) {
+            str += `${a.cid},${a.count},${a.price}|`;
+          } else {
+            str += `${a.cid},${a.count},${a.price}`;
+          }
+        }
+        order_add(
+          `id=${this.$store.state.uid}&total=${this.price}&str=${str}`
+        ).then((res) => {
+          // console.log(res);
+        });
+
         this.$store.state.arr = [];
         for (var i in this.$store.state.menu) {
           for (var j of this.$store.state.menu[i]) {

@@ -4,22 +4,30 @@
       <div class="coupon">
         <div class="money">
           <span>￥</span>
-          <span>{{couponid.money}}</span>
+          <span>{{ couponid.money }}</span>
         </div>
-        <div class="cpn">{{couponid.couponname}}</div>
+        <div class="cpn">{{ couponid.couponname }}</div>
       </div>
       <div class="item_i">
         <ul>
           <li>
             <van-tag class="tag">外卖券</van-tag
-            ><span class="content">{{couponid.information}}</span>
+            ><span class="content">{{ couponid.information }}</span>
           </li>
-          <li>{{moment(couponid.Start_date).format('YYYY/MM/DD')}}~{{moment(couponid.end_date).format('YYYY/MM/DD')}}</li>
+          <li>
+            {{ moment(couponid.Start_date).format("YYYY/MM/DD") }}~{{
+              moment(couponid.end_date).format("YYYY/MM/DD")
+            }}
+          </li>
           <li @click="dialog">使用规则></li>
         </ul>
       </div>
       <div class="btn">
-        <button @click="Couponreceive"><span>领取</span></button>
+        <button
+          @click="Couponreceive(couponid.couponid, $store.state.uid)"
+        >
+          <span>领取</span>
+        </button>
       </div>
     </div>
   </div>
@@ -40,20 +48,25 @@ export default {
     this.Couponsearch();
   },
   methods: {
-    Couponreceive() {
-      coupon_recive(1, this.$store.state.uid).then((res) => {
+    Couponreceive(cid, id) {
+      coupon_recive(cid, id).then((res) => {
         if (res.code == 200) {
           //弹出消息
           const toast = Toast.success({
             message: "领取成功宝贝",
             icon: "like-o",
           });
+        } else {
+          const toast = Toast.success({
+            message: res.message,
+            icon: "fail",
+          });
         }
       });
     },
     Couponsearch() {
       coupon_search2().then((res) => {
-        console.log(res.result);
+        // console.log(res.result);
         this.couponlist = res.result;
         //  console.log(this.couponlist)
       });

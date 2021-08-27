@@ -14,11 +14,15 @@ import Mine from '../views/user/Mine.vue'
 import Form from '../views/user/Form.vue'
 import Chart from '../views/user/Chart.vue'
 import Vip from '../views/user/vip.vue'
-import Pay from '../views/payment/Pay.vue'
 import AddressList from '../views/payment/AddressList.vue'
 import Address_add from '../views/payment/Address_add.vue'
 import Address_add2 from '../views/payment/Address_add2.vue'
+import Pay from '../views/payment/Pay.vue'
 import AMap from '../views/payment/AMap.vue'
+import goods from '../views/shop/goods.vue'
+import Merchant from '../views/shop/Merchant.vue'
+import ShopLogin from '../views/shop/shopLogin.vue'
+import shopchart from '../views/shop/shopChart.vue'
 
 Vue.use(VueRouter)
 
@@ -75,6 +79,7 @@ const routes = [
     path: '/chart',
     component:Chart
   },
+  // 支付路由
   {
     path: '/address_add',
     component:Address_add
@@ -99,7 +104,23 @@ const routes = [
     name: 'AMap',
     component: AMap
   },
-
+  // 商家路由
+  {
+    path: '/merchant',
+    component:Merchant
+  },
+  {
+    path: '/shoplogin',
+    component:ShopLogin
+  },
+  {
+    path: '/goods',
+    component: goods
+  },
+  {
+    path: '/shopchart',
+    component: shopchart
+  }
 ]
 
 const router = new VueRouter({
@@ -121,7 +142,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  } else if (to.path == "/change_info" || to.path == "/info_check" || to.path == "/coupon" || to.path == "/addressList") {
+  } else if (to.path == "/change_info" || to.path == "/info_check" || to.path == "/coupon" || to.path == "/addressList" || to.path == "/form") {
     // requireAuth:可以在路由元信息指定哪些页面需要登录权限
     if (islogin) {
       next();

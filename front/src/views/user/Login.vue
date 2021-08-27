@@ -149,7 +149,7 @@ export default {
       //   this._clearable=value;
       // },
       value: "",
-      showKeyboard: true,
+      showKeyboard: false,
       isChecked: true,
       show: true,
       passwordmsg: true,
@@ -183,7 +183,7 @@ export default {
       const isComplete = !this.show
         ? !this.phone || !this.passwordmsg || this.isChecked
         : !this.phone || !this.messageCheck || this.isChecked;
-      console.log(isComplete);
+      // console.log(isComplete);
       if (isComplete) {
         return;
       }
@@ -208,10 +208,10 @@ export default {
           .post(api, { ...params })
           .then((res) => {
             const { code, result } = res.data;
-            console.log("请求结果", res);
+            // console.log("请求结果", res);
             // 请求成功
             if (code == 200) {
-              console.log(result[0]);
+              // console.log(result[0]);
               this.$store.commit("loginCheck", result[0]);
               Toast.success("登录成功");
               // 针对登录的数据进行处理 然后进行跳转路由到首页
@@ -224,7 +224,7 @@ export default {
             console.log(err);
           });
       } else {
-        console.log(this.show, api, this.phone, this.value);
+        // console.log(this.show, api, this.phone, this.value);
         Toast.fail("验证码或密码不正确");
       }
     },

@@ -32,10 +32,17 @@ export default {
   },
   methods: {
     onClickLeft() {
+      this.$store.state.AddressInfo = {
+        name: "",
+        tel: "",
+        addressDetail: "",
+        areaCode: "",
+      };
+      sessionStorage.removeItem("AddressInfo");
       this.$router.push({ path: "/addressList" });
     },
     onSave(val, index) {
-      console.log(val);
+      // console.log(val);
       this.$router.push({
         path: `/addressList?address=${val.addressDetail}&name=${val.name}&tel=${val.tel}`,
       });
@@ -87,7 +94,10 @@ export default {
             this.$refs.alist.$children[3].$el.children[0].children[0]
               .children[1].children[0].children[0].value,
         };
-
+        sessionStorage.setItem(
+          "AddressInfo",
+          JSON.stringify(this.$store.state.AddressInfo)
+        );
         this.$router.push("/amap");
       });
     });

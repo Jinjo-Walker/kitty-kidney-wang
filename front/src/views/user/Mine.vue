@@ -1,33 +1,56 @@
 <template>
   <div class="mine">
-    <van-row class="top" type="flex" justify="space-between" align="center">
-      <van-col class="user_info"
-        ><van-image
+    <van-row
+      class="top"
+      type="flex"
+      justify="space-between"
+      align="center"
+    >
+      <van-col class="user_info">
+        <van-image
           round
           width="60"
           height="60"
           :src="$store.state.avatar"
-          @click="$router.push('/change_info')"/><span
+          @click="$router.push('/change_info')"
+        /><span
           class="uname"
           v-text="$store.state.user_name"
-        ></span
-      ></van-col>
-      <van-col
-        ><span class="logout" v-if="$store.state.isLogin" v-text="`注销`" @click="logout"></span>
+        ></span>
+      </van-col>
+      <van-col><span
+          class="logout"
+          v-if="$store.state.isLogin"
+          v-text="`注销`"
+          @click="logout"
+        ></span>
         <span
           class="login"
           v-else
           v-text="`登录/注册`"
-          @click="$router.push('/login')"
+          @click="choose"
         ></span>
       </van-col>
     </van-row>
-    <van-row class="row_vip" type="flex" justify="space-between" align="center">
-      <van-col span="16" offset="1"
-        ><div class="vip">超级会员 | 立即领取</div></van-col
-      >
-      <van-col span="2" offset="2"><div>></div></van-col></van-row
+    <van-row
+      class="row_vip"
+      type="flex"
+      justify="space-between"
+      align="center"
     >
+      <van-col
+        span="16"
+        offset="1"
+      >
+        <div class="vip">超级会员 | 立即领取</div>
+      </van-col>
+      <van-col
+        span="2"
+        offset="2"
+      >
+        <div>></div>
+      </van-col>
+    </van-row>
     <div class="changyong">
       <span>常用功能</span>
       <div class="gongneng">
@@ -44,7 +67,11 @@
     </div>
 
     <div class="money">
-      <van-row type="flex" justify="space-between" align="center">
+      <van-row
+        type="flex"
+        justify="space-between"
+        align="center"
+      >
         <van-col><span>我的钱包</span></van-col>
         <van-col><span class="in">进入钱包 ></span></van-col>
       </van-row>
@@ -71,15 +98,34 @@
     </div>
     <!-- 底部导航栏   -->
     <tabbar nav="mine" />
+    <my-popup
+      :show.sync="myShow"
+      position="bottom"
+      class="popup_box"
+      
+    >
+   
+    <div  @click="$router.push('/shoplogin')">
+      <img src="../../../public/img/avatar/ic_line_shgl.png" alt="">
+      <p class="popContent">商家登录</p>
+    </div>
+     <div  @click="$router.push('/login')">
+      <img src="../../../public/img/avatar/yonghudenglu.png" alt="">
+      <p class="popContent">用户登录</p>
+     </div>
+     
+    </my-popup>
   </div>
 </template>
 <script>
 import mineIcon from "@/components/user/MineIcon.vue";
 import tabbar from "@/components/user/Tabbar";
+import myPopup from '@/components/user/my-popup';
 export default {
   name: "mine",
   data() {
     return {
+      myShow:false,
       gongneng: [
         {
           name: "gift",
@@ -147,11 +193,27 @@ export default {
       sessionStorage.clear();
       this.$store.commit('logout');
       this.$router.push('/login');
+    },
+    choose(){
+      this.myShow=true;
     }
   },
   components: {
     mineIcon,
     tabbar,
+    myPopup
+  },
+  mounted() {
+   /*  this.$bus.$on('givePopup',()=>{
+      this.myShow = true;
+      console.log(this.myShow);
+    }) */
+    if(this.$store.state.isLogin === true || this.$store.state.popcount==1){
+      return 
+    }else{
+       this.myShow= true;
+       this.$store.state.popcount=1;
+    }
   },
   beforeRouteLeave(to, from, next) {
     if (to.path == "/coupon") {
@@ -237,6 +299,22 @@ export default {
   }
   & > div > :nth-child(3) {
     color: lightgrey;
+  }
+}
+.popContent {
+ margin-top: 16px;
+}
+
+.popup_box{
+  
+  div{
+    float: left;
+    text-align: center;
+    margin: 260px 60px;
+    img{
+      width: 50px;
+      height: 50px;
+    }
   }
 }
 </style>

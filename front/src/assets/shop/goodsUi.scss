@@ -1,0 +1,70 @@
+.my-goods {
+    .my-goods-main {
+        position: relative;
+        .my-one-badge{
+            position: absolute;
+            top: 5px;
+            left: 24%;
+        }
+        .my-two-badge{
+            position: absolute;
+            top: 5px;
+            left: 56%;
+        }
+        .my-three-badge{
+            position: absolute;
+            top: 5px;
+            left: 90%;
+        }
+            .my-goods-side {
+                height: 470px;
+                width: 25%;
+                padding-top: 10px;
+                padding-bottom: 50px;
+                overflow-y: auto;
+                .my-child{
+                    width: 80px;
+                    background-color: rgb(240, 240, 240);
+                    padding: 10px 8px;
+                }
+            }
+
+        .my-right {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            bottom: 0;
+            width: 75%;
+
+            .my-gcard-insert {
+                position: absolute;
+                height: 100%;
+                overflow-y: auto;
+
+                .my-card-divide {
+                    margin: 0;
+                    padding-left: 23px;
+                    color: #b6f;
+                    background-color: white;
+                    font-size: 16px;
+                    font-weight: 600;
+                }
+                button {
+                    font-size: 24px;
+                    color: #b6f;
+                    background-color: rgb(255, 255, 255);
+                }
+                .my-two-btn1 {
+                    right: 7px;
+                    font-size: 21px;
+                    line-height: 18px;
+                    padding-bottom: 2px;
+                    border: 0;
+                    color: #b6f;
+                    background-color: white;
+                }
+            }
+        }
+    }
+
+}
