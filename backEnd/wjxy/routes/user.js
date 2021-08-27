@@ -462,13 +462,13 @@ r.post("/account_coupon", (req, res, next) => {
 
 //账户优惠券领取
 r.get("/coupon_recive", (req, res, next) => {
-	var sql = 'select * from table_coupon  where couponid = ?';
-	pool.query(sql, [req.query.couponid], function (err, result) {
+	var sql = 'select * from table_user_coupon where couponid = ? and userid = ?';
+	pool.query(sql, [req.query.couponid,req.query.id], function (err, result) {
 		if (err) {
 			next(err);
 			return;
 		}
-		if (result.length > 0) {
+		if (!(result.length > 0)) {
 			var sql = 'insert into table_user_coupon  values(?,?)';
 			pool.query(sql, [req.query.id, req.query.couponid], function (err, result) {
 				if (err) {
@@ -491,7 +491,7 @@ r.get("/coupon_recive", (req, res, next) => {
 		} else {
 			res.send({
 				code: 201,
-				message: '优惠券查询失败或不存在'
+				message: '优惠券已领取,无法重复领取!'
 			});
 		}
 	});

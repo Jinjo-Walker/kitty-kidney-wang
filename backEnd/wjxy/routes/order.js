@@ -70,7 +70,7 @@ r.post("/order_add", (req, res, next) => {
 
 //查询订单
 r.get("/order_info", (req, res, next) => {
-	var sql = 'select o.*,s.address from table_order o left join table_shop s on o.businessid = s.id where o.userid = ?';
+	var sql = 'select o.*,s.address from table_order o left join table_shop s on o.businessid = s.id where o.userid = ? order by o.time desc';
 	pool.query(sql, [req.query.id], function (err, result) {
 		if (err) {
 			next(err);
