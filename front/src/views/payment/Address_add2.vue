@@ -22,6 +22,7 @@
 
 <script>
 import { areaList } from "@vant/area-data";
+import { addressAdd } from "@/api/user_axios.js";
 export default {
   name: "Address",
   data() {
@@ -42,13 +43,17 @@ export default {
       this.$router.push({ path: "/addressList" });
     },
     onSave(val, index) {
+      addressAdd(
+          `name=${val.name}&tel=${val.tel}&address=${val.addressDetail}&uid=${this.$store.state.uid}`
+        ).then((res) => {
+        });
       // console.log(val);
       this.$router.push({
         path: `/addressList?address=${val.addressDetail}&name=${val.name}&tel=${val.tel}`,
       });
       //新增地址
       this.$store.state.list.push({
-        id: "",
+        id: '',
         name: `${val.name}`,
         tel: `${val.tel}`,
         address: `${val.city}${val.county}${val.addressDetail}`,

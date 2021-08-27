@@ -15,22 +15,10 @@ export default new Vuex.Store({
     buy_kind: -1,
     pay_click: 0,
     coupon_from: "/",
-    address_from: "/mine",
-    list: [{
-      id: "1",
-      name: "张三",
-      tel: "13782221981",
-      address: "上海市徐汇区汇银广场北楼707室",
-    },
-    {
-      id: "2",
-      name: "李四",
-      tel: "13100000001",
-      address: "上海市黄浦区xx第一中学小学",
-    },
-    ],
-    firstmenu:0,
-    menu: {
+    address_from: "/addressList",
+    time:"",
+    
+   menu:JSON.parse(sessionStorage.getItem("menu")) || {
       '素菜': [],
       '荤菜': [],
       '牛羊肉': [],
@@ -42,7 +30,8 @@ export default new Vuex.Store({
       '饮料': [],
       '酒水': [],
     },
-    arr: [],
+    list:JSON.parse(sessionStorage.getItem("list")) || [],
+    arr:JSON.parse(sessionStorage.getItem("arr")) || [],
     AddressInfo: JSON.parse(sessionStorage.getItem("AddressInfo")) || {
       name: "",
       tel: "",

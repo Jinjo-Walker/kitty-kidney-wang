@@ -54,12 +54,30 @@ function order_delete(info) {
         });
     })
 }
+function address_info(info) {
+    return new Promise((reslove, reject) => {
+        Vue.prototype.axios.get(`/user/address_info?uid=${info}`).then(res => {
+            reslove(res.data);
+        });
+    })
+}
+
+
+function addressAdd(info) {
+    return new Promise((reslove, reject) => {
+        Vue.prototype.axios.post(`/user/addressAdd`,info).then(res => {
+            reslove(res.data);
+        });
+    })
+}
 export {
     upload,
     change_info,
     yzm,
     change_private,
     coupon_search,
-    order_delete
-};
+    order_delete,
+    address_info,
+    addressAdd
+    };
 

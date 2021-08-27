@@ -34,10 +34,41 @@
         @click="onclick"
       />
       <!-- 时间 -->
-      <van-cell title="立即送出">
-        <div>大约{{ nowDate }} 送达</div>
+      <van-cell
+        is-link
+        @click="showPopup"
+        title="立即送出"
+        :value="this.$store.state.time"
+      >
       </van-cell>
+      <van-popup v-model="show1" position="bottom" :style="{ height: '34%' }">
+        <!-- <van-datetime-picker
+        @confirm="click"
+        @cancel="cancel"
+        type="time"
+        title="预约送达时间"
+        :min-hour=this.nowDateH
+        :min-minute=this.nowDateM
+        :max-hour="22"
+      /> -->
+        <div class="txt">预约送达时间</div>
+        <el-time-select class="time_s"
+          v-model="value"
+          :picker-options="{
+            start: this.nowDate,
+            step: '00:20',
+            end: '23:30',
+          }"
+          placeholder="选择时间"
+          size="medium"
+          align="right"
+          :clearable="false"
+          @change="change"
+        >
+        </el-time-select>
+      </van-popup>
     </van-tabs>
+
     <!-- 订单列表 -->
     <div class="cardss">
       <van-card
@@ -63,7 +94,7 @@
     <van-action-sheet v-model="show">
       <div class="content">
         <van-password-input
-          :value="value"
+          :value="value2"
           :focused="showKeyboard"
           gutter="20px"
           info="请输入支付密码"
@@ -71,7 +102,7 @@
           :length="6"
         />
         <!-- 键盘 -->
-        <van-number-keyboard v-model="value" :show="showKeyboard" />
+        <van-number-keyboard v-model="value2" :show="showKeyboard" />
       </div>
     </van-action-sheet>
   </div>
@@ -83,7 +114,10 @@ export default {
   data() {
     return {
       show: false,
+      show1: false,
       value: "",
+      value2: "",
+      value3: "",
       focused: false,
       showKeyboard: true,
       currentData: [],
@@ -110,9 +144,17 @@ export default {
   },
 
   methods: {
+    //预约时间选择
+    change(value){
+      console.log(value);
+      this.$store.state.time = value;
+      this.show1 = false;
+    },
+    showPopup() {
+      this.show1 = true;
+    },
     // 地址点击跳转
     onclick() {
-      this.$store.state.pay_click = 1;
       this.$router.replace({ path: "/addressList" });
       this.$store.state.address_from = "/pay";
     },
@@ -150,14 +192,16 @@ export default {
 
   watch: {
     //密码
-    value(value) {
+    value2(value) {
       if (value.length === 6 && value !== "123456") {
-        this.value = "";
+        this.value2 = "";
         Toast({
           message: "密码错误",
           icon: "cross",
         });
       } else if (value.length === 6 && value === "123456") {
+        sessionStorage.removeItem("arr");
+        sessionStorage.removeItem("menu");
         let str = "";
         for (let a of this.$store.state.arr) {
           if (
@@ -273,7 +317,7 @@ van-overlay {
 .tabss .van-tabs__content .van-cell:nth-child(3) {
   border-radius: 0px 0px 10px 10px;
 }
-.tabss .van-cell--clickable {
+.tabss .van-cell--clickable:nth-child(1) {
   margin-top: 20px;
   font-size: 18px;
   font-weight: 550;
@@ -329,7 +373,7 @@ div .cellss span {
   font-size: 15px;
 }
 .bars .van-goods-action-icon {
-  width: 45%;
+  width: 40%;
   color: #b3f;
   text-align: left;
   font-size: 18px;
@@ -347,7 +391,24 @@ div .van-password-input__security li {
 div .van-button .button_pay {
   width: 40px;
 }
+div .txt{
+  text-align: center;
+}
+div .time_s .el-input{
+  margin-left: 50%;
+}
+div .el-input__inner{
+  text-align: center;
+}
+div .time-select-item{
+  text-align: center;
+}
+div .el-date-editor.el-input, .el-date-editor.el-input__inner{
+  text-align: center;
+  width: 100%;
+}
 .htmls {
-  background-image: linear-gradient(#e6e, #ffffff);
+  height: 100%;
+  background-image: linear-gradient(#e6e,#ffffff );
 }
 </style>

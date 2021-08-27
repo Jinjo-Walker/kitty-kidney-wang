@@ -25,12 +25,13 @@ export default {
     return {
       finish: false,
       chosenAddressId: "",
-      list: this.$store.state.list, //在全局store
+      list: this.$store.state.list, 
     };
   },
 
   methods: {
     sel(item, index) {
+      this.$store.state.pay_click = 1;
       if(this.$store.state.address_from == '/mine'){
         return;
       }
@@ -56,8 +57,7 @@ export default {
     },
   },
   
-  watch: {},
-};
+}
 </script>
 
 <style>
