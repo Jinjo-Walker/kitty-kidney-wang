@@ -124,28 +124,28 @@ r.post('/token', (req, res, next) => {
 	}
 })
 
-r.post('/upload',(req, res) => {
-		var sql = 'update table_user set avatar = ? where id = ?';
-		// pool.query(sql, ['http://101.34.219.80:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
-		pool.query(sql, [req.body.filename, req.body.id], function (err, result) {
+r.post('/upload', (req, res) => {
+	var sql = 'update table_user set avatar = ? where id = ?';
+	// pool.query(sql, ['http://101.34.219.80:5050/avatar/' + req.file.filename, req.body.id], function (err, result) {
+	pool.query(sql, [req.body.filename, req.body.id], function (err, result) {
 
-			if (err) {
-				next(err);
-				return;
-			}
-			if (result.changedRows > 0) {
-				res.send({
-					code: 200,
-					message: '上传成功'
-				});
-			} else {
-				res.send({
-					code: 201,
-					message: '上传失败'
-				});
-			}
-		});
-	})
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.changedRows > 0) {
+			res.send({
+				code: 200,
+				message: '上传成功'
+			});
+		} else {
+			res.send({
+				code: 201,
+				message: '上传失败'
+			});
+		}
+	});
+})
 
 // r.post('/upload',
 // 	upload.single('avatar'), (req, res) => {
@@ -463,7 +463,7 @@ r.post("/account_coupon", (req, res, next) => {
 //账户优惠券领取
 r.get("/coupon_recive", (req, res, next) => {
 	var sql = 'select * from table_user_coupon where couponid = ? and userid = ?';
-	pool.query(sql, [req.query.couponid,req.query.id], function (err, result) {
+	pool.query(sql, [req.query.couponid, req.query.id], function (err, result) {
 		if (err) {
 			next(err);
 			return;
@@ -518,7 +518,70 @@ r.get("/coupon_search", (req, res, next) => {
 		}
 	});
 });
+//订单删除
+r.get("/order_delete", (req, res, next) => {
+	var sql = 'delete table_order,table_menu_commodity from table_order inner join table_menu_commodity on table_order.orderid = table_menu_commodity.commodityid where table_order.orderid =?';
+	pool.query(sql, [req.query.orderid, req.query.orderid], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.affectedRows > 0) {
+			res.send({
+				code: 200,
+				message: '订单删除成功',
+			});
+		} else {
+			res.send({
+				code: 201,
+				message: '订单删除失败'
+			});
+		}
+	});
+})
 
+//用户地址获取
+r.get("/address_info", (req, res, next) => {
+	var sql = 'select id,name,tel,address from table_address where uid=?';
+	pool.query(sql, [req.query.uid], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.length > 0) {
+			res.send({
+				code: 200,
+				message: '查询成功',
+				result: result
+			});
+		} else {
+			res.send({
+				code: 201,
+				message: '查询失败'
+			});
+		}
+	});
+});
+
+//用户新增地址
+r.post("/addressAdd", (req, res, next) => {
+	var sql = 'insert into table_address(id,name,tel,address,uid) values(null,?,?,?,?)';
+	pool.query(sql, [req.body.name, req.body.tel, req.body.address, req.body.uid], function (err, result) {
+		if (err) {
+			next(err);
+			return;
+		}
+		if (result.affectedRows > 0) {
+			res.send({
+				code: 200,
+			});
+		} else {
+			res.send({
+				code: 201,
+			});
+		}
+	});
+});
 
 //注销请求
 r.get("/logout", (req, res) => {
