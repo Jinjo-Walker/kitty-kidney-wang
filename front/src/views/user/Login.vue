@@ -127,6 +127,7 @@
 </template>
 <script>
 import { Toast } from "vant";
+import { address_info } from "@/api/user_axios.js";
 export default {
   data() {
     return {
@@ -214,6 +215,17 @@ export default {
               // console.log(result[0]);
               this.$store.commit("loginCheck", result[0]);
               Toast.success("登录成功");
+			  //获取地址
+              this.$store.state.list=[];
+              address_info(this.$store.state.uid).then((res)=>{
+              for (var key of res.result) {
+              this.$store.state.list.push(key);
+              }
+              sessionStorage.setItem('list',JSON.stringify(this.$store.state.list));
+              //var arr = sessionStorage.getItem("list");
+              //console.log(arr);
+              })
+
               // 针对登录的数据进行处理 然后进行跳转路由到首页
               this.$router.push("/");
             }

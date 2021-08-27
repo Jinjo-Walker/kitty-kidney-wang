@@ -19,6 +19,12 @@
       </van-tabs>
     </div>
     <div><tabbar /></div>
+<van-empty
+      class="custom-image none"
+      image="https://img01.yzcdn.cn/vant/custom-empty-image.png"
+      description="空空如也"
+      v-show="!order"
+    />
   </div>
 </template>
 
@@ -44,14 +50,16 @@ export default {
       order_info(this.$store.state.uid).then((res) => {
       this.order = res.result;
       // console.log(this.order);
+      if (this.order) {
       for (var i of this.order) {
         orderMenu_info(i.orderid).then((res) => {
           this.img.push(res.result);
           // console.log(this.img);
         });
       }
+      }
     });
-    }
+    },
   },
   components: {
     tabbar,
@@ -66,5 +74,8 @@ export default {
   // height: 100vh;
   margin-bottom: 50px;
   overflow-y: auto;
+.none{
+    height: 32.8125rem;
+  }
 }
 </style>

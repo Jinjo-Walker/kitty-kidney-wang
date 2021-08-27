@@ -7,7 +7,7 @@
       left-text="返回"
       left-arrow
       @click-left="onClickLeft"
-      style="background-color: #e7e"
+      style="background-color: #0baff0"
       fixed
     />
     <!-- 用户收货信息 -->
@@ -64,6 +64,8 @@
           align="right"
           :clearable="false"
           @change="change"
+          @focus="myfocus"
+          :editable="false"
         >
         </el-time-select>
       </van-popup>
@@ -115,9 +117,9 @@ export default {
     return {
       show: false,
       show1: false,
-      value: "",
+      editable:false,
+      value: '',
       value2: "",
-      value3: "",
       focused: false,
       showKeyboard: true,
       currentData: [],
@@ -146,10 +148,13 @@ export default {
   methods: {
     //预约时间选择
     change(value){
-      console.log(value);
       this.$store.state.time = value;
       this.show1 = false;
     },
+    // myfocus(value){
+    //   this.$store.state.time = value;
+    //   this.show1 = false;
+    // },
     showPopup() {
       this.show1 = true;
     },
@@ -258,6 +263,9 @@ export default {
       clearInterval(this.formatDate); // 在Vue实例销毁前，清除时间定时器
     }
   },
+  created(){
+    this.$store.state.time="";
+  }
 };
 </script>
 
@@ -366,7 +374,7 @@ div .cellss span {
 }
 
 .bars .van-goods-action-button {
-  background-image: linear-gradient(to right, #e6e, #b3f);
+  background-image: linear-gradient(to right, #5acefc, #0baff0);
 }
 .bars .van-button--default {
   color: white;
@@ -374,7 +382,7 @@ div .cellss span {
 }
 .bars .van-goods-action-icon {
   width: 40%;
-  color: #b3f;
+  color: #0baff0;
   text-align: left;
   font-size: 18px;
   font-weight: 500;
@@ -409,6 +417,6 @@ div .el-date-editor.el-input, .el-date-editor.el-input__inner{
 }
 .htmls {
   height: 100%;
-  background-image: linear-gradient(#e6e,#ffffff );
+  background-image: linear-gradient(#0baff0,#ffffff );
 }
 </style>

@@ -336,6 +336,8 @@ export default {
       if (this.$store.state.arr.length == 0) {
         Toast("请选择商品！");
       } else {
+      sessionStorage.setItem('arr',JSON.stringify(this.$store.state.arr));
+        sessionStorage.setItem('menu',JSON.stringify(this.$store.state.menu));
         this.$router.push({
           path: "/pay",
         });
@@ -386,6 +388,8 @@ export default {
   },
   created() {
     pro().then((res) => {
+sessionStorage.removeItem('arr');
+      sessionStorage.removeItem('menu');
       if (this.$store.state.firstmenu == 0) {
         for (var key of res.result) {
           if (key.kind2 == 1) {

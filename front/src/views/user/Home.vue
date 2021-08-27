@@ -285,20 +285,28 @@ export default {
   }
 
   .my-home-grid .van-grid-item{
-    transform: scale(0.9);
+    transform: scale(0.93);
     box-sizing: border-box;
     border: 1px solid white;
     border-radius: 5px;
     box-shadow: 3px 3px 15px #d1d1d1;
-    height: 90px;
+    height: 80px;
   }
   .my-home-grid .van-grid-item .van-grid-item__icon{
-    font-size: 40px;
+    font-size: 35px;
   }
 
+  .my-swipe{
+    height: 180px !important;
+  }
+  .my-swipe img {
+            width: 100%;
+            height: 100%;
+        }
   .my-top-left{
     position: relative;
     font-size: 13px;
+    margin-right: 7px;
   }
   .my-home-arror-down{
     position: absolute;

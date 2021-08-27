@@ -2,7 +2,11 @@
   <div class="my-goods">
     <!-- 页头 -->
     <van-sticky>
-      <van-nav-bar title="商品管理" left-arrow @click-left="$router.push('/merchant')"/>
+      <van-nav-bar
+        title="商品管理"
+        left-arrow
+        @click-left="$router.push('/merchant')"
+      />
     </van-sticky>
     <van-sticky :offset-top="46">
       <div class="my-goods-main">
@@ -15,7 +19,7 @@
             <!-- 侧边分类栏，吸顶 -->
             <van-sidebar v-model="activeKey" class="my-goods-side">
               <a @click="goto(`#${pro.id}`)" v-for="(pro, i) of types" :key="i">
-                <van-badge :content=" menu[`${pro.name}`].length" color="#b6f">
+                <van-badge :content="menu[`${pro.name}`].length" color="#b6f">
                   <van-sidebar-item
                     :title="`${pro.name}`"
                     class="my-child"
@@ -175,18 +179,17 @@
               </div>
             </van-sticky>
           </van-tab>
-          <van-tab title="售卖中">
-          </van-tab>
+          <van-tab title="售卖中"> </van-tab>
           <van-tab title="未上架"></van-tab>
         </van-tabs>
         <van-goods-action>
           <van-goods-action-button
-            color="#b6f"
+            color="#0baff0"
             type="danger"
             text="分类管理"
           />
           <van-goods-action-button
-            color="#b6f"
+            color="#0baff0"
             type="danger"
             text="添加商品"
           />
@@ -237,46 +240,46 @@ export default {
   },
   created() {
     pro().then((res) => {
-      for (var key of res.result) {
-        if (key.kind2 == 1) {
-          key.count = 0;
-          this.$store.state.menu["素菜"].push(key);
-        } else if (key.kind2 == 2) {
-          key.count = 0;
-          this.$store.state.menu["荤菜"].push(key);
-        } else if (key.kind2 == 3) {
-          key.count = 0;
-          this.$store.state.menu["牛羊肉"].push(key);
-        } else if (key.kind2 == 4) {
-          key.count = 0;
-          this.$store.state.menu["猪肉"].push(key);
-        } else if (key.kind2 == 5) {
-          key.count = 0;
-          this.$store.state.menu["海鲜"].push(key);
-        } else if (key.kind2 == 6) {
-          key.count = 0;
-          this.$store.state.menu["烤鱼"].push(key);
-        } else if (key.kind2 == 7) {
-          key.count = 0;
-          this.$store.state.menu["牛蛙"].push(key);
-        } else if (key.kind2 == 8) {
-          key.count = 0;
-          this.$store.state.menu["鸡鸭肉"].push(key);
-        } else if (key.kind2 == 9) {
-          key.count = 0;
-          this.$store.state.menu["饮料"].push(key);
-        } else if (key.kind2 == 10) {
-          key.count = 0;
-          this.$store.state.menu["酒水"].push(key);
+      if (this.$store.state.firstmenu == 0) {
+        for (var key of res.result) {
+          if (key.kind2 == 1) {
+            key.count = 0;
+            this.$store.state.menu["素菜"].push(key);
+          } else if (key.kind2 == 2) {
+            key.count = 0;
+            this.$store.state.menu["荤菜"].push(key);
+          } else if (key.kind2 == 3) {
+            key.count = 0;
+            this.$store.state.menu["牛羊肉"].push(key);
+          } else if (key.kind2 == 4) {
+            key.count = 0;
+            this.$store.state.menu["猪肉"].push(key);
+          } else if (key.kind2 == 5) {
+            key.count = 0;
+            this.$store.state.menu["海鲜"].push(key);
+          } else if (key.kind2 == 6) {
+            key.count = 0;
+            this.$store.state.menu["烤鱼"].push(key);
+          } else if (key.kind2 == 7) {
+            key.count = 0;
+            this.$store.state.menu["牛蛙"].push(key);
+          } else if (key.kind2 == 8) {
+            key.count = 0;
+            this.$store.state.menu["鸡鸭肉"].push(key);
+          } else if (key.kind2 == 9) {
+            key.count = 0;
+            this.$store.state.menu["饮料"].push(key);
+          } else if (key.kind2 == 10) {
+            key.count = 0;
+            this.$store.state.menu["酒水"].push(key);
+          }
         }
+        this.$store.state.firstmenu = 1;
       }
     });
     console.log(this.menu);
-    // console.log(this.menu["素菜"].length);
-
-    
   },
-  computed:{
+  computed: {
     // num: function () {
     //   var total_num = 0;
     //   for (var i in this.$store.state.menu) {
@@ -286,6 +289,6 @@ export default {
     //   this.num=total_num
     //   return total_num;
     // },
-  }
+  },
 };
 </script>

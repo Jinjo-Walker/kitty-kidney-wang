@@ -5,7 +5,7 @@
       left-text="返回"
       left-arrow
       @click-left="onClickLeft"
-      style="background-color: #e7e"
+      style="background-color: #0baff0"
     />
     <van-address-list
       class="icons"

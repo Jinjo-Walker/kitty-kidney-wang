@@ -21,6 +21,8 @@
                 border-top: 1px solid #ececec;
             }
 
+            .element::-webkit-scrollbar { width: 0 !important }
+
             .my-order-side {
                 left: 0;
                 height: 520px;
@@ -129,7 +131,7 @@
     }
 
     .my-card-price-all {
-        color: #0baff0;
+        color: #333;
         margin-top: 23px;
         font-size: 14px;
 

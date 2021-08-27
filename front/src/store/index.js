@@ -17,7 +17,7 @@ export default new Vuex.Store({
     coupon_from: "/",
     address_from: "/addressList",
     time:"",
-    
+    firstmenu:0,
    menu:JSON.parse(sessionStorage.getItem("menu")) || {
       '素菜': [],
       '荤菜': [],
