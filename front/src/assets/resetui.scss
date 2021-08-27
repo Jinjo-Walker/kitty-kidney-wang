@@ -54,7 +54,7 @@
                 .my-card-divide {
                     margin: 0;
                     padding-left: 23px;
-                    color: #0baff0;
+                    color: #333;
                     background-color: #ffffff;
                     font-size: 16px;
                     font-weight: 600;
@@ -100,7 +100,7 @@
                 width: 30%;
                 text-align: left;
                 font-size: 20px;
-                color: #0baff0;
+                color: #333;
             }
 
             .van-goods-action-button--danger {
@@ -131,7 +131,7 @@
     }
 
     .my-card-price-all {
-        color: #333;
+        color: rgb(243, 65, 65);
         margin-top: 23px;
         font-size: 14px;
 
@@ -181,7 +181,7 @@
             position: absolute;
             right: 3px;
             top: -4px;
-            color: #0baff0;
+            color: #333;
             padding: 5px 0;
             font-size: 20px;
         }

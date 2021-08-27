@@ -44,12 +44,12 @@ export default {
     },
     onSave(val, index) {
       addressAdd(
-          `name=${val.name}&tel=${val.tel}&address=${val.addressDetail}&uid=${this.$store.state.uid}`
+          `name=${val.name}&tel=${val.tel}&address=${val.city}${val.county}${val.addressDetail}&uid=${this.$store.state.uid}`
         ).then((res) => {
         });
       // console.log(val);
       this.$router.push({
-        path: `/addressList?address=${val.addressDetail}&name=${val.name}&tel=${val.tel}`,
+        path: `/addressList?address=${val.city}${val.county}${val.addressDetail}&name=${val.name}&tel=${val.tel}`,
       });
       //新增地址
       this.$store.state.list.push({

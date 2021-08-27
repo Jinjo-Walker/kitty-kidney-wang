@@ -7,15 +7,33 @@
           <li>
             <span>{{ order_one.address }}</span>
           </li>
-          <li><span>{{moment(order_one.time).format('YYYY/MM/DD HH:mm:ss')}}</span></li>
-          <li><div><img :src="`http://${item.picture}`" alt="" class="menu_img" v-for="(item,index) in picAll" :key="`${index}1`"/></div></li>
+          <li>
+            <span>{{
+              moment(order_one.time).format("YYYY/MM/DD HH:mm:ss")
+            }}</span>
+          </li>
+          <li>
+            <div>
+              <img
+                :src="`http://${item.picture}`"
+                alt=""
+                class="menu_img"
+                v-for="(item, index) in picAll"
+                :key="`${index}1`"
+              />
+            </div>
+          </li>
         </ul>
       </div>
       <div class="details">
         <ul>
           <li>已完成</li>
           <li>￥{{ order_one.total }}</li>
-          <li><button class="btn1" @click="Delete(order_one.orderid)">删除订单</button></li>
+          <li>
+            <button class="btn1" @click="Delete(order_one.orderid)">
+              删除订单
+            </button>
+          </li>
         </ul>
       </div>
     </div>
@@ -23,24 +41,34 @@
 </template>
 
 <script>
-import {order_delete} from '@/api/user_axios.js'
+import { Dialog } from "vant";
+import { order_delete } from "@/api/user_axios.js";
 export default {
-  props: ["order_one", "picAll","show"],
+  props: ["order_one", "picAll", "show"],
   data() {
     return {};
   },
 
-  created() {
-  },
+  created() {},
 
   methods: {
-    Delete(oid){
-      order_delete(oid).then((res)=>{
-        // console.log(res);
-        // this.$router.go(0);
-        this.show();
+    Delete(oid) {
+      Dialog.confirm({
+        title: "删除",
+        message: "确认删除此订单吗？",
       })
-    }
+        .then(() => {
+          // on confirm
+          order_delete(oid).then((res) => {
+            // console.log(res);
+            // this.$router.go(0);
+            this.show();
+          });
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
   },
 };
 </script>
@@ -58,18 +86,22 @@ export default {
   .order_top {
     display: flex;
     justify-content: space-between;
+    border-radius: 5px;
   }
   .menu_img {
     width: 15vw;
     height: 8vh;
     margin-right: 5px;
+    border-radius: 5px;
   }
   .order_img {
     img {
       width: 9vw;
       height: 5vh;
+      border-radius: 5px;
     }
     padding: 10px 0 0 15px;
+    margin-right: 10px;
   }
   .commodity {
     padding: 10px 60px 0 0;
@@ -88,12 +120,13 @@ export default {
   .commodity ul :nth-last-child(2) {
     font-size: 5px;
     color: grey;
+    margin-top: 6px;
   }
-  .commodity ul >:nth-child(3) div{
+  .commodity ul > :nth-child(3) div {
     font-size: 10px;
     padding-top: 15px;
-    overflow-x:auto ;
-    overflow-y:hidden ;
+    overflow-x: auto;
+    overflow-y: hidden;
     white-space: nowrap;
     width: 35vw;
   }

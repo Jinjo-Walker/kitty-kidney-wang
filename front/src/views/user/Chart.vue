@@ -6,7 +6,7 @@
       left-text="返回"
       left-arrow
       @click-left="onClickLeft"
-      style="background-color: #e7e"
+      style="background-color: #0baff0"
       fixed
     />
         <div id="myChart"></div>
@@ -26,7 +26,7 @@ export default {
             title: {
                 text: '品牌近五年PE走势',
                 textStyle:{
-                    color:'#b3f'
+                    color:'#333'
                 }
             },
             // 鼠标悬浮提示信息

@@ -255,7 +255,7 @@ export default {
   },
   watch: {
     user_name(newv, oldv) {
-      if (!/^[\u4e00-\u9fa5a-zA-Z0-9]{6,15}$/.test(newv)) {
+      if (!/^[\u4e00-\u9fa5a-zA-Z0-9]{2,15}$/.test(newv)) {
         this.disabled = true;
       } else {
         this.disabled = false;

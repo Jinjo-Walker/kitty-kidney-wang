@@ -345,6 +345,7 @@ div .cellss span {
     height: 65px;
     margin: 5px 10px 0px 10px;
     border-radius: 10px;
+    background-color: rgb(245, 245, 245);
   }
   .van-card__thumb {
     height: 50px;
@@ -375,6 +376,7 @@ div .cellss span {
 
 .bars .van-goods-action-button {
   background-image: linear-gradient(to right, #5acefc, #0baff0);
+  margin-right: 30px;
 }
 .bars .van-button--default {
   color: white;
@@ -386,7 +388,7 @@ div .cellss span {
   text-align: left;
   font-size: 18px;
   font-weight: 500;
-  margin: 0px 50px 0px 50px;
+  margin: 0px 31px 0px 50px;
   background-color: #f3f3f3;
 }
 

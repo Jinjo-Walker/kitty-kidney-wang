@@ -106,11 +106,11 @@
     >
    
     <div  @click="$router.push('/shoplogin')">
-      <img src="../../../public/img/avatar/ic_line_shgl.png" alt="">
+      <img src="../../../public/img/banner/shangjia.png" alt="">
       <p class="popContent">商家登录</p>
     </div>
      <div  @click="$router.push('/login')">
-      <img src="../../../public/img/avatar/yonghudenglu.png" alt="">
+      <img src="../../../public/img/banner/yonghudenglu.png" alt="">
       <p class="popContent">用户登录</p>
      </div>
      
@@ -306,15 +306,24 @@ export default {
 }
 
 .popup_box{
-  
+    padding: 0 10px;  
   div{
     float: left;
     text-align: center;
-    margin: 260px 60px;
+    margin: 60px;
     img{
-      width: 50px;
-      height: 50px;
+      width: 35px;
+      height: 35px;
     }
   }
+  img{
+    width: 100%;
+  }
 }
+</style>
+<style>
+  .van-popup__close-icon--top-right{
+    color: rgb(122, 122, 122);
+    margin-right: 20px;
+  }
 </style>
