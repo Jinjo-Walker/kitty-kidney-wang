@@ -76,9 +76,9 @@
         <van-col><span class="in">进入钱包 ></span></van-col>
       </van-row>
       <div class="money_info">
-        <div><span>余额</span><span>0</span><span>账户钱包</span></div>
-        <div><span>福利</span><span>0</span><span>外卖红包</span></div>
-        <div><span>优惠</span><span>0</span><span>绑卡立减</span></div>
+        <div><span>积分</span><span v-text="`${$store.state.money}分`"></span><span>账户钱包</span></div>
+        <div><span>福利</span><span>0元</span><span>外卖红包</span></div>
+        <div><span>优惠</span><span>0元</span><span>绑卡立减</span></div>
       </div>
     </div>
 
@@ -208,7 +208,7 @@ export default {
       this.myShow = true;
       console.log(this.myShow);
     }) */
-    if(this.$store.state.isLogin === true || this.$store.state.popcount==1){
+    if(this.$store.state.isLogin || this.$store.state.popcount==1){
       return 
     }else{
        this.myShow= true;
@@ -292,10 +292,6 @@ export default {
   }
   & > div > :nth-child(2) {
     font-weight: 800;
-  }
-  & > div > :nth-child(2)::after {
-    font-weight: 400;
-    content: "元";
   }
   & > div > :nth-child(3) {
     color: lightgrey;

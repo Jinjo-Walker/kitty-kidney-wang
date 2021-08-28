@@ -16,6 +16,7 @@ export default {
       }
       else if(this.str == "我的地址"){
         this.$store.state.address_from = "/mine";
+        sessionStorage.setItem('address_from',"/mine");
         this.$router.push(`${this.to}`);
       }
       else{

@@ -3,8 +3,7 @@
     <div id="div" v-for="(couponid, index) in couponlist" :key="index">
       <div class="coupon">
         <div class="money">
-          <span>￥</span>
-          <span>{{ couponid.money }}</span>
+          <span>￥</span> <span>{{ couponid.money }}</span>
         </div>
         <div class="cpn">{{ couponid.couponname }}</div>
       </div>
@@ -23,12 +22,8 @@
         </ul>
       </div>
       <div class="btn">
-        <button
-          @click="
-            Couponreceive(couponid.couponid, $store.state.uid, couponid.money)
-          "
-        >
-          <span>领取</span>
+        <button @click="setNum(couponid.id,couponid.money)">
+          <span>{{ flag ? `不使用` : `使用` }}</span>
         </button>
       </div>
     </div>
@@ -36,53 +31,26 @@
 </template>
 
 <script>
-import { coupon_recive } from "@/api/coupon_axios.js";
-import { coupon_search2 } from "@/api/coupon_axios.js";
-import { account_money } from "@/api/user_axios.js";
-import { Toast } from "vant";
+import { coupon_search } from "@/api/user_axios.js";
 
 export default {
+  props: ["use", "flag"],
   data() {
     return {
       couponlist: [],
     };
   },
-  mounted() {
-    this.Couponsearch();
-  },
   methods: {
-    Couponreceive(cid, id, money) {
-      coupon_recive(cid, id, money).then((res) => {
-        if (res.code == 200) {
-          account_money(id).then((res) => {
-            if (res.code == 200) {
-              this.$store.state.money = res.result[0].money;
-              sessionStorage.setItem("money", res.result[0].money);
-            }
-          });
-          //弹出消息
-          const toast = Toast.success({
-            message: "领取成功宝贝",
-            icon: "like-o",
-          });
-        } else {
-          const toast = Toast.success({
-            message: res.message,
-            icon: "fail",
-          });
-        }
-      });
+    setNum(cid,num) {
+      if (this.flag) {
+        this.use(0,"", false);
+      } else {
+        this.use(cid,num, true);
+      }
     },
-    Couponsearch() {
-      coupon_search2().then((res) => {
-        // console.log(res.result);
-        this.couponlist = res.result;
-        //  console.log(this.couponlist)
-      });
+    open() {
+      this.$router.push(`${"/order"}`);
     },
-    // open() {
-    //   this.$router.push(`${"/"}`);
-    // },
     dialog() {
       this.$dialog.alert({
         message:
@@ -90,12 +58,21 @@ export default {
       });
     },
   },
+  created() {
+    coupon_search(`id=${this.$store.state.uid}`).then((res) => {
+      console.log(res);
+      this.couponlist = res.result;
+      //   console.log(this.coupons);
+    });
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .cla {
   padding: 12px 12px 0 12px;
+  background-color: #f5f5f5;
+  height: 100vh;
 }
 #div {
   width: 100%;
@@ -138,7 +115,7 @@ export default {
 }
 
 .btn button {
-  margin-right: 30px;
+  margin-right: 25px;
   width: 80%;
   border: 0;
   background-color: rgb(238, 121, 67);

@@ -14,22 +14,20 @@
     <van-tabs class="tabss">
       <van-cell
         class="cells"
-        :title="
-          `${$route.query.address ? $route.query.address : '请选择收货地址'}`
-        "
+        :title="`${
+          $route.query.address ? $route.query.address : '请选择收货地址'
+        }`"
         icon="location-o"
         is-link
         @click="onclick"
       />
       <van-cell
         class="cellss"
-        :title="
-          `${
-            $route.query.name + $route.query.tel
-              ? $route.query.name + ' ' + $route.query.tel
-              : ''
-          }`
-        "
+        :title="`${
+          $route.query.name + $route.query.tel
+            ? $route.query.name + ' ' + $route.query.tel
+            : ''
+        }`"
         icon="phone-o"
         @click="onclick"
       />
@@ -52,7 +50,8 @@
         :max-hour="22"
       /> -->
         <div class="txt">预约送达时间</div>
-        <el-time-select class="time_s"
+        <el-time-select
+          class="time_s"
           v-model="value"
           :picker-options="{
             start: this.nowDate,
@@ -64,7 +63,6 @@
           align="right"
           :clearable="false"
           @change="change"
-          @focus="myfocus"
           :editable="false"
         >
         </el-time-select>
@@ -72,16 +70,67 @@
     </van-tabs>
 
     <!-- 订单列表 -->
-    <div class="cardss">
-      <van-card
-        v-for="(item, i) in list"
-        :key="i"
-        :num="item.count"
-        :price="item.price"
-        :title="item.cname"
-        :thumb="`http://${item.picture}`"
-      >
-      </van-card>
+    <div
+      style="
+        background-color: white;
+        margin: 10px;
+        border-radius: 10px;
+        padding-bottom: 50px;
+      "
+    >
+      <div class="cardss">
+        <van-card
+          v-for="(item, i) in list"
+          :key="i"
+          :num="item.count"
+          :price="item.price"
+          :title="item.cname"
+          :thumb="`http://${item.picture}`"
+        >
+        </van-card>
+      </div>
+      <div>
+        <div class="form" @click="showPopup3">
+          <van-cell
+            title="优惠券"
+            icon="/img/banner/hongbao.png"
+            :value="num ? `-￥${num}` : ''"
+            value-class="num"
+          >
+            <!-- 使用 right-icon 插槽来自定义右侧图标 -->
+            <template #right-icon>
+              <van-icon name="arrow" class="icon-name" />
+            </template>
+          </van-cell>
+          <!-- <div >
+            <van-icon name="/img/banner/hongbao.png" />
+          </div> -->
+        </div>
+        <div>
+          <van-popup
+            v-model="show3"
+            position="bottom"
+            round
+            :style="{ height: '60%' }"
+          >
+            <van-sticky style="width: 100%">
+              <van-nav-bar title="优惠券">
+                <template #right>
+                  <van-icon
+                    name="cross"
+                    size="18"
+                    color="grey"
+                    @click.stop="close"
+                  />
+                </template>
+              </van-nav-bar>
+            </van-sticky>
+            <div style="height: 100%; overflow-y: scroll">
+              <couponuse :use="getNum" :flag="use_flag" />
+            </div>
+          </van-popup>
+        </div>
+      </div>
     </div>
     <!-- 商品提交订单栏 -->
     <van-goods-action class="bars">
@@ -110,26 +159,35 @@
   </div>
 </template>
 <script>
+import { account_money } from "@/api/user_axios.js";
+import { coupon_use } from "@/api/coupon_axios.js";
 import { order_add } from "@/api/order_axios.js";
 import { Toast } from "vant";
+import Couponuse from "../../components/user/Couponuse.vue";
 export default {
+  components: { Couponuse },
   data() {
     return {
+      cid: 0,
+      num: "",
+      use_flag: false,
       show: false,
       show1: false,
-      editable:false,
-      value: '',
+      editable: false,
+      value: "",
       value2: "",
+
       focused: false,
       showKeyboard: true,
       currentData: [],
       nowDate: "", // 当前日期
       list: this.$store.state.arr,
+      show3: false,
     };
   },
   computed: {
     // 计算订单商品价格
-    price: function() {
+    price: function () {
       var total_prc = 0;
       for (var i in this.$store.state.menu) {
         for (var j of this.$store.state.menu[i]) {
@@ -141,13 +199,21 @@ export default {
           }
         }
       }
-      return total_prc;
+      return total_prc - Number(this.num) > 0
+        ? total_prc - Number(this.num)
+        : 0;
     },
   },
 
   methods: {
+    getNum(cid, num, flag) {
+      this.cid = cid;
+      this.num = num;
+      this.show3 = false;
+      this.use_flag = Boolean(flag);
+    },
     //预约时间选择
-    change(value){
+    change(value) {
       this.$store.state.time = value;
       this.show1 = false;
     },
@@ -158,10 +224,17 @@ export default {
     showPopup() {
       this.show1 = true;
     },
+    showPopup3() {
+      this.show3 = true;
+    },
+    close() {
+      this.show3 = false;
+    },
     // 地址点击跳转
     onclick() {
       this.$router.replace({ path: "/addressList" });
       this.$store.state.address_from = "/pay";
+	  sessionStorage.setItem('address_from',"/pay");
     },
 
     // 点击结算显示弹框
@@ -205,6 +278,11 @@ export default {
           icon: "cross",
         });
       } else if (value.length === 6 && value === "123456") {
+        if (this.num && this.cid) {
+          coupon_use(`couponid=${this.cid}`).then((res) => {
+            // console.log(res);
+          });
+        }
         sessionStorage.removeItem("arr");
         sessionStorage.removeItem("menu");
         let str = "";
@@ -221,7 +299,12 @@ export default {
         order_add(
           `id=${this.$store.state.uid}&total=${this.price}&str=${str}`
         ).then((res) => {
-          // console.log(res);
+          account_money(this.$store.state.uid).then((res) => {
+            if (res.code == 200) {
+              this.$store.state.money = res.result[0].money;
+              sessionStorage.setItem("money", res.result[0].money);
+            }
+          });
         });
 
         this.$store.state.arr = [];
@@ -263,9 +346,9 @@ export default {
       clearInterval(this.formatDate); // 在Vue实例销毁前，清除时间定时器
     }
   },
-  created(){
-    this.$store.state.time="";
-  }
+  created() {
+    this.$store.state.time = "";
+  },
 };
 </script>
 
@@ -283,6 +366,9 @@ van-overlay {
   left: 50%;
   transform: translateX(-50%);
   top: 30%;
+}
+.icon-name {
+  padding-top: 5px;
 }
 
 .block {
@@ -339,13 +425,15 @@ div .cellss span {
 .cardss {
   margin-bottom: 55px;
   position: relative;
+  padding-top: 10px;
 
   .van-card {
     font-size: 15px;
-    height: 65px;
-    margin: 5px 10px 0px 10px;
-    border-radius: 10px;
-    background-color: rgb(245, 245, 245);
+    // height: 65px;
+    // margin: 5px 10px 0px 10px;
+    // border-radius: 10px;
+    padding-bottom: 0px;
+    background-color: white;
   }
   .van-card__thumb {
     height: 50px;
@@ -401,24 +489,28 @@ div .van-password-input__security li {
 div .van-button .button_pay {
   width: 40px;
 }
-div .txt{
+div .txt {
   text-align: center;
 }
-div .time_s .el-input{
+div .time_s .el-input {
   margin-left: 50%;
 }
-div .el-input__inner{
+div .el-input__inner {
   text-align: center;
 }
-div .time-select-item{
+div .time-select-item {
   text-align: center;
 }
-div .el-date-editor.el-input, .el-date-editor.el-input__inner{
+div .el-date-editor.el-input,
+.el-date-editor.el-input__inner {
   text-align: center;
   width: 100%;
 }
 .htmls {
   height: 100%;
-  background-image: linear-gradient(#0baff0,#ffffff );
+  background-image: linear-gradient(#0baff0, #ffffff);
+}
+.num {
+  color: red;
 }
 </style>

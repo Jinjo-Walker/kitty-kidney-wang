@@ -9,16 +9,17 @@ export default new Vuex.Store({
     uid: sessionStorage.getItem("uid") || -1,
     phone: sessionStorage.getItem("phone") || -1,
     user_name: sessionStorage.getItem("user_name") || "用户名",
+	money: sessionStorage.getItem("money") || 0,
     city: "定位中",
     center: [121.43692, 31.197348],
     avatar: sessionStorage.getItem("avatar") || "img/avatar/avatar_default.jpg",
     buy_kind: -1,
     pay_click: 0,
     coupon_from: "/",
-    address_from: "/addressList",
+    address_from: sessionStorage.getItem("address_from"),
     time:"",
     firstmenu:0,
-   menu:JSON.parse(sessionStorage.getItem("menu")) || {
+    menu:JSON.parse(sessionStorage.getItem("menu")) || {
       '素菜': [],
       '荤菜': [],
       '牛羊肉': [],
@@ -52,6 +53,7 @@ export default new Vuex.Store({
       state.uid = user.id;
       state.avatar = user.avatar;
       state.phone = user.phone;
+	  sessionStorage.setItem("money", user.money);
     },
     logout(state) {
       state.isLogin = false;

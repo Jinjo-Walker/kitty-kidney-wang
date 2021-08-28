@@ -70,6 +70,15 @@ function addressAdd(info) {
         });
     })
 }
+
+function account_money(info) {
+    return new Promise((reslove, reject) => {
+        Vue.prototype.axios.get(`/user/account_money?id=${info}`).then(res => {
+            reslove(res.data);
+        });
+    })
+}
+
 export {
     upload,
     change_info,
@@ -78,6 +87,7 @@ export {
     coupon_search,
     order_delete,
     address_info,
-    addressAdd
+    addressAdd,
+    account_money
     };
 

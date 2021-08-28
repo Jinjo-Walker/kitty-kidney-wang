@@ -41,7 +41,7 @@ export default {
       });
     },
     onClickLeft() {
-      // console.log(this.$store.state.address_from);
+      console.log(this.$store.state.address_from);
       this.$router.push(`${this.$store.state.address_from}`);
     },
     onAdd() {

@@ -56,7 +56,7 @@ export default {
       var index = `${this.$route.query.index}`;
       
       this.$router.push({
-        path: `/addressList?address=${val.addressDetail}&name=${val.name}&tel=${val.tel}`,
+        path: `/addressList?address=${val.city}${val.county}${val.addressDetail}&name=${val.name}&tel=${val.tel}`,
       });
       //修改地址
         this.$store.state.list[index].name = `${val.name}`;
